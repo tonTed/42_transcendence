@@ -2,6 +2,8 @@ version: '3.8'
 
 services:
   django-frontend:
+    env_file:
+      - .env
     container_name: django-frontend
     build:
       context: ./django-frontend
@@ -12,6 +14,26 @@ services:
       - "8000:8000"
     networks:
       - transcendence-network
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    env_file:
+      - .env
+    container_name: database
+    build:
+      context: ./postgres
+    image: postgres:16.2-alpine3.19
+    volumes:
+      - ./postgres/postgres_data:/var/lib/postgresql/data
+    networks:
+      - transcendence-network
+    healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
 
 networks:
   transcendence-network:
