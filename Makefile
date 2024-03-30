@@ -16,10 +16,13 @@ logs-frontend:
 logs-database:
 	@docker logs --tail 50 --follow database
 
-# Remove images
 rm-images:
 	@docker compose down --rmi all
 	@echo "All images removed."
+
+setup-venvs:
+	./scripts-tools/setup_venvs.sh
+
 
 # help: List all available commands
 help:
@@ -32,5 +35,6 @@ help:
 	@echo "  logs-frontend   : Show the logs of the frontend container"
 	@echo "  logs-database   : Show the logs of the database container"
 	@echo "  rm-images       : Remove all images"
+	@echo "  setup-venvs     : Setup the virtual environments (macOS & linux only with python3.12)"
 	@echo "  help            : Show this help message"
 	@echo ""

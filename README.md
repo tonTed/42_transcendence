@@ -13,7 +13,9 @@ Available commands:
   logs-frontend   : Show the logs of the frontend container
   logs-database   : Show the logs of the database container
   rm-images       : Remove all images
+  setup-venvs     : Setup the virtual environments (macOS & linux only with python3.12)
   help            : Show this help message
+
 ```
 
 ## Django Frontend
