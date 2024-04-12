@@ -125,10 +125,18 @@
 }
 
 .detail-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 50%;
     font-weight: 600;
 }
 
 .detail {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 50%;
     font-weight: 400;
 }
 
@@ -173,10 +181,13 @@
 
 .account-user {
     cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 30%;
 }
 
 .account-username {
-    font-size: large;
     font-weight: 500;
 }
 
