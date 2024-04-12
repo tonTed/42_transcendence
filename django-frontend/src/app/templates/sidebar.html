@@ -1,0 +1,102 @@
+<div class="sidebar-top p-3 overflow-auto">
+	<h2 id="title">Transcendence</h2>
+</div>
+
+<!-- sections -->
+<div class="sections-container overflow-auto flex-grow-1">
+
+	<!-- Friend section -->
+	<div class="section">
+		<div class="section-header d-flex justify-content-between p-2">
+			<div class="section-name">Friends</div>
+			<div id="friend-section-arrow">&#9654;</div>
+		</div>
+		<div class="section-content">
+			<div class="list" id="friend-list">
+				<div class="list-title d-flex justify-content-start">Friends</div>
+
+				<!-- FAKE DATA for exemple, will be inserted dynamically-->
+				<div class="user d-flex justify-content-between align-items-center" id="one">
+					<div class="user-name">gvial</div>
+					<div class="user-status">&#8226;</div>
+				</div>
+				<div class="user d-flex justify-content-between align-items-center" id="two">
+					<div class="user-name">user2</div>
+					<div class="user-status">&#8226;</div>
+				</div>
+
+			</div>
+			<div class="list" id="add-user-list">
+				<div class="list-title d-flex justify-content-start">Add Friends</div>
+
+				<!-- FAKE DATA for exemple, will be inserted dynamically -->
+				<div class="user d-flex justify-content-between align-items-center" id="three">
+					<div class="user-name">user3</div>
+					<button class="btn btn-outline-primary add-button" type="submit">Add</button>
+				</div>
+				<div class="user d-flex justify-content-between align-items-center" id="four">
+					<div class="user-name">user4</div>
+					<button class="btn btn-outline-primary add-button" type="submit">Add</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<!-- chat section -->
+<div class="chat-container overflow-auto">
+	<div class="section">
+		<div class="section-header d-flex justify-content-between p-2">
+			<div class="section-name">Chat</div>
+			<div id="chat-section-arrow">&#9654;</div>
+		</div>
+		<div class="section-content">
+			<div>Not finished...</div>
+		</div>
+	</div>
+</div>
+
+<!-- account -->
+<div class="account-container overflow-auto">
+
+
+	<!-- modify account details -->
+	<div class="account-details-container">
+		<div class="account-details-header">
+			Account informations
+		</div>
+		<div class="account-details p-3 d-flex flex-column justify-content-center">
+			<div class="detail-container d-flex justify-content-between align-items-center mb-2">
+				<div class="detail-name">Name:</div>
+				<div class="detail">{{ username }}</div>
+				<button class="btn btn-outline-primary change-button">change</button>
+			</div>
+			<div class="detail-container d-flex justify-content-between align-items-center mb-2">
+				<div class="detail-name">Email:</div>
+				<div class="detail">{{ email }}</div>
+				<button class="btn btn-outline-primary change-button">change</button>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- account infos -->
+	<div class="account-infos d-flex justify-content-between align-items-center p-1">
+		<div class="account-avatar">
+			<div>&#60;avatar&#62;</div>
+		</div>
+		<div class="account-user d-flex align-items-center">
+			<div class="account-username">@{{ username }}</div>
+		</div>
+		<div class="account-logout">
+			<form action="{% url 'logout_view' %}" method="post">
+				{% csrf_token %}
+				<button class="btn btn-outline-primary logout-button" type="submit">Logout</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- TODO: modify account window, view user and friends stats -->

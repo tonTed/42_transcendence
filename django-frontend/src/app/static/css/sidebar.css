@@ -1,0 +1,159 @@
+.sidebar-top {
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+
+.sidebar-container {
+    height: 100%;
+    border-right: 3px solid #232b3f;
+    color:  #c0c0c0;
+}
+
+
+/* sections */
+
+.sections-container {
+    overflow-y: auto;
+}
+
+.section-header {
+    font-size:large;
+    font-weight: bold;
+    color: #3b496d;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.section-header:hover {
+    background-color: #232b3f;
+}
+
+.section-content {
+    display: none;
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+
+/* friend section */
+
+.list {
+    width: 95%;
+    cursor: pointer;
+}
+
+.list-title {
+    margin-top: 10px;
+    font-size: 300;
+    border-bottom: 1px solid;
+    margin-bottom: 10px;
+}
+
+.user {
+    max-height: 35px;
+    font-weight: 300;
+    font-size: 200;
+    border-radius: 10px;
+    padding: 5px;
+    padding-right: 6px;
+    padding-left: 6px;
+    cursor: pointer;
+}
+
+.user:hover {
+    background-color: #232b3f;
+}
+
+.user-status {
+    font-size: larger;
+}
+
+/* .add-friend {
+
+} */
+
+.add-button {
+    width: 20%;
+    font-size: small;
+    padding: 2px;
+}
+
+/* THIS IS FOR EXEMPLE ONLY THIS WILL BE SET DYNAMICALLY */
+.user#one .user-status {
+    color: greenyellow;
+}
+
+/* THIS IS FOR EXEMPLE ONLY THIS WILL BE SET DYNAMICALLY */
+.user#two .user-status {
+    color: red;
+}
+
+/* chat */
+
+.chat-container {
+    text-align: left;
+    font-size: large;
+    font-weight: 600;
+}
+
+/* account */
+
+.account-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #232b3f;
+    border-radius: 30px;
+}
+
+.account-details-container {
+    border-bottom: 2px solid #131722;
+    display: none;
+    cursor: default;
+}
+
+.account-details-header {
+    margin-top: 10px;
+    font-size: larger;
+    font-weight: 600;
+}
+
+.account-details {
+    padding-top: .7rem !important;
+    padding-bottom: .4rem !important;
+}
+
+.detail-name {
+    font-weight: 600;
+}
+
+.detail {
+    font-weight: 400;
+}
+
+.change-button {
+    width: 25%;
+    font-size: small;
+    padding: 3px;
+}
+
+.account-infos {
+    cursor: pointer;
+    padding: 3px;
+}
+
+.account-avatar {
+    cursor: pointer;
+}
+
+.account-user {
+    cursor: pointer;
+}
+
+.account-username {
+    font-size: large;
+    font-weight: 500;
+}
+
+.logout-button {
+    border-radius: 30px;
+}

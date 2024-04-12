@@ -1,0 +1,64 @@
+.auth_button {
+    background-color: #0d6efd;
+    color: #FFFFFF;
+}
+
+.auth_button:hover {
+    background-color: #0066ff;
+    color: #FFFFFF;
+}
+
+button.auth_button:active,
+.btn.auth_button:active {
+    background-color: #0d6efd;
+    transition-duration: 1ms;
+}
+
+.auth_input {
+    color: #B0BEC5;
+    background-color: #1D2733;
+    border: none;
+}
+
+.auth_input:focus {
+    color: #B0BEC5;
+    background-color: #1D2733;
+    border: none;
+}
+
+.auth_input::placeholder {
+    color: #5C7080;
+}
+
+#login42Button {
+    background-color: rgba(235, 12, 12, 0.764);
+}
+
+#login42Button:hover {
+    background-color: rgba(217, 14, 14, 0.764);
+}
+
+#navButton {
+    background-color: #131722;
+    border: solid 1.5px #0d6efd;
+}
+
+#navButton:hover {
+    color: #0066ff;
+}
+
+#navButton:active {
+    border: solid 1.5px white;
+}
+
+.custom-file-upload label {
+    cursor: pointer;
+}
+
+#fileName {
+    color: white;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

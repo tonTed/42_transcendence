@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>transcendence | auth</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
+    <script src="{% static 'bootstrap/bootstrap.min.js' %}"></script>
+
+    <!-- css -->
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+    <!-- js -->
+    <script src="{% static 'js/auth.js' %}"></script>
+
+</head>
+<body class="d-flex flex-column vh-100 justify-content-center align-items-center">
+
+    <h2 class="mt-5 mb-0">transcendence</h2>
+    <div class="" style="height: 25vh;"></div>
+        <div class="" style="width: 22rem;">
+            <!-- login form -->
+            <div class="" id="loginForm">
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="login" value="true"/>
+                    <div class="mb-2">
+                        <input type="username" class="form-control auth_input" id="usernameInput" name="usernameInput" placeholder="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control auth_input" id="passwordInput" name="passwordInput" placeholder="password" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn auth_button" id="loginButton">Login</button>
+                        <a class="btn auth_button" id="login42Button">Login With 42</a>
+                        <a href="javascript:showRegisterForm()" class="btn auth_button" id="navButton">Register</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- register form -->
+            <div class="mb-3" id="registerForm" style="display: none;">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="register" value="true"/>
+                    <div class="mb-2">
+                        <input type="text" class="form-control auth_input" id="usernameInput" name="usernameInput" placeholder="username" required>
+                    </div>
+                    <div class="mb-2">
+                        <input type="text" class="form-control auth_input" id="emailInput" name="emailInput" placeholder="example@domain.com" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control auth_input" id="passwordInput" name="passwordInput" placeholder="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <div class="custom-file-upload">
+                                <input type="file" class="form-control" id="avatarInput" name="avatarInput" accept="image/*" style="display:none;">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <label for="avatarInput" class="btn auth_button">Upload Avatar</label>
+                                    <span id="fileName">No File Selected</span>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn auth_button" id="registerButton">Register</button>
+                        <a href="javascript:showLoginForm()" class="btn auth_button" id="navButton">Back to Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="mt-auto" style="height: 75vh;"></div>
+
+</body>
+</html>
