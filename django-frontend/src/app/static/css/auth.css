@@ -57,6 +57,7 @@ button.auth_button:active,
 
 #fileName {
     color: white;
+    max-width: 60%;
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
