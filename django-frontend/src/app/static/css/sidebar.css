@@ -98,6 +98,8 @@
 
 /* account */
 
+/* modify account data */
+
 .account-container {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -135,6 +137,30 @@
     font-size: small;
     padding: 3px;
 }
+
+.input-field {
+    margin-bottom: 5px;
+    color: #B0BEC5;
+    background-color: #131722;
+    border: none;
+}
+
+.input-field:focus {
+    color: #B0BEC5;
+    background-color: #131722;
+    border: none;
+}
+
+.input-field::placeholder {
+    color: #5C7080;
+}
+
+#change-password-button {
+    font-size: medium;
+    width: 100%;
+}
+
+/* account info */
 
 .account-infos {
     cursor: pointer;

@@ -71,12 +71,17 @@
 			<div class="detail-container d-flex justify-content-between align-items-center mb-2">
 				<div class="detail-name">Name:</div>
 				<div class="detail">{{ username }}</div>
-				<button class="btn btn-outline-primary change-button">change</button>
+				<button class="btn btn-outline-primary change-button" id="change-username-button">change</button>
 			</div>
 			<div class="detail-container d-flex justify-content-between align-items-center mb-2">
 				<div class="detail-name">Email:</div>
 				<div class="detail">{{ email }}</div>
-				<button class="btn btn-outline-primary change-button">change</button>
+				<button class="btn btn-outline-primary change-button" id="change-email-button">change</button>
+			</div>
+			<div class="detail-container d-flex flex-column justify-content-center align-items-center mb-2">
+				<input type="password" class="form-control input-field" id="oldPasswordInput" name="oldPasswordInput" placeholder="old password" required>
+				<input type="password" class="form-control input-field" id="newPasswordInput" name="newPasswordInput" placeholder="new password" required>
+				<button class="btn btn-outline-primary" id="change-password-button">Change password</button>
 			</div>
 
 		</div>
