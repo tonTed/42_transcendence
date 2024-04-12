@@ -73,6 +73,7 @@
 } */
 
 .add-button {
+    overflow: hidden;
     width: 20%;
     font-size: small;
     padding: 2px;
@@ -94,6 +95,7 @@
     text-align: left;
     font-size: medium;
     font-weight: 400;
+    width: 100%;
 }
 
 .chat {
@@ -128,6 +130,7 @@
 /* modify account data */
 
 .account-container {
+    overflow: hidden;
     margin-top: 10px;
     margin-bottom: 10px;
     background-color: #232b3f;
@@ -168,6 +171,7 @@
 }
 
 .change-button {
+    overflow: hidden;
     width: 25%;
     font-size: small;
     padding: 3px;
@@ -191,6 +195,7 @@
 }
 
 #change-password-button {
+    overflow: hidden;
     font-size: medium;
     width: 100%;
 }
@@ -219,5 +224,6 @@
 }
 
 .logout-button {
+    overflow: hidden;
     border-radius: 30px;
 }
