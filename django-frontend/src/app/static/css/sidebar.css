@@ -17,6 +17,7 @@
 }
 
 .section-header {
+    margin-bottom: 8px;
     font-size:large;
     font-weight: bold;
     color: #3b496d;
@@ -43,7 +44,6 @@
 }
 
 .list-title {
-    margin-top: 10px;
     font-size: 300;
     border-bottom: 1px solid;
     margin-bottom: 10px;
@@ -92,8 +92,35 @@
 
 .chat-container {
     text-align: left;
-    font-size: large;
+    font-size: medium;
+    font-weight: 400;
+}
+
+.chat {
+    padding: 10px;
+    background-color: #232b3f;
+    border-radius: 10px;
+    height: 300px;
+    max-height: 300px;
+    overflow: scroll;
+}
+
+.chat-sender {
     font-weight: 600;
+}
+
+.chat-input {
+    margin-top: 8px;
+    padding: 6px;
+    background-color: #232b3f;
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    color: #c0c0c0;
+}
+
+.chat-input::placeholder {
+    color: #5C7080;
 }
 
 /* account */
