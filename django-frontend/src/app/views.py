@@ -17,6 +17,8 @@ def sidebar(request):
     }
     return  render(request, 'sidebar.html', account_info)
 
+def game(request):
+    return  render(request, 'game.html')
 
 # TEMPORARY AUTH using django built in auth for testing purpose
 # THIS FUNCTION WILL MAKE CALLS TO THE DRF-API-GATEWAY AND/OR DRF-API-AUTH

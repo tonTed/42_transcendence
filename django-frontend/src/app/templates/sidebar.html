@@ -1,9 +1,9 @@
-<div class="sidebar-top p-3 overflow-x-auto">
+<div class="sidebar-top p-3">
 	<h2 id="title">Transcendence</h2>
 </div>
 
 <!-- sections -->
-<div class="sections-container overflow-auto flex-grow-1">
+<div class="sections-container flex-grow-1">
 
 	<!-- Friend section -->
 	<div class="section">
@@ -94,7 +94,7 @@
 		</div>
 		<div class="account-details p-3 d-flex flex-column justify-content-center">
 			<div class="detail-container d-flex justify-content-between align-items-center mb-2">
-				<div class="detail-name">Name:</div>
+				<div class="detail-name">Username:</div>
 				<div class="detail">{{ username }}</div>
 				<button class="btn btn-outline-primary change-button" id="change-username-button">change</button>
 			</div>
@@ -120,7 +120,7 @@
 		<div class="account-user d-flex align-items-center">
 			<div class="account-username">@{{ username }}</div>
 		</div>
-		<div class="account-logout">
+		<div class="account-logout overflow-auto">
 			<form action="{% url 'logout_view' %}" method="post">
 				{% csrf_token %}
 				<button class="btn btn-outline-primary logout-button" type="submit">Logout</button>
