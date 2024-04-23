@@ -24,3 +24,8 @@ def callback(request) -> HttpResponsePermanentRedirect:
     access_token: str = api.ft.get_access_token(request.GET.get('code'))
     request.session['token42']: str = access_token
     return redirect('index', permanent=True)
+
+
+def remove_session(request: HttpRequest) -> HttpResponsePermanentRedirect:
+    request.session.flush()
+    return redirect('index', permanent=True)
