@@ -20,7 +20,6 @@ def get_user_info(access_token: str) -> dict:
         'Authorization': f'Bearer {access_token}'
     })
     user = response.json()
-    print(user)
     return {
         'login': user['login'],
         'email': user['email'],
