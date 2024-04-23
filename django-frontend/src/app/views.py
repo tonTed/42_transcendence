@@ -1,18 +1,18 @@
 from django.shortcuts import render, redirect
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 
 import api.ft
 import api.gateway
 
 
-def index(request: HttpRequest):
-    if request.session.get('token') is None:
+def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
+    if request.session.get('token42') is None:
         return redirect('login')
-    user = api.ft.get_user_info(request.session['token'])
+    user: dict = api.ft.get_user_info(request.session['token42'])
 
-    friends = api.gateway.get_friends()
+    friends: list[dict] = api.gateway.get_friends()
 
-    context = {
+    context: dict = {
         'user': user,
         'friends': friends,
         'other_users': 'other_users',

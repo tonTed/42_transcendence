@@ -15,5 +15,5 @@ mock_friends = [
 ]
 
 
-def get_friends():
+def get_friends() -> list:
     return mock_friends

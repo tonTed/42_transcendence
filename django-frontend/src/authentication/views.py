@@ -1,7 +1,7 @@
 import os
 
 from django.shortcuts import render, redirect
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 import api.ft
 
 CALLBACK_URL = (f'https://api.intra.42.fr/oauth/authorize'
@@ -11,16 +11,16 @@ CALLBACK_URL = (f'https://api.intra.42.fr/oauth/authorize'
                 f'&scope=public')
 
 
-def login(request: HttpRequest):
+def login(request: HttpRequest) -> HttpResponse:
     return render(request, 'login.html', context={'url': CALLBACK_URL})
 
 
-def logout(request: HttpRequest):
+def logout(request: HttpRequest) -> HttpResponsePermanentRedirect:
     del request.session['token42']
-    return redirect('index')
+    return redirect('index', permanent=True)
 
 
-def callback(request):
-    access_token = api.ft.get_access_token(request.GET.get('code'))
-    request.session['token42'] = access_token
-    return redirect('index')
+def callback(request) -> HttpResponsePermanentRedirect:
+    access_token: str = api.ft.get_access_token(request.GET.get('code'))
+    request.session['token42']: str = access_token
+    return redirect('index', permanent=True)
