@@ -28,6 +28,8 @@ services:
     image: postgres:16.2-alpine3.19
     volumes:
       - ./postgres/postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     networks:
       - transcendence-network
     healthcheck:
