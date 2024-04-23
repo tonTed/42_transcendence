@@ -18,8 +18,12 @@ from django.contrib import admin
 from django.urls import path
 
 from app.views import index
+from authentication.views import login, callback, logout
 
 urlpatterns = [
     path('', index, name='index'),
+    path('login/', login, name='login'),
+    path('callback/', callback, name='callback'),
+    path('logout/', logout, name='logout'),
     path('admin/', admin.site.urls),
 ]
