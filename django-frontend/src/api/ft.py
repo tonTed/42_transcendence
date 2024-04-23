@@ -14,6 +14,7 @@ def get_access_token(code):
     return response.json()['access_token']
 
 
+# https://api.intra.42.fr/apidoc/2.0/users/me.html
 def get_user_info(access_token) -> dict:
     response: Response = requests.get('https://api.intra.42.fr/v2/me', headers={
         'Authorization': f'Bearer {access_token}'
