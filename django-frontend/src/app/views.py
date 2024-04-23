@@ -8,7 +8,7 @@ import api.gateway
 def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
     if request.session.get('token42') is None:
         return redirect('login')
-    user: dict = api.ft.get_user_info(request.session['token42'])
+    user: dict = api.gateway.get_user_info(request.session['token42'])
 
     friends: list[dict] = api.gateway.get_friends()
 
