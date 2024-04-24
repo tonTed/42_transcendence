@@ -1,17 +1,28 @@
-.title {
-	font-size: xx-large;
-	font-weight: bold;
-	width: 400px;
-}
+/* account info */
 
-.account-info {
-	height: 100%;
-}
-
-.account-username {
-	font-weight: 600;
+.account-infos {
+	height: 80%;
+	background-color: #232b3f;
+	border-radius: 30px;
+	cursor: pointer;
 }
 
 .account-avatar {
-	margin-left: 5px;
+	margin-right: 10px;
+}
+
+.account-user {
+	margin-right: 10px;
+}
+
+.account-username {
+    font-weight: 500;
+}
+
+.account-logout {
+
+}
+
+.logout-button {
+    border-radius: 30px;
 }

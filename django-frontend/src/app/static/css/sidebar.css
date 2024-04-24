@@ -127,33 +127,3 @@
 .chat-input::placeholder {
     color: #5C7080;
 } */
-
-
-
-/* account info */
-
-/* .account-infos {
-    cursor: pointer;
-    padding: 3px;
-}
-
-.account-avatar {
-    cursor: pointer;
-}
-
-.account-user {
-    cursor: pointer;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 30%;
-}
-
-.account-username {
-    font-weight: 500;
-}
-
-.logout-button {
-    overflow: hidden;
-    border-radius: 30px;
-} */
