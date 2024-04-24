@@ -1,48 +1,73 @@
 <div class="friend-container">
-	<div class="list" id="friend-list">
-		<div class="list-title d-flex justify-content-start">Friends</div>
 
-		{% for friend in fake_friends %}
+	<!-- friend list -->
+	<div class="list">
+		<!-- friend list title -->
+		<div class="list-title d-flex justify-content-start" id="friend-list-title">Friends</div>
+		
+		<!-- friend list content -->
+		<div id="friend-list-content">
+			{% for friend in fake_friends %}
+				<!-- User -->
+				<div class="user d-flex justify-content-between align-items-center">
+					<!-- User name  -->
+					<div>
+						<div class="user-name">{{ friend.username }}</div>
+					</div>
+					<!-- User status  -->
+					<div class="d-flex justify-content-end">
+						<div class="user-button user-status" style="{% if friend.status == 'online' %}color: green;{% else %}color: red;{% endif %}">&#8226;</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+
+	</div>
+
+	<!-- friend requests list -->
+	<div class="list">
+		<!-- friend requests title -->
+		<div class="list-title d-flex justify-content-start" id="friend-requests-list-title">Friend Requests</div>
+		
+		<!-- friend requests content -->
+		<div id="friend-requests-list-content">
+			{% for friend in fake_friend_requests %}
+			<!-- User -->
 			<div class="user d-flex justify-content-between align-items-center">
+				<!-- User name -->
 				<div>
 					<div class="user-name">{{ friend.username }}</div>
 				</div>
-				<div class="d-flex justify-content-end">
-					<div class="user-button user-status" style="{% if friend.status == 'online' %}color: green;{% else %}color: red;{% endif %}">&#8226;</div>
+				<!-- User requests actions -->
+				<div class="request-actions d-flex justify-content-between align-items-center">
+					<div class="accept-request-button" type="submit">&#10003;</div>
+					<div class="decline-request-button" type="submit">x</div>
 				</div>
 			</div>
-		{% endfor %}
-
+			{% endfor %}
+		</div>
+		
 	</div>
 
-	<div class="list" id="friend-requests-list">
-		<div class="list-title d-flex justify-content-start">Friend Requests</div>
-
-		{% for friend in fake_friend_requests %}
-		<div class="user d-flex justify-content-between align-items-center">
-			<div>
+	<!-- add friend list -->
+	<div class="list">
+		<!-- add friend list title -->
+		<div class="list-title d-flex justify-content-start" id="add-friend-list-title">Add Friends</div>
+		
+		<!-- add friend list content -->
+		<div id="add-friend-list-content">
+			{% for friend in fake_add_friends %}
+			<!-- User -->
+			<div class="user d-flex justify-content-between align-items-center">
+				<!-- User name -->
 				<div class="user-name">{{ friend.username }}</div>
+				<!-- User add button -->
+				<button class="btn btn-outline-primary add-button" type="submit">Add</button>
 			</div>
-			<div class="request-actions d-flex justify-content-between align-items-center">
-				<div class="accept-request-button" type="submit">&#10003;</div>
-				<div class="decline-request-button" type="submit">x</div>
-			</div>
+			{% endfor %}
 		</div>
-		{% endfor %}
-		
 	</div>
 
-	<div class="list" id="add-friend-list">
-		<div class="list-title d-flex justify-content-start">Add Friends</div>
-
-		{% for friend in fake_add_friends %}
-		<div class="user d-flex justify-content-between align-items-center">
-			<div class="user-name">{{ friend.username }}</div>
-			<button class="btn btn-outline-primary add-button" type="submit">Add</button>
-		</div>
-		{% endfor %}
-		
-	</div>
 </div>
 
 <div class="sidebar-content-container d-flex justify-content-center">

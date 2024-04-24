@@ -1,35 +1,27 @@
-// display sections (using event delegation since the sidebar is loaded dynamically in index.html)
-document.addEventListener('DOMContentLoaded', function() {
-    document.body.addEventListener('click', function(event) {
-        let header = event.target.closest('.section-header');
-        
-        if (header) {
-            let content = header.nextElementSibling;
-            
-            if (content.style.display === 'block') {
-                content.style.display = 'none';
-                header.querySelector('div[id$="-section-arrow"]').innerHTML = '&#9654;';
-            } else {
-                content.style.display = 'block';
-                header.querySelector('div[id$="-section-arrow"]').innerHTML = '&#9660;';
-            }
-        }
-    });
-});
+// Show and hide friend list content
+function handleFriendListClick() {
+	let element = document.getElementById('friend-list-title');
+    element.onclick = function() {
+		console.log("friend list title clicked")
+    };
+}
 
-// display account details (using event delegation since the sidebar is loaded dynamically in index.html)
-document.addEventListener('DOMContentLoaded', function() {
-    document.body.addEventListener('click', function(event) {
-        let accountTrigger = event.target.closest('.account-user, .account-avatar, .account-infos');
+// Show and hide friend requests list content
+function handleFriendRequestsListClick() {
+	let element = document.getElementById('friend-requests-list-title');
+    element.onclick = function() {
+		console.log("friend requests list title clicked")
+    };
+}
 
-        if (accountTrigger) {
-            let detailsContainer = document.querySelector('.account-details-container');
+// Show and hide add friend list content
+function handleAddFriendListClick() {
+	let element = document.getElementById('add-friend-list-title');
+    element.onclick = function() {
+        console.log("add friend list title clicked")
+    };
+}
 
-            if (detailsContainer.style.display === 'block') {
-                detailsContainer.style.display = 'none';
-            } else {
-                detailsContainer.style.display = 'block';
-            }
-        }
-    });
-});
+export { handleFriendListClick };
+export { handleFriendRequestsListClick };
+export { handleAddFriendListClick };

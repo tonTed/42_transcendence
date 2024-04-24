@@ -1,3 +1,7 @@
+import { handleFriendListClick } from './sidebar.js';
+import { handleFriendRequestsListClick } from './sidebar.js';
+import { handleAddFriendListClick } from './sidebar.js';
+
 // Fetch and inject sidebar content
 window.addEventListener('DOMContentLoaded', () => {
 	fetch('/topbar/')
@@ -14,6 +18,11 @@ window.addEventListener('DOMContentLoaded', () => {
 		.then(response => response.text())
 		.then(data => {
 			document.querySelector('.sidebar-container').innerHTML = data;
+
+			// sidebar event handlers
+			handleFriendListClick();
+			handleFriendRequestsListClick();
+			handleAddFriendListClick();
 		})
 		.catch(error => console.error('Error fetching sidebar:', error));
 });
