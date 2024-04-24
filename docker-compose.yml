@@ -30,7 +30,7 @@ services:
       - ./drf-api-gateway:/app
     command: python src/manage.py runserver 0.0.0.0:3000
     ports:
-      - "3000:8000"
+      - "3000:3000"
     networks:
       - transcendence-network
     depends_on:

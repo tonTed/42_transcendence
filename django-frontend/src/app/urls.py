@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from app.views import index
+from app.views import index, gateway
 from authentication.views import login, callback, logout, remove_session
 
 urlpatterns = [
@@ -26,5 +26,6 @@ urlpatterns = [
     path('callback/', callback, name='callback'),
     path('logout/', logout, name='logout'),
     path('admin/', admin.site.urls),
-    path('remove_session/', remove_session, name='remove_session')
+    path('remove_session/', remove_session, name='remove_session'),
+    path('gateway/', gateway, name='gateway'),
 ]

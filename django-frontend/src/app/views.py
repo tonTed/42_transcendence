@@ -3,6 +3,7 @@ from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 
 import api.ft
 import api.gateway
+import requests
 
 
 def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
@@ -20,3 +21,8 @@ def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
 
     return render(request, 'index.html', context=context)
 
+
+def gateway(request: HttpRequest) -> HttpResponse:
+    response = requests.get('http://api-gateway:3000/api/hello/')
+    print(response.json())
+    return HttpResponse(response.json())
