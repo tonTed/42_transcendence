@@ -3,10 +3,13 @@
 	<!-- friend list -->
 	<div class="list">
 		<!-- friend list title -->
-		<div class="list-title d-flex justify-content-start" id="friend-list-title">Friends</div>
-		
+		<div class="list-title d-flex justify-content-between p-2" id="friend-list-title">
+			<div>Friends</div>
+			<div id="friend-list-title-arrow">&#9654;</div>
+		</div>
+
 		<!-- friend list content -->
-		<div id="friend-list-content">
+		<div class="list-content" id="friend-list-content">
 			{% for friend in fake_friends %}
 				<!-- User -->
 				<div class="user d-flex justify-content-between align-items-center">
@@ -27,10 +30,13 @@
 	<!-- friend requests list -->
 	<div class="list">
 		<!-- friend requests title -->
-		<div class="list-title d-flex justify-content-start" id="friend-requests-list-title">Friend Requests</div>
+		<div class="list-title d-flex justify-content-between p-2" id="friend-requests-list-title">
+			<div>Friend Requests</div>
+			<div id="friend-requests-list-title-arrow">&#9654;</div>
+		</div>
 		
 		<!-- friend requests content -->
-		<div id="friend-requests-list-content">
+		<div class="list-content" id="friend-requests-list-content">
 			{% for friend in fake_friend_requests %}
 			<!-- User -->
 			<div class="user d-flex justify-content-between align-items-center">
@@ -52,10 +58,13 @@
 	<!-- add friend list -->
 	<div class="list">
 		<!-- add friend list title -->
-		<div class="list-title d-flex justify-content-start" id="add-friend-list-title">Add Friends</div>
+		<div class="list-title d-flex justify-content-between p-2" id="add-friend-list-title">
+			<div>Add Friends</div>
+			<div id="add-friend-list-title-arrow">&#9654;</div>
+		</div>
 		
 		<!-- add friend list content -->
-		<div id="add-friend-list-content">
+		<div class="list-content" id="add-friend-list-content">
 			{% for friend in fake_add_friends %}
 			<!-- User -->
 			<div class="user d-flex justify-content-between align-items-center">
