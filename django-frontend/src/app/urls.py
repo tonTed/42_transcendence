@@ -22,7 +22,8 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
+	path('topbar/', views.topbar, name='topbar'),
 	path('sidebar/', views.sidebar, name='sidebar'),
-	path('game/', views.game, name='game'),
+	path('profile/', views.profile, name='profile'),
 	path('logout_view/', views.logout_view, name='logout_view'),
 ]

@@ -1,130 +1,50 @@
-<div class="sidebar-top p-3">
-	<h2 id="title">Transcendence</h2>
-</div>
+<div class="friend-container">
+	<div class="list" id="friend-list">
+		<div class="list-title d-flex justify-content-start">Friends</div>
 
-<!-- sections -->
-<div class="sections-container flex-grow-1">
-
-	<!-- Friend section -->
-	<div class="section">
-		<div class="section-header d-flex justify-content-between p-2">
-			<div class="section-name">Friends</div>
-			<div id="friend-section-arrow">&#9654;</div>
-		</div>
-		<div class="section-content">
-			<div class="list" id="friend-list">
-				<div class="list-title d-flex justify-content-start">Friends</div>
-
-				<!-- FAKE DATA for exemple, will be inserted dynamically-->
-				<div class="user d-flex justify-content-between align-items-center" id="one">
-					<div class="user-name">gvial</div>
-					<div class="user-status">&#8226;</div>
+		{% for friend in fake_friends %}
+			<div class="user d-flex justify-content-between align-items-center">
+				<div>
+					<div class="user-name">{{ friend.username }}</div>
 				</div>
-				<div class="user d-flex justify-content-between align-items-center" id="two">
-					<div class="user-name">user2</div>
-					<div class="user-status">&#8226;</div>
+				<div class="d-flex justify-content-end">
+					<div class="user-button user-status" style="{% if friend.status == 'online' %}color: green;{% else %}color: red;{% endif %}">&#8226;</div>
 				</div>
-
 			</div>
-			<div class="list" id="add-user-list">
-				<div class="list-title d-flex justify-content-start">Add Friends</div>
+		{% endfor %}
 
-				<!-- FAKE DATA for exemple, will be inserted dynamically -->
-				<div class="user d-flex justify-content-between align-items-center" id="three">
-					<div class="user-name">user3</div>
-					<button class="btn btn-outline-primary add-button" type="submit">Add</button>
-				</div>
-				<div class="user d-flex justify-content-between align-items-center" id="four">
-					<div class="user-name">user4</div>
-					<button class="btn btn-outline-primary add-button" type="submit">Add</button>
-				</div>
-
-			</div>
-		</div>
 	</div>
 
-</div>
+	<div class="list" id="friend-requests-list">
+		<div class="list-title d-flex justify-content-start">Friend Requests</div>
 
-<!-- chat section -->
-<div class="chat-container">
-	<div class="section">
-		<div class="section-header d-flex justify-content-between p-2">
-			<div class="section-name">Chat</div>
-			<div id="chat-section-arrow">&#9654;</div>
-		</div>
-		<div class="section-content">
-			<div class="chat">
-
-				<!-- FAKE DATA for test only -->
-				<div class="chat-message"><span class="chat-sender">gvial:</span> hello</div>
-				<div class="chat-message"><span class="chat-sender">user2:</span> this is a test</div>
-				<div class="chat-message"><span class="chat-sender">user7:</span> is</div>
-				<div class="chat-message"><span class="chat-sender">user5:</span> a</div>
-				<div class="chat-message"><span class="chat-sender">user6:</span> test</div>
-				<div class="chat-message"><span class="chat-sender">user3:</span> fake data</div>
-				<div class="chat-message"><span class="chat-sender">user1:</span> more fake data</div>
-				<div class="chat-message"><span class="chat-sender">gvial:</span> hi</div>
-				<div class="chat-message"><span class="chat-sender">user8:</span> data</div>
-				<div class="chat-message"><span class="chat-sender">user5:</span> bonjour</div>
-				<div class="chat-message"><span class="chat-sender">gvial:</span> hello</div>
-				<div class="chat-message"><span class="chat-sender">user2:</span> this is a test</div>
-				<div class="chat-message"><span class="chat-sender">user7:</span> is</div>
-				<div class="chat-message"><span class="chat-sender">user5:</span> a</div>
-				<div class="chat-message"><span class="chat-sender">user6:</span> test</div>
-				<div class="chat-message"><span class="chat-sender">user3:</span> fake data</div>
-				<div class="chat-message"><span class="chat-sender">user1:</span> more fake data</div>
-				<div class="chat-message"><span class="chat-sender">gvial:</span> hi</div>
-				<div class="chat-message"><span class="chat-sender">user8:</span> data</div>
-				<div class="chat-message"><span class="chat-sender">user5:</span> bonjour</div>
-				
+		{% for friend in fake_friend_requests %}
+		<div class="user d-flex justify-content-between align-items-center">
+			<div>
+				<div class="user-name">{{ friend.username }}</div>
 			</div>
-			<input class="chat-input" placeholder="enter text here...">
+			<div class="request-actions d-flex justify-content-between align-items-center">
+				<div class="accept-request-button" type="submit">&#10003;</div>
+				<div class="decline-request-button" type="submit">x</div>
+			</div>
 		</div>
+		{% endfor %}
+		
+	</div>
+
+	<div class="list" id="add-friend-list">
+		<div class="list-title d-flex justify-content-start">Add Friends</div>
+
+		{% for friend in fake_add_friends %}
+		<div class="user d-flex justify-content-between align-items-center">
+			<div class="user-name">{{ friend.username }}</div>
+			<button class="btn btn-outline-primary add-button" type="submit">Add</button>
+		</div>
+		{% endfor %}
+		
 	</div>
 </div>
 
-<!-- account -->
-<div class="account-container">
-
-
-	<!-- modify account details -->
-	<div class="account-details-container">
-		<div class="account-details-header">
-			Account informations
-		</div>
-		<div class="account-details p-3 d-flex flex-column justify-content-center">
-			<div class="detail-container d-flex justify-content-between align-items-center mb-2">
-				<div class="detail">{{ username }}</div>
-				<button class="btn btn-outline-primary change-button" id="change-username-button">change</button>
-			</div>
-			<div class="detail-container d-flex justify-content-between align-items-center mb-2">
-				<div class="detail">{{ email }}</div>
-				<button class="btn btn-outline-primary change-button" id="change-email-button">change</button>
-			</div>
-			<div class="detail-container d-flex flex-column justify-content-center align-items-center mb-2">
-				<input type="password" class="form-control input-field" id="oldPasswordInput" name="oldPasswordInput" placeholder="old password" required>
-				<input type="password" class="form-control input-field" id="newPasswordInput" name="newPasswordInput" placeholder="new password" required>
-				<button class="btn btn-outline-primary" id="change-password-button">Change password</button>
-			</div>
-
-		</div>
-	</div>
-
-	<!-- account infos -->
-	<div class="account-infos d-flex justify-content-between align-items-center p-1">
-		<div class="account-avatar">
-			<div>&#60;avatar&#62;</div>
-		</div>
-		<div class="account-user d-flex align-items-center">
-			<div class="account-username">@{{ username }}</div>
-		</div>
-		<div class="account-logout overflow-auto">
-			<form action="{% url 'logout_view' %}" method="post">
-				{% csrf_token %}
-				<button class="btn btn-outline-primary logout-button" type="submit">Logout</button>
-			</form>
-		</div>
-	</div>
+<div class="sidebar-content-container d-flex justify-content-center">
+	<!-- sidebar-content -->
 </div>
-
-<!-- TODO: view user and friends stats, fix vertical and horizontal overflow management -->

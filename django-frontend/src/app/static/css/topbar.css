@@ -1,0 +1,16 @@
+.title {
+	font-size: xx-large;
+	font-weight: bold;
+}
+
+.account-info {
+	height: 100%;
+}
+
+.account-username {
+	font-weight: 600;
+}
+
+.account-avatar {
+	margin-left: 5px;
+}

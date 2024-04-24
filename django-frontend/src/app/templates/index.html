@@ -11,25 +11,31 @@
 
     <!-- css -->
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/topbar.css' %}">
     <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
-    <link rel="stylesheet" href="{% static 'css/game.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 
     <!-- js -->
     <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/topbar.js' %}"></script>
     <script src="{% static 'js/sidebar.js' %}"></script>
-    <script src="{% static 'js/game.js' %}"></script>
+    <script src="{% static 'js/profile.js' %}"></script>
     
 </head>
-<body>
-    
-    <div class="container-fluid text-center">
-        <div class="row full-height">
-            <div class="col-md-2 d-none d-md-flex flex-column vh-100 sidebar-container overflow-x-hidden">
-                <!-- Sidebar -->
-            </div>
-            <div class="col-12 col-md-10 d-flex justify-content-center align-items-center game-container">
-                <!-- Game -->
-            </div>
+<body class="p-0 m-0">
+
+    <!-- Topbar -->
+    <div class="topbar-container d-flex align-items-center justify-content-between">
+        <!-- Topbar -->
+    </div>
+
+    <!-- Page -->
+    <div class="page-container d-flex">
+        <div class="sidebar-container p-2">
+            <!-- Sidebar -->
+        </div>
+        <div class="content-container">
+            <!-- Game / Profile -->
         </div>
     </div>
     

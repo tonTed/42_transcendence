@@ -1,51 +1,33 @@
-.sidebar-top {
-    cursor: pointer;
-    margin-bottom: 5px;
-}
-
 .sidebar-container {
     height: 100%;
+	width: 400px;
     border-right: 3px solid #232b3f;
     color:  #c0c0c0;
 }
 
+/* Friend */
 
-/* sections */
-
-.sections-container {
-    overflow: auto;
+.friend-container {
+    height: 50%;
+	overflow: scroll;
+    border-bottom: 3px solid #232b3f;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
 }
 
-.section-header {
-    margin-bottom: 8px;
-    font-size:large;
-    font-weight: bold;
-    color: #3b496d;
-    cursor: pointer;
-    border-radius: 10px;
-}
-
-.section-header:hover {
-    background-color: #232b3f;
-}
-
-.section-content {
+.friend-container::-webkit-scrollbar {
     display: none;
-    padding-left: .5rem;
-    padding-right: .5rem;
 }
-
-
-/* friend section */
 
 .list {
-    width: 95%;
+    width: 100%;
     cursor: pointer;
 }
 
 .list-title {
     font-size: 300;
-    border-bottom: 1px solid;
+    font-weight: 400;
+    border-bottom: 2px solid;
     margin-bottom: 10px;
 }
 
@@ -64,13 +46,26 @@
     background-color: #232b3f;
 }
 
-.user-status {
+.user-button {
+    margin-left: 5px;
     font-size: larger;
 }
 
-/* .add-friend {
+/* .user-status {
 
 } */
+
+.request-actions {
+    width: 30px;
+}
+
+.accept-request-button {
+    color: green;
+}
+
+.decline-request-button {
+    color: red;
+}
 
 .add-button {
     overflow: hidden;
@@ -79,150 +74,8 @@
     padding: 2px;
 }
 
-/* THIS IS FOR EXEMPLE ONLY THIS WILL BE SET DYNAMICALLY */
-.user#one .user-status {
-    color: greenyellow;
-}
+/* Content */
 
-/* THIS IS FOR EXEMPLE ONLY THIS WILL BE SET DYNAMICALLY */
-.user#two .user-status {
-    color: red;
-}
-
-/* chat */
-
-.chat-container {
-    text-align: left;
-    font-size: medium;
-    font-weight: 400;
-    width: 100%;
-}
-
-.chat {
-    padding: 10px;
-    background-color: #232b3f;
-    border-radius: 10px;
-    height: 300px;
-    max-height: 300px;
-    overflow: scroll;
-}
-
-.chat-sender {
-    font-weight: 600;
-}
-
-.chat-input {
-    margin-top: 8px;
-    padding: 6px;
-    background-color: #232b3f;
-    border: none;
-    border-radius: 10px;
-    width: 100%;
-    color: #c0c0c0;
-}
-
-.chat-input::placeholder {
-    color: #5C7080;
-}
-
-/* account */
-
-/* modify account data */
-
-.account-container {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background-color: #232b3f;
-    border-radius: 30px;
-}
-
-.account-details-container {
-    border-bottom: 2px solid #131722;
-    display: none;
-    cursor: default;
-}
-
-.account-details-header {
-    margin-top: 10px;
-    font-size: larger;
-    font-weight: 600;
-}
-
-.account-details {
-    padding-top: .7rem !important;
-    padding-bottom: .4rem !important;
-}
-
-.detail-name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 50%;
-    font-weight: 600;
-}
-
-.detail {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 50%;
-    font-weight: 400;
-}
-
-.change-button {
-    overflow: hidden;
-    width: 25%;
-    font-size: small;
-    padding: 3px;
-}
-
-.input-field {
-    margin-bottom: 5px;
-    color: #B0BEC5;
-    background-color: #131722;
-    border: none;
-}
-
-.input-field:focus {
-    color: #B0BEC5;
-    background-color: #131722;
-    border: none;
-}
-
-.input-field::placeholder {
-    color: #5C7080;
-}
-
-#change-password-button {
-    overflow: hidden;
-    font-size: medium;
-    width: 100%;
-}
-
-/* account info */
-
-.account-infos {
-    cursor: pointer;
-    padding: 3px;
-}
-
-.account-avatar {
-    cursor: pointer;
-}
-
-.account-user {
-    cursor: pointer;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 30%;
-}
-
-.account-username {
-    font-weight: 500;
-}
-
-.logout-button {
-    overflow: hidden;
-    border-radius: 30px;
+.sidebar-content-container {
+	height: 50%;
 }
