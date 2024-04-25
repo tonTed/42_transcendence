@@ -7,7 +7,7 @@
 			<div class="account-username">{{ fake_account_info.username }}</div>
 		</div>
 		<div class="account-logout">
-			<form action="{% url 'logout_view' %}" method="post">
+			<form method="post">
 				{% csrf_token %}
 				<button class="btn btn-outline-primary logout-button" type="submit">Logout</button>
 			</form>

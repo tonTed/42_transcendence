@@ -31,12 +31,3 @@ def topbar(request):
 
 def profile(request):
     return  render(request, 'profile.html')
-
-# THIS FUNCTION WILL MAKE CALLS TO THE DRF-API-GATEWAY AND/OR DRF-API-AUTH
-def auth(request):
-        return
-
-# TEMPORARY LOGOUT for testing purpose
-def logout_view(request):
-    logout(request)
-    return redirect('/')

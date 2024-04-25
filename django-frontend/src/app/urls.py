@@ -25,5 +25,4 @@ urlpatterns = [
 	path('topbar/', views.topbar, name='topbar'),
 	path('sidebar/', views.sidebar, name='sidebar'),
 	path('profile/', views.profile, name='profile'),
-	path('logout_view/', views.logout_view, name='logout_view'),
 ]
