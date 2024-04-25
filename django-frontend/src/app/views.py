@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from .mock import fake_account_info, fake_add_friends, fake_friends, fake_chat_messages, fake_friend_requests
+from .mock import fake_account_info, fake_add_friends, fake_friends, fake_global_chat_messages, fake_friend_requests
 
 fake_account_info = {
     'username': 'fake_username',
@@ -18,7 +18,7 @@ def sidebar(request):
     context = {
         'fake_friends': fake_friends,
         'fake_add_friends': fake_add_friends,
-        'fake_chat_messages': fake_chat_messages,
+        'fake_global_chat_messages': fake_global_chat_messages,
         'fake_friend_requests': fake_friend_requests,
     }
     return  render(request, 'sidebar.html', context)

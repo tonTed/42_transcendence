@@ -1,3 +1,4 @@
+<!-- Friends section -->
 <div class="friend-container">
 
 	<!-- friend list -->
@@ -79,6 +80,19 @@
 
 </div>
 
-<div class="chat-container d-flex justify-content-center">
-	<!-- sidebar-content -->
+<!-- Chat section -->
+<div class="chat-container d-flex flex-column justify-content-center">
+	<div class="chat-header d-flex align-items-center">
+		<div class="chat-back left">&#9664;</div>
+		<div class="chat-title center">global chat</div>
+		<div class="spacer"></div>
+	</div>
+	<div class="chat">
+		{% for message in fake_global_chat_messages %}
+		<div>
+			<div class="chat-message"><span class="chat-sender">{{ message.username }}:</span> {{ message.message }}</div>
+		</div>
+		{% endfor %}
+	</div>
+	<input class="chat-input" placeholder="enter message here">
 </div>

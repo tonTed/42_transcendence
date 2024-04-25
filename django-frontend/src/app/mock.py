@@ -31,7 +31,7 @@ fake_friend_requests = [
     { 'username': 'user6' }
 ]
 
-fake_chat_messages = [
+fake_global_chat_messages = [
     { 'username': 'user3', 'message': 'hello this is user3' },
     { 'username': 'user4', 'message': 'hello this is user4' },
     { 'username': 'user5', 'message': 'hello this is user5' },

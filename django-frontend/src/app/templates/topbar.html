@@ -4,7 +4,7 @@
 			<div>&#60;avatar&#62;</div>
 		</div>
 		<div class="account-user d-flex align-items-center">
-			<div class="account-username">@{{ fake_account_info.username }}</div>
+			<div class="account-username">{{ fake_account_info.username }}</div>
 		</div>
 		<div class="account-logout">
 			<form action="{% url 'logout_view' %}" method="post">
