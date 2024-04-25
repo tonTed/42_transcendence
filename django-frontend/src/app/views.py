@@ -8,8 +8,8 @@ import api.gateway
 def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
     if request.session.get('token42') is None:
         return redirect('login')
-    user: dict = api.gateway.get_user_info(request.session['token42'])
 
+    user: dict = api.gateway.get_user_info(request.session['token42'])
     friends: list[dict] = api.gateway.get_friends()
 
     context: dict = {
@@ -35,8 +35,9 @@ def sidebar(request):
     return  render(request, 'sidebar.html', context)
 
 def topbar(request):
-    context = {
-        'fake_account_info': fake_account_info,
+    user: dict = api.gateway.get_user_info(request.session['token42'])
+    context: dict = {
+        'user': user,
     }
     return  render(request, 'topbar.html', context)
 
