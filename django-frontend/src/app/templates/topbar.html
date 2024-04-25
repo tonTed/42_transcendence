@@ -1,15 +1,15 @@
 <!-- account infos -->
-	<div class="account-infos d-flex justify-content-between align-items-center p-1">
-		<div class="account-avatar">
-			<div>&#60;avatar&#62;</div>
-		</div>
-		<div class="account-user d-flex align-items-center">
-			<div class="account-username">{{ fake_account_info.username }}</div>
-		</div>
-		<div class="account-logout">
-			<form method="post">
-				{% csrf_token %}
-				<button class="btn btn-outline-primary logout-button" type="submit">Logout</button>
-			</form>
-		</div>
+<div class="account-infos d-flex justify-content-between align-items-center p-1">
+	<div class="account-avatar">
+		<div>&#60;avatar&#62;</div>
 	</div>
+	<div class="account-user d-flex align-items-center">
+		<div class="account-username">{{ fake_account_info.username }}</div>
+	</div>
+	<div class="account-logout">
+		<form action="{% url 'logout' %}" method="post">
+			{% csrf_token %}
+			<button href="" class="btn btn-outline-primary logout-button" type="submit">Logout</button>
+		</form>
+	</div>
+</div>
