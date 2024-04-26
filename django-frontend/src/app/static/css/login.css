@@ -2,3 +2,8 @@
     background-color: #0d6efd;
     color: #FFFFFF;
 }
+
+.auth-button:hover {
+    background-color: #0066ff;
+    color: #FFFFFF;
+}

@@ -11,16 +11,16 @@
 
 		<!-- friend list content -->
 		<div class="list-content" id="friend-list-content">
-			{% for friend in fake_friends %}
+			{% for friend in friends %}
 				<!-- User -->
 				<div class="user d-flex justify-content-between align-items-center">
 					<!-- User name  -->
 					<div>
-						<div class="user-name">{{ friend.username }}</div>
+						<div class="user-name">{{ friend.name }}</div>
 					</div>
 					<!-- User status  -->
 					<div class="d-flex justify-content-end">
-						<div class="user-button user-status" style="{% if friend.status == 'online' %}color: green;{% else %}color: red;{% endif %}">&#8226;</div>
+						<div class="user-button user-status" style="{% if friend.status == 'online' %}color: green;{% elif friend.status == 'offline' %}color: red;{% else %}color: orange;{% endif %}">&#8226;</div>
 					</div>
 				</div>
 			{% endfor %}
@@ -38,12 +38,12 @@
 		
 		<!-- friend requests content -->
 		<div class="list-content" id="friend-requests-list-content">
-			{% for friend in fake_friend_requests %}
+			{% for friend in friend_requests %}
 			<!-- User -->
 			<div class="user d-flex justify-content-between align-items-center">
 				<!-- User name -->
 				<div>
-					<div class="user-name">{{ friend.username }}</div>
+					<div class="user-name">{{ friend.name }}</div>
 				</div>
 				<!-- User requests actions -->
 				<div class="request-actions d-flex justify-content-between align-items-center">
@@ -66,11 +66,11 @@
 		
 		<!-- add friend list content -->
 		<div class="list-content" id="add-friend-list-content">
-			{% for friend in fake_add_friends %}
+			{% for friend in friends_add %}
 			<!-- User -->
 			<div class="user d-flex justify-content-between align-items-center">
 				<!-- User name -->
-				<div class="user-name">{{ friend.username }}</div>
+				<div class="user-name">{{ friend.name }}</div>
 				<!-- User add button -->
 				<button class="btn btn-outline-primary add-button" type="submit">Add</button>
 			</div>
@@ -90,7 +90,7 @@
 	<div class="chat">
 		{% for message in fake_global_chat_messages %}
 		<div>
-			<div class="chat-message"><span class="chat-sender">{{ message.username }}:</span> {{ message.message }}</div>
+			<div class="chat-message"><span class="chat-sender">{{ message.name }}:</span> {{ message.message }}</div>
 		</div>
 		{% endfor %}
 	</div>

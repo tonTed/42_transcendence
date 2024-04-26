@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from .mock import fake_account_info, fake_add_friends, fake_friends, fake_global_chat_messages, fake_friend_requests
+from .mock import fake_global_chat_messages
 import api.ft
 import api.gateway
 
@@ -10,27 +10,26 @@ def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
         return redirect('login')
 
     user: dict = api.gateway.get_user_info(request.session['token42'])
-    friends: list[dict] = api.gateway.get_friends()
 
     context: dict = {
         'user': user,
-        'friends': friends,
         'other_users': 'other_users',
     }
-
     return render(request, 'index.html', context=context)
 
-fake_account_info = {
-    'username': 'fake_username',
-    'email': 'fake_email'
-}
+def login(request):
+        render(request, 'login.html')
 
 def sidebar(request):
+    friends: list[dict] = api.gateway.get_friends()
+    friends_requests: list[dict] = api.gateway.get_friends_requests()
+    friends_add: list[dict] = api.gateway.get_friends_add()
+
     context = {
-        'fake_friends': fake_friends,
-        'fake_add_friends': fake_add_friends,
+        'friends': friends,
+        'friends_add': friends_add,
+        'friend_requests': friends_requests,
         'fake_global_chat_messages': fake_global_chat_messages,
-        'fake_friend_requests': fake_friend_requests,
     }
     return  render(request, 'sidebar.html', context)
 
