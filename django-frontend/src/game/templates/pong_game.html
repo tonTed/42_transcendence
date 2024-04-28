@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,6 +22,6 @@
         </div>
         <canvas id="pongCanvas" width="800" height="600"></canvas>
     </div>
-    <script src="pong.js"></script>
+    <script src="{% static 'pong.js' %}"></script>
 </body>
 </html>
