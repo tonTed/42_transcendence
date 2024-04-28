@@ -22,8 +22,8 @@ logs-gateway:
 logs-database:
 	@docker logs --tail 50 --follow database
 
-rm-images:
-	@docker compose down --rmi all
+rm-images: down
+	@docker rmi "django-frontend" "drf-api-gateway"
 	@echo "All images removed."
 
 setup-venvs:
