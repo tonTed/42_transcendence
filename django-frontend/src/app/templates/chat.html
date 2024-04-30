@@ -1,8 +1,10 @@
+<!-- chat title -->
 <div class="chat-header d-flex align-items-center">
 	<div class="chat-back left">&#9664;</div>
 	<div class="chat-title center">global chat</div>
 	<div class="spacer"></div>
 </div>
+<!-- chat -->
 <div class="chat">
 	{% for message in fake_global_chat_messages %}
 	<div>
@@ -10,4 +12,5 @@
 	</div>
 	{% endfor %}
 </div>
+<!-- chat input -->
 <input class="chat-input" placeholder="enter message here">

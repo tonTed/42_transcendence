@@ -1,11 +1,14 @@
 <!-- account infos -->
 <div class="account-infos d-flex justify-content-between align-items-center p-1">
+	<!-- account avatar -->
 	<div class="account-avatar">
 		<img src="{{ user.image_url }}" />
 	</div>
+	<!-- account full name -->
 	<div class="account-user d-flex align-items-center">
 		<div class="account-username">{{ user.full_name }}</div>
 	</div>
+	<!-- logout button -->
 	<div class="account-logout">
 		<form action="{% url 'logout' %}" method="post">
 			{% csrf_token %}

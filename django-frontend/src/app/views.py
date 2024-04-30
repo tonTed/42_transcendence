@@ -20,6 +20,13 @@ def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
 def login(request):
         render(request, 'login.html')
 
+def topbar(request):
+    user: dict = api.gateway.get_user_info(request.session['token42'])
+    context: dict = {
+        'user': user,
+    }
+    return  render(request, 'topbar.html', context)
+
 def sidebar(request):
     friends: list[dict] = api.gateway.get_friends()
     friends_requests: list[dict] = api.gateway.get_friends_requests()
@@ -37,13 +44,6 @@ def chat(request):
         'fake_global_chat_messages': fake_global_chat_messages,
     }
     return  render(request, 'chat.html', context)
-
-def topbar(request):
-    user: dict = api.gateway.get_user_info(request.session['token42'])
-    context: dict = {
-        'user': user,
-    }
-    return  render(request, 'topbar.html', context)
 
 def profile(request):
     return  render(request, 'profile.html')
