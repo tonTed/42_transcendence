@@ -16,23 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls.conf import include
 
-from app.views import index, topbar, sidebar, chat, profile, gateway
-from game.views import game
-from authentication.views import login, callback, logout, remove_session
-
+from .views import hello_world
 
 urlpatterns = [
-    path('', index, name='index'),
-    path('login/', login, name='login'),
-    path('callback/', callback, name='callback'),
-    path('logout/', logout, name='logout'),
     path('admin/', admin.site.urls),
-    path('game/', game, name='game'),
-    path('remove_session/', remove_session, name='remove_session'),
-	path('topbar/', topbar, name='topbar'),
-	path('sidebar/', sidebar, name='sidebar'),
-	path('chat/', chat, name='chat'),
-	path('profile/', profile, name='profile'),
-    path('gateway/', gateway, name='gateway'),
+    path('api/hello/', hello_world)
 ]
