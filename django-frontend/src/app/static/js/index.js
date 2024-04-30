@@ -1,6 +1,4 @@
-import { handleFriendListClick } from './sidebar.js';
-import { handleFriendRequestsListClick } from './sidebar.js';
-import { handleAddFriendListClick } from './sidebar.js';
+import { handleAddFriendListClick,  handleFriendRequestsListClick, handleFriendListClick } from './sidebar.js';
 
 // Fetch and inject sidebar content
 window.addEventListener('DOMContentLoaded', () => {
