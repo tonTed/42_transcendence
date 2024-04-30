@@ -1,6 +1,6 @@
 import { handleAddFriendListClick,  handleFriendRequestsListClick, handleFriendListClick } from './sidebar.js';
 
-// Fetch and inject sidebar content
+// Fetch and inject topbar content
 window.addEventListener('DOMContentLoaded', () => {
 	fetch('/topbar/')
 		.then(response => response.text())
@@ -25,6 +25,16 @@ window.addEventListener('DOMContentLoaded', () => {
 		.catch(error => console.error('Error fetching sidebar:', error));
 });
 
+// Fetch and inject profile content
+window.addEventListener('DOMContentLoaded', () => {
+	fetch('/profile/')
+	.then(response => response.text())
+	.then(data => {
+		document.querySelector('.content-container').innerHTML = data;
+	})
+	.catch(error => console.error('Error fetching profile:', error));
+});
+
 // Fetch and inject chat
 window.addEventListener('DOMContentLoaded', () => {
 	fetch('/chat/')
@@ -34,14 +44,3 @@ window.addEventListener('DOMContentLoaded', () => {
 		})
 		.catch(error => console.error('Error fetching chat', error));
 });
-
-// Fetch and inject profile content
-window.addEventListener('DOMContentLoaded', () => {
-	fetch('/profile/')
-		.then(response => response.text())
-		.then(data => {
-			document.querySelector('.content-container').innerHTML = data;
-		})
-		.catch(error => console.error('Error fetching profile:', error));
-});
-
