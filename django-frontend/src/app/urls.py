@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from . import views
+from app.views import index, topbar, sidebar, chat, profile
 from authentication.views import login, callback, logout, remove_session
 
 urlpatterns = [
