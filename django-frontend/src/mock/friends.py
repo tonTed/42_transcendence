@@ -1,4 +1,3 @@
-
 mock_friends = [
     {
         'name': 'Teddy Blanco',

@@ -27,6 +27,16 @@ window.addEventListener('DOMContentLoaded', () => {
 		.catch(error => console.error('Error fetching sidebar:', error));
 });
 
+// Fetch and inject chat
+window.addEventListener('DOMContentLoaded', () => {
+	fetch('/chat/')
+		.then(response => response.text())
+		.then(data => {
+			document.querySelector('.chat-container').innerHTML = data;
+		})
+		.catch(error => console.error('Error fetching chat', error));
+});
+
 // Fetch and inject game content
 window.addEventListener('DOMContentLoaded', () => {
 	fetch('/profile/')
@@ -36,3 +46,4 @@ window.addEventListener('DOMContentLoaded', () => {
 		})
 		.catch(error => console.error('Error fetching profile:', error));
 });
+

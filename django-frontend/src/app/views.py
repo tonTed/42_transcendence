@@ -29,9 +29,14 @@ def sidebar(request):
         'friends': friends,
         'friends_add': friends_add,
         'friend_requests': friends_requests,
-        'fake_global_chat_messages': fake_global_chat_messages,
     }
     return  render(request, 'sidebar.html', context)
+
+def chat(request):
+    context = {
+        'fake_global_chat_messages': fake_global_chat_messages,
+    }
+    return  render(request, 'chat.html', context)
 
 def topbar(request):
     user: dict = api.gateway.get_user_info(request.session['token42'])

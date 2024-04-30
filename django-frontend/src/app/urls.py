@@ -28,5 +28,6 @@ urlpatterns = [
     path('remove_session/', remove_session, name='remove_session'),
 	path('topbar/', views.topbar, name='topbar'),
 	path('sidebar/', views.sidebar, name='sidebar'),
+	path('chat/', views.chat, name='chat'),
 	path('profile/', views.profile, name='profile'),
 ]
