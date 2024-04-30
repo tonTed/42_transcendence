@@ -37,6 +37,19 @@ services:
       database:
         condition: service_healthy
 
+  reverse-proxy:
+    container_name: reverse-proxy
+    build:
+      context: ./reverse-proxy
+    image: reverse-proxy:latest
+    ports:
+      - "80:80"
+    networks:
+      - transcendence-network
+    depends_on:
+      - django-frontend
+      - api-gateway
+
   database:
     env_file:
       - .env
