@@ -20,14 +20,14 @@ from app.views import index, topbar, sidebar, chat, profile
 from authentication.views import login, callback, logout, remove_session
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', index, name='index'),
     path('login/', login, name='login'),
     path('callback/', callback, name='callback'),
     path('logout/', logout, name='logout'),
     path('admin/', admin.site.urls),
     path('remove_session/', remove_session, name='remove_session'),
-	path('topbar/', views.topbar, name='topbar'),
-	path('sidebar/', views.sidebar, name='sidebar'),
-	path('chat/', views.chat, name='chat'),
-	path('profile/', views.profile, name='profile'),
+	path('topbar/', topbar, name='topbar'),
+	path('sidebar/', sidebar, name='sidebar'),
+	path('chat/', chat, name='chat'),
+	path('profile/', profile, name='profile'),
 ]
