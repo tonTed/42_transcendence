@@ -35,7 +35,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		.catch(error => console.error('Error fetching chat', error));
 });
 
-// Fetch and inject game content
+// Fetch and inject profile content
 window.addEventListener('DOMContentLoaded', () => {
 	fetch('/profile/')
 		.then(response => response.text())
