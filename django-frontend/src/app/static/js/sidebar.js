@@ -45,6 +45,4 @@ function handleAddFriendListClick() {
     };
 }
 
-export { handleFriendListClick };
-export { handleFriendRequestsListClick };
-export { handleAddFriendListClick };
+export { handleFriendRequestsListClick, handleFriendListClick, handleAddFriendListClick };
