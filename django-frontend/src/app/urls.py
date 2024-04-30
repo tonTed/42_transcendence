@@ -19,6 +19,7 @@ from django.urls import path
 from app.views import index, topbar, sidebar, chat, profile
 from authentication.views import login, callback, logout, remove_session
 
+
 urlpatterns = [
     path('', index, name='index'),
     path('login/', login, name='login'),

@@ -5,6 +5,7 @@ from .mock import fake_global_chat_messages
 import api.ft
 import api.gateway
 
+
 def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
     if request.session.get('token42') is None:
         return redirect('login')
@@ -17,8 +18,10 @@ def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
     }
     return render(request, 'index.html', context=context)
 
+
 def login(request):
         render(request, 'login.html')
+
 
 def topbar(request):
     user: dict = api.gateway.get_user_info(request.session['token42'])
@@ -26,6 +29,7 @@ def topbar(request):
         'user': user,
     }
     return  render(request, 'topbar.html', context)
+
 
 def sidebar(request):
     friends: list[dict] = api.gateway.get_friends()
@@ -39,11 +43,13 @@ def sidebar(request):
     }
     return  render(request, 'sidebar.html', context)
 
+
 def chat(request):
     context = {
         'fake_global_chat_messages': fake_global_chat_messages,
     }
     return  render(request, 'chat.html', context)
+
 
 def profile(request):
     return  render(request, 'profile.html')
