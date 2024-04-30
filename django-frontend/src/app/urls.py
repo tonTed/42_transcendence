@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from app.views import index, topbar, sidebar, chat, profile, gateway
+from game.views import game
 from authentication.views import login, callback, logout, remove_session
 
 
@@ -27,6 +28,7 @@ urlpatterns = [
     path('callback/', callback, name='callback'),
     path('logout/', logout, name='logout'),
     path('admin/', admin.site.urls),
+    path('game/', game, name='game'),
     path('remove_session/', remove_session, name='remove_session'),
 	path('topbar/', topbar, name='topbar'),
 	path('sidebar/', sidebar, name='sidebar'),
