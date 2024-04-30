@@ -7,7 +7,6 @@ services:
     container_name: django-frontend
     build:
       context: ./django-frontend
-    image: django-frontend:latest
     volumes:
       - ./django-frontend:/app
     command: python src/manage.py runserver 0.0.0.0:8000
