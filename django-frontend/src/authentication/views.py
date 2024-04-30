@@ -1,8 +1,8 @@
 import os
-
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 import api.ft
+
 
 CALLBACK_URL = (f'https://api.intra.42.fr/oauth/authorize'
                 f'?client_id={os.getenv('42_UID')}'

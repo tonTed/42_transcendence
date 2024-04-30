@@ -3,18 +3,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FT_TRANSCENDENCE</title>
-    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
-    <script src="{% static 'bootstrap.min.js' %}"></script>
+    <title>transcendence</title>
 
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <script src="{% static 'script.js' %}"></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
+    <script src="{% static 'bootstrap/bootstrap.min.js' %}"></script>
 
+    <!-- css -->
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/topbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
+    <!-- js -->
+    <script type="module" src="{% static 'js/index.js' %}"></script>
+    <script type="module" src="{% static 'js/topbar.js' %}"></script>
+    <script type="module" src="{% static 'js/sidebar.js' %}"></script>
+    <script type="module" src="{% static 'js/profile.js' %}"></script>
+    
 </head>
-<body>
-    <div class="d-flex flex-column justify-content-center text-center p-2">
-        <h1>FT_TRANSCENDENCE</h1>
-        {{ user }}
+<body class="p-0 m-0">
+
+    <div class="topbar-container d-flex align-items-center justify-content-end">
+        <!-- Topbar -->
     </div>
+
+    <!-- Page -->
+    <div class="page-container d-flex">
+        <div class="sidebar-container p-2">
+            <!-- Sidebar -->
+        </div>
+        <div class="content-container d-flex justify-content-center align-items-center">
+            <!-- Game / Profile -->
+        </div>
+    </div>
+    
 </body>
 </html>
