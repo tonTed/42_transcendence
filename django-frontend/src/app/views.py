@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
 from .mock import fake_global_chat_messages
 import api.ft
 import api.gateway
+import requests
 
 
 def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
@@ -53,3 +53,9 @@ def chat(request):
 
 def profile(request):
     return  render(request, 'profile.html')
+
+
+def gateway(request: HttpRequest) -> HttpResponse:
+    response = requests.get('http://api-gateway:3000/api/hello/')
+    print(response.json())
+    return HttpResponse(response.json())
