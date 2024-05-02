@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-from .mock import fake_global_chat_messages
+from mock.chat import fake_global_chat_messages
 import api.ft
 import api.gateway
 import requests
