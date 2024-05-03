@@ -15,24 +15,24 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from authentication.views import login, callback, logout, remove_session
-from frontend.views import index, topbar, sidebar, chat, profile, gateway
 from game.views import game
 
 
 urlpatterns = [
-    path('', index, name='index'),
+    path('admin/', admin.site.urls),
+
+	path('', include('frontend.urls')),
+	path('frontend/', include('frontend.urls')),
+	
+    # path('authentication/', include('authentication.urls')),
     path('login/', login, name='login'),
     path('callback/', callback, name='callback'),
     path('logout/', logout, name='logout'),
-    path('admin/', admin.site.urls),
-    path('game/', game, name='game'),
     path('remove_session/', remove_session, name='remove_session'),
-	path('topbar/', topbar, name='topbar'),
-	path('sidebar/', sidebar, name='sidebar'),
-	path('chat/', chat, name='chat'),
-	path('profile/', profile, name='profile'),
-    path('gateway/', gateway, name='gateway'),
+
+	# path('game/', include('game.urls')),
+    path('game/', game, name='game'),
 ]
