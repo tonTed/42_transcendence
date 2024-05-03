@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
-from mock.chat import fake_global_chat_messages
 import api.ft
 import api.gateway
 import requests
@@ -45,8 +44,9 @@ def sidebar(request):
 
 
 def chat(request):
+    mock_global_chat_messages: list[dict] = api.gateway.get_mock_global_chat_messages()
     context = {
-        'fake_global_chat_messages': fake_global_chat_messages,
+        'mock_global_chat_messages': mock_global_chat_messages,
     }
     return  render(request, 'chat.html', context)
 
