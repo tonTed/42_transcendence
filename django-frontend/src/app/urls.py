@@ -17,9 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from app.views import index, topbar, sidebar, chat, profile, gateway
-from game.views import game
 from authentication.views import login, callback, logout, remove_session
+from frontend.views import index, topbar, sidebar, chat, profile, gateway
+from game.views import game
 
 
 urlpatterns = [
