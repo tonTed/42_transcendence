@@ -26,9 +26,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
 	path('', include('frontend.urls')),
-	path('frontend/', include('frontend.urls')),
+	path('', include('frontend.urls')),
 	
-    path('authentication/', include('authentication.urls')),
+    path('', include('authentication.urls')),
 	# callback doesn't work if i put it in authentication.urls
 	path('callback/', callback, name='callback'),
 
