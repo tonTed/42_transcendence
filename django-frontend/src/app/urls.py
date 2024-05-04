@@ -17,7 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from authentication.views import login, callback, logout, remove_session
+
+from authentication.views import callback
 from game.views import game
 
 
@@ -27,11 +28,9 @@ urlpatterns = [
 	path('', include('frontend.urls')),
 	path('frontend/', include('frontend.urls')),
 	
-    # path('authentication/', include('authentication.urls')),
-    path('login/', login, name='login'),
-    path('callback/', callback, name='callback'),
-    path('logout/', logout, name='logout'),
-    path('remove_session/', remove_session, name='remove_session'),
+    path('authentication/', include('authentication.urls')),
+	# callback doesn't work if i put it in authentication.urls
+	path('callback/', callback, name='callback'),
 
 	# path('game/', include('game.urls')),
     path('game/', game, name='game'),
