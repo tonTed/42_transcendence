@@ -40,7 +40,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	fetch('/profile/')
 	.then(response => response.text())
 	.then(data => {
-		document.querySelector('.game-profile-container').innerHTML = data;
+		document.querySelector('.profile-container').innerHTML = data;
 	})
 	.catch(error => console.error('Error fetching profile:', error));
 });
