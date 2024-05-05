@@ -6,10 +6,14 @@ import requests
 
 
 def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
-    if request.session.get('token42') is None:
+    token = request.session.get('token42')
+    if token is None:
         return redirect('login')
 
-    user: dict = api.gateway.get_user_info(request.session['token42'])
+    try:
+        user: dict = api.gateway.get_user_info(token)
+    except KeyError:
+        return redirect('login')
 
     context: dict = {
         'user': user,
