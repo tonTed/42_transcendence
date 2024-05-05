@@ -1,11 +1,11 @@
 from django.urls import path
-from .views import index, topbar, sidebar, chat, profile, gateway
+from frontend.views import index, top_bar, sidebar, chat, profile, gateway
 
 urlpatterns = [
-    path('', index, name='index'),
-	path('topbar/', topbar, name='topbar'),
+	path('', index, name='index'),
+	path('topbar/', top_bar, name='topbar'),
 	path('sidebar/', sidebar, name='sidebar'),
 	path('chat/', chat, name='chat'),
 	path('profile/', profile, name='profile'),
-    path('gateway/', gateway, name='gateway'),
+	path('gateway/', gateway, name='gateway'),
 ]

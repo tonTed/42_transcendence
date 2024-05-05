@@ -17,21 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-
-from authentication.views import callback
 from game.views import game
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-	path('', include('frontend.urls')),
-	path('', include('frontend.urls')),
-	
+    path('', include('frontend.urls')),
     path('', include('authentication.urls')),
-	# callback doesn't work if i put it in authentication.urls
-	path('callback/', callback, name='callback'),
-
-	# path('game/', include('game.urls')),
     path('game/', game, name='game'),
 ]

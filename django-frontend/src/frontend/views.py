@@ -19,15 +19,15 @@ def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
 
 
 def login(request):
-        render(request, 'login.html')
+    render(request, 'login.html')
 
 
-def topbar(request):
+def top_bar(request):
     user: dict = api.gateway.get_user_info(request.session['token42'])
     context: dict = {
         'user': user,
     }
-    return  render(request, 'topbar.html', context)
+    return render(request, 'topbar.html', context)
 
 
 def sidebar(request):
@@ -40,7 +40,7 @@ def sidebar(request):
         'friends_add': friends_add,
         'friend_requests': friends_requests,
     }
-    return  render(request, 'sidebar.html', context)
+    return render(request, 'sidebar.html', context)
 
 
 def chat(request):
@@ -48,11 +48,11 @@ def chat(request):
     context = {
         'mock_global_chat_messages': mock_global_chat_messages,
     }
-    return  render(request, 'chat.html', context)
+    return render(request, 'chat.html', context)
 
 
 def profile(request):
-    return  render(request, 'profile.html')
+    return render(request, 'profile.html')
 
 
 def gateway(request: HttpRequest) -> HttpResponse:
