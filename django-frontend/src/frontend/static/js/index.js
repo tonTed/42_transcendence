@@ -1,4 +1,5 @@
-import { handleAddFriendListClick,  handleFriendRequestsListClick, handleFriendListClick } from './sidebar.js';
+import { fetchChat, handleAddFriendListClick,  handleFriendRequestsListClick, handleFriendListClick } from './sidebar.js';
+import { fileInputListener, editNicknameListener } from './profile.js';
 
 // Fetch and inject sidebar content
 window.addEventListener('DOMContentLoaded', () => {
@@ -7,22 +8,15 @@ window.addEventListener('DOMContentLoaded', () => {
 		.then(data => {
 			document.querySelector('.sidebar-container').innerHTML = data;
 
+			// fetch chat inside sidebar
+			fetchChat();
+
 			// sidebar event handlers
 			handleFriendListClick();
 			handleFriendRequestsListClick();
 			handleAddFriendListClick();
 		})
 		.catch(error => console.error('Error fetching sidebar:', error));
-});
-
-// Fetch and inject chat
-window.addEventListener('DOMContentLoaded', () => {
-	fetch('/chat/')
-		.then(response => response.text())
-		.then(data => {
-			document.querySelector('.chat-container').innerHTML = data;
-		})
-		.catch(error => console.error('Error fetching chat', error));
 });
 
 // Fetch and inject topbar content
@@ -41,6 +35,10 @@ window.addEventListener('DOMContentLoaded', () => {
 	.then(response => response.text())
 	.then(data => {
 		document.querySelector('.profile-container').innerHTML = data;
+
+		// profile event handlers
+		editNicknameListener();
+		fileInputListener();
 	})
 	.catch(error => console.error('Error fetching profile:', error));
 });

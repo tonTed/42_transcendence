@@ -1,0 +1,82 @@
+.container {
+	height: 50%;
+	min-height: 350px;
+	width: 40%;
+	margin-bottom: 200px;
+	border-radius: 30px;
+	background-color: #232b3f;
+}
+
+.header {
+	height: 12%;
+	width: 100%;
+	padding: 3px;
+	font-weight: 600;
+	font-size: x-large;
+	border-bottom: 3px solid #131722;
+}
+
+.info-container {
+	margin-top: 15px;
+	margin-bottom: 15px;
+	font-weight: 400;
+	font-size: larger;
+}
+
+.info-row {
+	margin-top: 25px;
+}
+
+.info-type {
+	width: 110px;
+}
+
+.info-data {
+	width: 250px;
+}
+
+.change-button {
+	height: 35px;
+	width: 82px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.change-input {
+	height: 35px;
+	width: 250px;
+	background-color: #131722;
+	border-radius: 8px;
+	border: none;
+	color: #c0c0c0;
+}
+
+.change-input::placeholder {
+	font-size: medium;
+	color: #5C7080;
+}
+
+#editNicknameInput {
+	display: none;
+}
+
+.choose-file-button {
+	height: 45px;
+	width: 110px;
+	font-size: large;
+	border-radius: 10px;
+	background-color: #0d6efd;
+	color: #ededed;
+	cursor: pointer;
+}
+
+#imageInput {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+.file-name {
+	width: 250px;
+}
