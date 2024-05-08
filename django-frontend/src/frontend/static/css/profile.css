@@ -1,10 +1,10 @@
 .container {
-	height: 50%;
 	min-height: 350px;
 	width: 40%;
 	margin-bottom: 200px;
 	border-radius: 30px;
 	background-color: #232b3f;
+	overflow: hidden;
 }
 
 .header {
@@ -16,15 +16,19 @@
 	border-bottom: 3px solid #131722;
 }
 
+.profile-content-container {
+	height: 88%;
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+
 .info-container {
-	margin-top: 15px;
-	margin-bottom: 15px;
 	font-weight: 400;
 	font-size: larger;
 }
 
 .info-row {
-	margin-top: 25px;
+	margin-bottom: 25px;
 }
 
 .info-type {
@@ -79,4 +83,8 @@
 
 .file-name {
 	width: 250px;
+}
+
+.exit-button-container {
+	width: 100%;
 }
