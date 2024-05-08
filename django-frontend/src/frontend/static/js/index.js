@@ -1,5 +1,6 @@
 import { fetchChat, handleAddFriendListClick,  handleFriendRequestsListClick, handleFriendListClick } from './sidebar.js';
-import { fileInputListener, editNicknameListener } from './profile.js';
+import { fileInputListener, editNicknameListener, profileExitButtonListener } from './profile.js';
+import { toggleProfile } from './topbar.js';
 
 // Fetch and inject sidebar content
 window.addEventListener('DOMContentLoaded', () => {
@@ -25,6 +26,9 @@ window.addEventListener('DOMContentLoaded', () => {
 		.then(response => response.text())
 		.then(data => {
 			document.querySelector('.topbar-container').innerHTML = data;
+
+			// topbar event handlers
+			toggleProfile();
 		})
 		.catch(error => console.error('Error fetching topbar:', error));
 });
@@ -37,8 +41,19 @@ window.addEventListener('DOMContentLoaded', () => {
 		document.querySelector('.profile-container').innerHTML = data;
 
 		// profile event handlers
+		profileExitButtonListener();
 		editNicknameListener();
 		fileInputListener();
 	})
 	.catch(error => console.error('Error fetching profile:', error));
+});
+
+// Fetch and inject game content
+window.addEventListener('DOMContentLoaded', () => {
+	fetch('/game/')
+	.then(response => response.text())
+	.then(data => {
+		document.querySelector('.game-container').innerHTML = data;
+	})
+	.catch(error => console.error('Error fetching game:', error));
 });

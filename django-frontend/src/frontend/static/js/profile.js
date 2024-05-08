@@ -30,4 +30,16 @@ function editNicknameListener() {
     })
 }
 
-export { fileInputListener, editNicknameListener };
+function profileExitButtonListener() {
+    var profileExitButton = document.getElementById("profileExitButton");
+    profileExitButton.addEventListener("click", function() {
+        var gameContainer = document.getElementById("gameContainer");
+        var profileContainer = document.getElementById("profileContainer");
+
+        gameContainer.style.display = "flex";
+        profileContainer.style.display = "none";
+        
+    })
+}
+
+export { fileInputListener, editNicknameListener, profileExitButtonListener };

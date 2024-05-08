@@ -59,6 +59,10 @@ def profile(request):
     return render(request, 'profile.html', context)
 
 
+def game(request):
+    return render(request, 'game.html')
+
+
 def gateway(request: HttpRequest) -> HttpResponse:
     response = requests.get('http://api-gateway:3000/api/hello/')
     print(response.json())
