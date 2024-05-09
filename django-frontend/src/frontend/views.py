@@ -51,6 +51,7 @@ def chat(request):
     return render(request, 'chat.html', context)
 
 
+# Profile
 def profile(request):
     user: dict = api.gateway.get_user_info(request.session['token42'])    
     context: dict = {
@@ -59,6 +60,7 @@ def profile(request):
     return render(request, 'profile.html', context)
 
 
+# Game
 def game(request):
     return render(request, 'game.html')
 

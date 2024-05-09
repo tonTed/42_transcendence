@@ -11,22 +11,32 @@ function fileInputListener() {
     }
 }
 
-function editNicknameListener() {
-    var editButton = document.getElementById("editNicknameButton");
-    editButton.addEventListener("click", function() {
+function editNicknameButtonListener() {
+    var editNicknameButton = document.getElementById("editNicknameButton");
+    editNicknameButton.addEventListener("click", function() {
         var nicknameInput = document.getElementById("editNicknameInput");
-        var nicknameButton = document.getElementById("editNicknameButton");
+        var confirmNicknameButton = document.getElementById("confirmNicknameButton");
         var nickname = document.getElementById("nickname");
+        
+        nicknameInput.style.display = "flex";
+        nickname.style.display = "none";
+        editNicknameButton.style.display = "none"
+        confirmNicknameButton.style.display = "flex"
+    })
+}
 
-        if (nickname.style.display === "flex") {
-            nicknameInput.style.display = "flex";
-            nickname.style.display = "none";
-            nicknameButton.innerHTML = "Confirm"
-        } else {
-            nicknameInput.style.display = "none";
-            nickname.style.display = "flex";
-            nicknameButton.innerHTML = "Edit"
-        }
+function confirmNicknameButtonListener() {
+    var confirmNicknameButton = document.getElementById("confirmNicknameButton");
+    confirmNicknameButton.addEventListener("click", function() {
+        var nickname = document.getElementById("nickname");
+        var nicknameInput = document.getElementById("editNicknameInput");
+        
+        nicknameInput.style.display = "none";
+        nickname.style.display = "flex";
+        editNicknameButton.style.display = "flex"
+        confirmNicknameButton.style.display = "none"
+
+        // API call
     })
 }
 
@@ -38,8 +48,7 @@ function profileExitButtonListener() {
 
         gameContainer.style.display = "flex";
         profileContainer.style.display = "none";
-        
     })
 }
 
-export { fileInputListener, editNicknameListener, profileExitButtonListener };
+export { fileInputListener, editNicknameButtonListener, profileExitButtonListener, confirmNicknameButtonListener };

@@ -61,6 +61,10 @@
 	color: #5C7080;
 }
 
+#confirmNicknameButton {
+	display: none;
+}
+
 #editNicknameInput {
 	display: none;
 }

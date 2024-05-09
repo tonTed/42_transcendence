@@ -6,7 +6,11 @@ urlpatterns = [
 	path('topbar/', topbar, name='topbar'),
 	path('sidebar/', sidebar, name='sidebar'),
 	path('chat/', chat, name='chat'),
+
+	# Profile
 	path('profile/', profile, name='profile'),
+
+
 	path('game/', game, name='game'),
 	path('gateway/', gateway, name='gateway'),
 ]

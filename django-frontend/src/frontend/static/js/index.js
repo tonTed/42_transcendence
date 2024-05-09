@@ -1,5 +1,5 @@
 import { fetchChat, handleAddFriendListClick,  handleFriendRequestsListClick, handleFriendListClick } from './sidebar.js';
-import { fileInputListener, editNicknameListener, profileExitButtonListener } from './profile.js';
+import { fileInputListener, editNicknameButtonListener, confirmNicknameButtonListener, profileExitButtonListener } from './profile.js';
 import { toggleProfile } from './topbar.js';
 
 // Fetch and inject sidebar content
@@ -41,9 +41,10 @@ window.addEventListener('DOMContentLoaded', () => {
 		document.querySelector('.profile-container').innerHTML = data;
 
 		// profile event handlers
-		profileExitButtonListener();
-		editNicknameListener();
+		editNicknameButtonListener();
+		confirmNicknameButtonListener()
 		fileInputListener();
+		profileExitButtonListener();
 	})
 	.catch(error => console.error('Error fetching profile:', error));
 });
