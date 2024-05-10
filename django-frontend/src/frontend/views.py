@@ -22,7 +22,7 @@ def login(request):
     render(request, 'login.html')
 
 
-def top_bar(request):
+def topbar(request):
     user: dict = api.gateway.get_user_info(request.session['token42'])
     context: dict = {
         'user': user,
@@ -51,8 +51,18 @@ def chat(request):
     return render(request, 'chat.html', context)
 
 
+# Profile
 def profile(request):
-    return render(request, 'profile.html')
+    user: dict = api.gateway.get_user_info(request.session['token42'])    
+    context: dict = {
+        'user': user,
+    }
+    return render(request, 'profile.html', context)
+
+
+# Game
+def game(request):
+    return render(request, 'game.html')
 
 
 def gateway(request: HttpRequest) -> HttpResponse:

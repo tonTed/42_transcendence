@@ -13,12 +13,14 @@
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <link rel="stylesheet" href="{% static 'css/topbar.css' %}">
     <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
     
     <!-- js -->
     <script type="module" src="{% static 'js/index.js' %}"></script>
     <script type="module" src="{% static 'js/topbar.js' %}"></script>
     <script type="module" src="{% static 'js/sidebar.js' %}"></script>
+    <script type="module" src="{% static 'js/chat.js' %}"></script>
     <script type="module" src="{% static 'js/profile.js' %}"></script>
 
 </head>
@@ -34,10 +36,10 @@
             <div class="topbar-container d-flex align-items-center justify-content-end">
                 <!-- Topbar -->
             </div>
-            <div class="profile-container d-flex justify-content-center align-items-center">
+            <div class="profile-container justify-content-center align-items-center" id="profileContainer">
                 <!-- Profile -->
             </div>
-            <div class="game-container d-flex justify-content-center align-items-center">
+            <div class="game-container d-flex justify-content-center align-items-center" id="gameContainer">
                 <!-- Game -->
             </div>
         </div>

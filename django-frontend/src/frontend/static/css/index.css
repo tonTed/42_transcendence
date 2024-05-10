@@ -30,5 +30,10 @@ html, body {
 }
 
 .profile-container {
+    display: none;
+    height: 94%;
+}
+
+.game-container {
     height: 94%;
 }
