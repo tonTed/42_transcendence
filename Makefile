@@ -10,9 +10,6 @@ exec-frontend:
 exec-gateway:
 	docker exec -it api-gateway /bin/sh
 
-exec-user-service:
-	docker exec -it api-users /bin/sh
-
 exec-database:
 	docker exec -it database /bin/sh
 
@@ -22,14 +19,11 @@ logs-frontend:
 logs-gateway:
 	@docker logs --tail 50 --follow api-gateway
 
-logs-user-service:
-	@docker logs --tail 50 --follow api-users
-
 logs-database:
 	@docker logs --tail 50 --follow database
 
 rm-images: down
-	@docker rmi "django-frontend" "drf-api-gateway" "drf-api-users"
+	@docker rmi "django-frontend" "drf-api-gateway"
 	@echo "All images removed."
 
 setup-venvs:
