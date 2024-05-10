@@ -1,6 +1,7 @@
 /* account info */
 
 .account-infos {
+	min-height: 48px;
 	height: 80%;
 	background-color: #232b3f;
 	border-radius: 30px;
