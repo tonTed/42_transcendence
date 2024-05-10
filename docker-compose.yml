@@ -37,6 +37,24 @@ services:
       database:
         condition: service_healthy
 
+  api-users:
+    env_file:
+      - .env
+    container_name: api-users
+    build:
+      context: ./drf-api-users
+    image: drf-api-users:latest
+    volumes:
+      - ./drf-api-users:/app
+    command: python src/manage.py runserver 0.0.0.0:3001
+    ports:
+      - "3001:3001"
+    networks:
+      - transcendence-network
+    depends_on:
+      database:
+        condition: service_healthy
+
   reverse-proxy:
     container_name: reverse-proxy
     build:
