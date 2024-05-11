@@ -40,8 +40,6 @@ def callback(request) -> HttpResponsePermanentRedirect:
         })
 
     request.session['token42']: str = access_token
-    # If 2fa is enabled, redirect to 2fa page to enter password
-    print(type(user.json()['is_2fa_enabled']))
     if user.json()['is_2fa_enabled']:
         return redirect('login_password', permanent=True)
     return redirect('index', permanent=True)
