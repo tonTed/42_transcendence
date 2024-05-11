@@ -29,17 +29,17 @@
     <!-- Page -->
     <div class="page-container d-flex">
         <div class="sidebar-container p-2">
-            <!-- Sidebar -->
+            {% include "sidebar.html" %}
         </div>
         <div class="content-container p-1">
             <div class="topbar-container d-flex align-items-center justify-content-end">
-                <!-- Topbar -->
+                {% include "topbar.html" %}
             </div>
             <div class="profile-container justify-content-center align-items-center" id="profileContainer">
-                <!-- Profile -->
+                {% include "profile.html" %}
             </div>
             <div class="game-container d-flex justify-content-center align-items-center" id="gameContainer">
-                <!-- Game -->
+                {% include "game.html" %}
             </div>
         </div>
     </div>
