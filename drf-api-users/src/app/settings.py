@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'api-users',
+    'localhost',
 ]
 
 
