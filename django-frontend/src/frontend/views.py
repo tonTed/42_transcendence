@@ -69,3 +69,9 @@ def gateway(request: HttpRequest) -> HttpResponse:
     response = requests.get('http://api-gateway:3000/api/hello/')
     print(response.json())
     return HttpResponse(response.json())
+
+def login_password(request: HttpRequest) -> HttpResponse:
+    if request.session.get('token42'):
+        return redirect('index')
+    return render(request, 'login_password.html')
+
