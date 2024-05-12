@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 import api.ft
 import requests
+from requests import Response
+
 
 
 CALLBACK_URL = (f'https://api.intra.42.fr/oauth/authorize'
@@ -24,6 +26,8 @@ def logout(request: HttpRequest) -> HttpResponsePermanentRedirect:
 def callback(request) -> HttpResponsePermanentRedirect:
     access_token: str = api.ft.get_access_token(request.GET.get('code'))
 
+    request.session['token42']: str = access_token
+
     response: Response = requests.get('https://api.intra.42.fr/v2/me', headers={
         'Authorization': f'Bearer {access_token}'
     })
@@ -38,8 +42,8 @@ def callback(request) -> HttpResponsePermanentRedirect:
             'username': response.json()['login'],
             'email': response.json()['email']
         })
+        return redirect('index', permanent=True)
 
-    request.session['token42']: str = access_token
     if user.json()['is_2fa_enabled']:
         return redirect('login_password', permanent=True)
     return redirect('index', permanent=True)
