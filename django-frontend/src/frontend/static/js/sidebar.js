@@ -1,13 +1,3 @@
-// Fetch and inject chat
-function fetchChat() {
-	fetch('/chat/')
-		.then(response => response.text())
-		.then(data => {
-			document.querySelector('.chat-container').innerHTML = data;
-		})
-		.catch(error => console.error('Error fetching chat', error));
-};
-
 function handleFriendListClick() {
     let title = document.getElementById('friend-list-title');
     title.onclick = function() {
@@ -55,4 +45,4 @@ function handleAddFriendListClick() {
     };
 }
 
-export { handleFriendRequestsListClick, handleFriendListClick, handleAddFriendListClick, fetchChat };
+export { handleFriendRequestsListClick, handleFriendListClick, handleAddFriendListClick };
