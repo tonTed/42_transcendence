@@ -10,7 +10,6 @@ services:
     image: django-frontend:latest
     volumes:
       - ./django-frontend:/app
-    command: python src/manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
     networks:
@@ -28,7 +27,6 @@ services:
     image: drf-api-gateway:latest
     volumes:
       - ./drf-api-gateway:/app
-    command: python src/manage.py runserver 0.0.0.0:3000
     ports:
       - "3000:3000"
     networks:
@@ -46,7 +44,6 @@ services:
     image: drf-api-users:latest
     volumes:
       - ./drf-api-users:/app
-    command: python src/manage.py runserver 0.0.0.0:3001
     ports:
       - "3001:3001"
     networks:
