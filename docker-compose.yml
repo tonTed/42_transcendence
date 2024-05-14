@@ -7,9 +7,9 @@ services:
     container_name: django-frontend
     build:
       context: ./django-frontend
+    image: django-frontend:latest
     volumes:
       - ./django-frontend:/app
-    command: python src/manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
     networks:
@@ -27,9 +27,25 @@ services:
     image: drf-api-gateway:latest
     volumes:
       - ./drf-api-gateway:/app
-    command: python src/manage.py runserver 0.0.0.0:3000
     ports:
       - "3000:3000"
+    networks:
+      - transcendence-network
+    depends_on:
+      database:
+        condition: service_healthy
+
+  api-users:
+    env_file:
+      - .env
+    container_name: api-users
+    build:
+      context: ./drf-api-users
+    image: drf-api-users:latest
+    volumes:
+      - ./drf-api-users:/app
+    ports:
+      - "3001:3001"
     networks:
       - transcendence-network
     depends_on:
