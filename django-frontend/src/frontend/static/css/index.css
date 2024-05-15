@@ -35,5 +35,6 @@ html, body {
 }
 
 .game-container {
+    display: flex;
     height: 94%;
 }
