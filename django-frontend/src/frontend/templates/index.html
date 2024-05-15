@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
     <link rel="stylesheet" href="{% static 'css/chat.css' %}">
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
-    
+
     <!-- js -->
     <script type="module" src="{% static 'js/index.js' %}"></script>
     <script type="module" src="{% static 'js/topbar.js' %}"></script>
@@ -40,7 +40,7 @@
                 {% include "profile.html" %}
             </div>
             <div class="game-container d-flex justify-content-center align-items-center" id="gameContainer">
-                {% include "game.html" %}
+                {% include "game/pong_game.html" %}
             </div>
         </div>
     </div>
