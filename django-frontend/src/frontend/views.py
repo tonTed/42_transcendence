@@ -8,8 +8,14 @@ import requests
 def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
     if request.session.get('token42') is None:
         return redirect('login')
+    
+    id42 = request.session.get('id42')
+    if id42 is None:
+        return redirect('login')
 
-    user: dict = api.gateway.get_user_info(request.session['token42'])
+    user_response = api.gateway.get_user_info(id42)
+    user: dict = user_response.json()
+
     friends: list[dict] = api.gateway.get_friends()
     friends_requests: list[dict] = api.gateway.get_friends_requests()
     friends_add: list[dict] = api.gateway.get_friends_add()
@@ -40,8 +46,8 @@ def gateway(request: HttpRequest) -> HttpResponse:
     print(response.json())
     return HttpResponse(response.json())
 
+
 def login_password(request: HttpRequest) -> HttpResponse:
     if request.session.get('token42'):
         return redirect('index')
     return render(request, 'login_password.html')
-
