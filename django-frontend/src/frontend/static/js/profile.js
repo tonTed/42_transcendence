@@ -30,13 +30,18 @@ function confirmNicknameButtonListener() {
     confirmNicknameButton.addEventListener("click", function() {
         var nickname = document.getElementById("nickname");
         var nicknameInput = document.getElementById("editNicknameInput");
-        
+
+        // API call
+        var newNickname = nicknameInput.value;
+    
+        console.log(userId);
+        console.log(newNickname);
+
+        // display
         nicknameInput.style.display = "none";
         nickname.style.display = "flex";
         editNicknameButton.style.display = "flex"
         confirmNicknameButton.style.display = "none"
-
-        // API call
     })
 }
 
