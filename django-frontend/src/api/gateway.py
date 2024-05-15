@@ -19,10 +19,6 @@ def get_friends_add() -> list[dict]:
     return friends_add
 
 
-def get_user_info2(access_token: str) -> dict:
-    return api.ft.get_user_info(access_token=access_token)
-
-
 def get_user_info(id42) -> dict:
     return requests.get(f'http://api-users:3001/api/users/42/{id42}')
 
