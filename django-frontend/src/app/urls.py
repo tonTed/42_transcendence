@@ -17,12 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from game.views import game
+from game.views import gamedev
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('frontend.urls')),
     path('', include('authentication.urls')),
-    path('game/', game, name='game'),
+    path('gamedev/', gamedev, name='gamedev'),
 ]

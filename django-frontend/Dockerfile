@@ -6,6 +6,13 @@ ENV PYTHONDONTWRITEBYTECODE 1
 # PYTHONUNBUFFERED: Prevents Python from buffering stdout and stderr
 ENV PYTHONUNBUFFERED 1
 
+RUN apk update && apk add --no-cache \
+    build-base \
+    gcc \
+    musl-dev \
+    libffi-dev \
+    openssl-dev
+
 # Set the working directory
 WORKDIR /app
 
