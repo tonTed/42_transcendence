@@ -47,13 +47,12 @@ class Game:
             "w": False,
             "s": False
         }
-        self.resetting = False
-        self.reset_task = None
+        self.resetting = True
+        self.reset_task = asyncio.create_task(self.reset_game())
         self.winner = None
         self.winning_score = 4
         self.last_player_hit = None
         self.last_scorer = None
-        self.serve_state = True
 
     def update_key_states(self, keys_pressed):
         self.keys_pressed = keys_pressed
@@ -120,7 +119,7 @@ class Game:
 
     async def reset_game(self):
         self.resetting = True
-        await asyncio.sleep(1.2)
+        await asyncio.sleep(1.5)
         self.serve()
         self.resetting = False
 
