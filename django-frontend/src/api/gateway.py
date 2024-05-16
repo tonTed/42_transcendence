@@ -1,6 +1,5 @@
 import mock.friends
 import mock.chats
-import api.ft
 import requests
 
 

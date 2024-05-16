@@ -19,6 +19,7 @@ def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
     friends_add: list[dict] = api.gateway.get_friends_add()
     mock_global_chat_messages: list[dict] = api.gateway.get_mock_global_chat_messages()
 
+    # context
     user_response = api.gateway.get_user_info(id42)
     user: dict = user_response.json()
 

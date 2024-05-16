@@ -26,24 +26,51 @@ function editNicknameButtonListener() {
 }
 
 function confirmNicknameButtonListener() {
-    var confirmNicknameButton = document.getElementById("confirmNicknameButton");
-    confirmNicknameButton.addEventListener("click", function() {
-        var nickname = document.getElementById("nickname");
-        var nicknameInput = document.getElementById("editNicknameInput");
-
+    var confirmUsernameButton = document.getElementById("confirmNicknameButton");
+    confirmUsernameButton.addEventListener("click", function() {
+        var username = document.getElementById("nickname");
+        var usernameInput = document.getElementById("editNicknameInput");
+        var newUsername = usernameInput.value;
+        
         // API call
-        var newNickname = nicknameInput.value;
-    
-        console.log(userId);
-        console.log(newNickname);
+
+        (async () => {
+            await updateUsername(newUsername);
+        })();
 
         // display
-        nicknameInput.style.display = "none";
-        nickname.style.display = "flex";
+        usernameInput.style.display = "none";
+        username.style.display = "flex";
         editNicknameButton.style.display = "flex"
-        confirmNicknameButton.style.display = "none"
+        confirmUsernameButton.style.display = "none"
     })
 }
+
+const updateUsername = async (newUsername) => {
+    const url = `http://localhost:3001/api/users/${userId}`;
+    const data = {
+        username: newUsername
+    };
+
+    try {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+            const updatedUser = await response.json();
+            console.log('User updated successfully:', updatedUser);
+        } else {
+            console.error('Failed to update user:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
 
 function profileExitButtonListener() {
     var profileExitButton = document.getElementById("profileExitButton");
