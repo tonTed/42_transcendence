@@ -12,14 +12,15 @@ def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
     id42 = request.session.get('id42')
     if id42 is None:
         return redirect('login')
-
-    user_response = api.gateway.get_user_info(id42)
-    user: dict = user_response.json()
-
+    
+    # FOR EXEMPLE ONLY WILL BE DELETED
     friends: list[dict] = api.gateway.get_friends()
     friends_requests: list[dict] = api.gateway.get_friends_requests()
     friends_add: list[dict] = api.gateway.get_friends_add()
     mock_global_chat_messages: list[dict] = api.gateway.get_mock_global_chat_messages()
+
+    user_response = api.gateway.get_user_info(id42)
+    user: dict = user_response.json()
 
     context: dict = {
         'user': user,
