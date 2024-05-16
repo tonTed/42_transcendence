@@ -52,6 +52,7 @@ class Game:
         self.winner = None
         self.winning_score = 4
         self.last_player_hit = None
+        self.last_scorer = None
         self.serve_state = True
 
     def update_key_states(self, keys_pressed):
@@ -105,11 +106,13 @@ class Game:
     def check_score(self):
         if self.ball.x < 0:
             self.score2 += 1
+            self.last_scorer = 2
             if (self.score2 >= self.winning_score):
                 self.winner = 2
             return True
         elif self.ball.x > 800:
             self.score1 += 1
+            self.last_scorer = 1
             if (self.score1 >= self.winning_score):
                 self.winner = 1
             return True
@@ -122,14 +125,13 @@ class Game:
         self.resetting = False
 
     def serve(self):
-        if (self.last_player_hit == 1 and self.score1 % 2):
+        if (self.last_scorer == 1 and self.score1 % 2):
             self.ball.reset(x=400, y=600, dx=4, dy=-4)
-        elif (self.last_player_hit == 1):
+        elif (self.last_scorer == 1):
             self.ball.reset(x=400, y=0, dx=4, dy=4)
-        elif (self.last_player_hit == 2 and self.score2 % 2):
+        elif (self.last_scorer == 2 and self.score2 % 2):
             self.ball.reset(x=400, y=600, dx=-4, dy=-4)
         else:
             self.ball.reset(x=400, y=0, dx=-4, dy=4)
-        self.last_player_hit = None
 
         
