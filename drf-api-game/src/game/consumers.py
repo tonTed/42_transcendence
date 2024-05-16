@@ -15,7 +15,8 @@ class GameConnection(AsyncWebsocketConsumer):
     async def game_loop(self):
         while True:
             await asyncio.sleep(1/60)
-            self.game.update()
+            if self.game.winner == None:
+                self.game.update()
             await self.send_state()
 
     async def send_state(self):
@@ -27,7 +28,8 @@ class GameConnection(AsyncWebsocketConsumer):
             'paddle_height': self.game.paddle1.height,
             'paddle_width': self.game.paddle1.width,
             'scores': {'player1': self.game.score1, 'player2': self.game.score2},
-            'resetting': self.game.resetting
+            'resetting': self.game.resetting,
+            'winner': self.game.winner
         }))
 
     async def receive(self, text_data):

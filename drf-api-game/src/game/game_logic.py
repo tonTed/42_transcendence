@@ -43,6 +43,8 @@ class Game:
         }
         self.resetting = False
         self.reset_task = None
+        self.winner = None
+        self.winning_score = 4
 
     def update_key_states(self, keys_pressed):
         self.keys_pressed = keys_pressed
@@ -91,9 +93,13 @@ class Game:
     def check_score(self):
         if self.ball.x < 0:
             self.score2 += 1
+            if (self.score2 >= self.winning_score):
+                self.winner = 2
             return True
         elif self.ball.x > 800:
             self.score1 += 1
+            if (self.score1 >= self.winning_score):
+                self.winner = 1
             return True
         return False
 
