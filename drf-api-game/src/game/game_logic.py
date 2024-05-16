@@ -52,8 +52,8 @@ class Game:
             self.ball.move()
         self.update_paddles()
         self.check_collision()
-        if self.check_score():
-            if self.reset_task is None or self.reset_task.done():
+        if self.reset_task is None or self.reset_task.done():
+            if self.check_score():
                 self.reset_task = asyncio.create_task(self.reset_game())
 
     def update_paddles(self):
@@ -99,6 +99,6 @@ class Game:
 
     async def reset_game(self):
         self.resetting = True
-        await asyncio.sleep(1)
+        await asyncio.sleep(1.2)
         self.ball = Ball(x=400, y=0, radius=6, dx=6, dy=7)
         self.resetting = False

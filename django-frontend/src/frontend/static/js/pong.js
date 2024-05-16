@@ -30,15 +30,14 @@ document.addEventListener("DOMContentLoaded", function() {
     function drawGame(gameData) {
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Draw the net
         context.strokeStyle = '#fff';
         context.lineWidth = 2;
-        context.setLineDash([12, 9]); // Dash length and gap length
+        context.setLineDash([12, 9]);
         context.beginPath();
         context.moveTo(canvas.width / 2, 0);
         context.lineTo(canvas.width / 2, canvas.height);
         context.stroke();
-        context.setLineDash([]); // Clear the dash settings
+        context.setLineDash([]);
 
         context.fillStyle = '#fff';
 
@@ -50,6 +49,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
         context.fillRect(gameData.paddle1_position.x, gameData.paddle1_position.y, gameData.paddle_width, gameData.paddle_height);
         context.fillRect(gameData.paddle2_position.x, gameData.paddle2_position.y, gameData.paddle_width, gameData.paddle_height);
+
+        context.font = '30px "Press Start 2P"';
+        if (gameData.scores.player1 < 10){
+            context.fillText(gameData.scores.player1, canvas.width / 4 - 15, 50);
+        } else {
+            context.fillText(gameData.scores.player1, canvas.width / 4 - 30, 50);        
+        }
+        if (gameData.scores.player2 < 10){
+            context.fillText(gameData.scores.player2, (canvas.width / 4) * 3 - 15, 50);
+        } else {
+            context.fillText(gameData.scores.player2, (canvas.width / 4) * 3 - 30, 50);
+        }
 
         requestAnimationFrame(() => drawGame(gameData)); // Schedule the next frame
     }
