@@ -14,7 +14,7 @@ class GameConnection(AsyncWebsocketConsumer):
 
     async def game_loop(self):
         while True:
-            await asyncio.sleep(1/60)
+            await asyncio.sleep(1/70)
             self.game.update()
             await self.send_state()
 
@@ -29,13 +29,9 @@ class GameConnection(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         command = text_data_json['command']
-        player_id = text_data_json.get('player_id')
-        step = text_data_json.get('step', 0)
+        keys_pressed = text_data_json.get('keysPressed', {})
 
-        if command == "move" and player_id in [1, 2]:
-            if player_id == 1:
-                self.game.paddle1.move(step)
-            elif player_id == 2:
-                self.game.paddle2.move(step)
+        if command == "keys":
+            self.game.update_key_states(keys_pressed)
     
 

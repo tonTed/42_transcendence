@@ -6,6 +6,13 @@ document.addEventListener("DOMContentLoaded", function() {
     const ws_path = ws_scheme + '://' + window.location.hostname + ':3002/ws/game/';
     const socket = new WebSocket(ws_path);
 
+    let keysPressed = {
+        ArrowUp: false,
+        ArrowDown: false,
+        w: false,
+        s: false
+    };
+
     socket.onopen = function(e) {
         console.log('WebSocket connection established');
     };
@@ -32,20 +39,21 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     document.addEventListener('keydown', function(event) {
-        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-            let step = event.key === "ArrowUp" ? -10 : 10;
-            socket.send(JSON.stringify({ 
-                command: "move",
-                player_id: 2,
-                step: step 
-            }));
-        } else if (event.key === "w" || event.key === "s") {
-            let step = event.key === "w" ? -10 : 10;
-            socket.send(JSON.stringify({ 
-                command: "move",
-                player_id: 1,
-                step: step 
-            }));
+        if (event.key in keysPressed) {
+            keysPressed[event.key] = true;
         }
     });
+
+    document.addEventListener('keyup', function(event) {
+        if (event.key in keysPressed) {
+            keysPressed[event.key] = false;
+        }
+    });
+
+    setInterval(() => {
+        socket.send(JSON.stringify({
+            command: "keys",
+            keysPressed: keysPressed
+        }));
+    }, 20); // Send key states every 50ms
 });
