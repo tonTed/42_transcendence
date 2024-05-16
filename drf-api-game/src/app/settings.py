@@ -26,7 +26,10 @@ SECRET_KEY = 'django-insecure-ioghfg*h#cg_l+(rvfp@)l!asez38#!q3__g()u@f!kkcc*%0(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'api-game',
+    'localhost',
+]
 
 
 # Application definition
@@ -137,3 +140,18 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#         'level': 'DEBUG',  # Set to DEBUG to see all messages
+#     },
+# }

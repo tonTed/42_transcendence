@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     socket.onopen = function(e) {
         console.log('WebSocket connection established');
+        setInterval(sendKeyStates, 1000 / 60); // Send key states 60 times per second
     };
 
     socket.onmessage = function(e) {
@@ -29,31 +30,50 @@ document.addEventListener("DOMContentLoaded", function() {
     function drawGame(gameData) {
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-        context.fillStyle = '#fff';
+        // Draw the net
+        context.strokeStyle = '#fff';
+        context.lineWidth = 2;
+        context.setLineDash([12, 9]); // Dash length and gap length
         context.beginPath();
-        context.arc(gameData.ball_position.x, gameData.ball_position.y, 8, 0, 2 * Math.PI);
-        context.fill();
+        context.moveTo(canvas.width / 2, 0);
+        context.lineTo(canvas.width / 2, canvas.height);
+        context.stroke();
+        context.setLineDash([]); // Clear the dash settings
 
-        context.fillRect(5, gameData.paddle1_position.y, 10, 70);
-        context.fillRect(780, gameData.paddle2_position.y, 10, 70);
+        context.fillStyle = '#fff';
+
+        if (!gameData.resetting) {
+            context.beginPath();
+            context.arc(gameData.ball_position.x, gameData.ball_position.y, gameData.ball_radius, 0, 2 * Math.PI);
+            context.fill();
+        }
+
+        context.fillRect(gameData.paddle1_position.x, gameData.paddle1_position.y, gameData.paddle_width, gameData.paddle_height);
+        context.fillRect(gameData.paddle2_position.x, gameData.paddle2_position.y, gameData.paddle_width, gameData.paddle_height);
+
+        requestAnimationFrame(() => drawGame(gameData)); // Schedule the next frame
     }
 
     document.addEventListener('keydown', function(event) {
         if (event.key in keysPressed) {
             keysPressed[event.key] = true;
         }
+        console.log('Key Down:', event.key, keysPressed);
     });
 
     document.addEventListener('keyup', function(event) {
         if (event.key in keysPressed) {
             keysPressed[event.key] = false;
         }
+        console.log('Key Up:', event.key, keysPressed);
     });
 
-    setInterval(() => {
-        socket.send(JSON.stringify({
-            command: "keys",
-            keysPressed: keysPressed
-        }));
-    }, 20); // Send key states every 50ms
+    function sendKeyStates() {
+        if (socket.readyState === WebSocket.OPEN) {
+            socket.send(JSON.stringify({
+                command: "keys",
+                keysPressed: keysPressed
+            }));
+        }
+    }
 });

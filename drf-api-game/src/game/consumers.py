@@ -14,18 +14,22 @@ class GameConnection(AsyncWebsocketConsumer):
 
     async def game_loop(self):
         while True:
-            await asyncio.sleep(1/70)
+            await asyncio.sleep(1/60)
             self.game.update()
             await self.send_state()
 
     async def send_state(self):
         await self.send(text_data=json.dumps({
             'ball_position': {'x': self.game.ball.x, 'y': self.game.ball.y},
-            'paddle1_position': {'y': self.game.paddle1.y},
-            'paddle2_position': {'y': self.game.paddle2.y},
+            'ball_radius': self.game.ball.radius,
+            'paddle1_position': {'x': self.game.paddle1.x, 'y': self.game.paddle1.y},
+            'paddle2_position': {'x': self.game.paddle2.x, 'y': self.game.paddle2.y},
+            'paddle_height': self.game.paddle1.height,
+            'paddle_width': self.game.paddle1.width,
             'scores': {'player1': self.game.score1, 'player2': self.game.score2},
+            'resetting': self.game.resetting
         }))
-    
+
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         command = text_data_json['command']
@@ -33,5 +37,3 @@ class GameConnection(AsyncWebsocketConsumer):
 
         if command == "keys":
             self.game.update_key_states(keys_pressed)
-    
-
