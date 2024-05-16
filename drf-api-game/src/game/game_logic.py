@@ -28,11 +28,17 @@ class Ball:
         self.x += self.dx
         self.y += self.dy
 
+    def reset(self, x, y, dx, dy):
+        self.x = x
+        self.y = y
+        self.dx = dx
+        self.dy = dy
+
 class Game:
     def __init__(self):
         self.paddle1 = Paddle(x=5, y=300, height=60, width=10, speed=11)
         self.paddle2 = Paddle(x=780, y=300, height=60, width=10, speed=11)
-        self.ball = Ball(x=400, y=0, radius=6, dx=9, dy=7)
+        self.ball = Ball(x=400, y=0, radius=6, dx=4, dy=4)
         self.score1 = 0
         self.score2 = 0
         self.keys_pressed = {
@@ -45,7 +51,8 @@ class Game:
         self.reset_task = None
         self.winner = None
         self.winning_score = 4
-        self.last_hit = None
+        self.last_player_hit = None
+        self.serve_state = True
 
     def update_key_states(self, keys_pressed):
         self.keys_pressed = keys_pressed
@@ -57,7 +64,6 @@ class Game:
         self.check_collision()
         if self.reset_task is None or self.reset_task.done():
             if self.check_score():
-                self.last_hit = None
                 self.reset_task = asyncio.create_task(self.reset_game())
 
     def update_paddles(self):
@@ -81,17 +87,17 @@ class Game:
     def check_collision(self):
         if (self.ball.x - self.ball.radius <= self.paddle1.x + self.paddle1.width and self.ball.x >= self.paddle1.x and
             self.ball.y + self.ball.radius >= self.paddle1.y and self.ball.y - self.ball.radius <= self.paddle1.y + self.paddle1.height and
-            self.last_hit != 1):
-            self.ball.dx *= -1
+            self.last_player_hit != 1):
+            self.ball.dx = 9
             self.ball.dy = (self.ball.y - (self.paddle1.y + self.paddle1.height / 2)) / 2.5
-            self.last_hit = 1
+            self.last_player_hit = 1
 
         if (self.ball.x + self.ball.radius >= self.paddle2.x and self.ball.x <= self.paddle2.x + self.paddle2.width and
             self.ball.y + self.ball.radius >= self.paddle2.y and self.ball.y - self.ball.radius <= self.paddle2.y + self.paddle2.height and
-            self.last_hit != 2):
-            self.ball.dx *= -1
+            self.last_player_hit != 2):
+            self.ball.dx = -9
             self.ball.dy = (self.ball.y - (self.paddle2.y + self.paddle2.height / 2)) / 2.5
-            self.last_hit = 2
+            self.last_player_hit = 2
 
         if self.ball.y <= 0 or self.ball.y >= 600:
             self.ball.dy *= -1
@@ -112,5 +118,18 @@ class Game:
     async def reset_game(self):
         self.resetting = True
         await asyncio.sleep(1.2)
-        self.ball = Ball(x=400, y=0, radius=6, dx=9, dy=7)
+        self.serve()
         self.resetting = False
+
+    def serve(self):
+        if (self.last_player_hit == 1 and self.score1 % 2):
+            self.ball.reset(x=400, y=600, dx=4, dy=-4)
+        elif (self.last_player_hit == 1):
+            self.ball.reset(x=400, y=0, dx=4, dy=4)
+        elif (self.last_player_hit == 2 and self.score2 % 2):
+            self.ball.reset(x=400, y=600, dx=-4, dy=-4)
+        else:
+            self.ball.reset(x=400, y=0, dx=-4, dy=4)
+        self.last_player_hit = None
+
+        
