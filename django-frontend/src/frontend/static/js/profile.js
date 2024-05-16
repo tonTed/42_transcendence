@@ -32,8 +32,8 @@ function confirmNicknameButtonListener() {
         var usernameInput = document.getElementById("editNicknameInput");
         var newUsername = usernameInput.value;
         
+        
         // API call
-
         (async () => {
             await updateUsername(newUsername);
         })();
@@ -47,9 +47,9 @@ function confirmNicknameButtonListener() {
 }
 
 const updateUsername = async (newUsername) => {
-    const url = `http://localhost:3001/api/users/${userId}`;
+    const url = `http://localhost:3000/api/users/${userId}/`;
     const data = {
-        username: newUsername
+        username: newUsername,
     };
 
     try {
