@@ -54,6 +54,23 @@ services:
       database:
         condition: service_healthy
 
+  api-game:
+    env_file:
+      - .env
+    container_name: api-game
+    build:
+      context: ./drf-api-game
+    image: drf-api-game:latest
+    volumes:
+      - ./drf-api-game:/app
+    ports:
+      - "3002:3002"
+    networks:
+      - transcendence-network
+    depends_on:
+      database:
+        condition: service_healthy
+
   reverse-proxy:
     container_name: reverse-proxy
     build:

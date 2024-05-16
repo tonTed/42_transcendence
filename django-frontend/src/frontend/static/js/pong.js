@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const context = canvas.getContext('2d');
 
     const ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-    const ws_path = ws_scheme + '://' + window.location.host + "/ws/gamedev/";
+    const ws_path = ws_scheme + '://' + window.location.hostname + ':3002/ws/game/';
     const socket = new WebSocket(ws_path);
 
     socket.onopen = function(e) {
