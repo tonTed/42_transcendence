@@ -1,3 +1,5 @@
+import { updateUsername } from './edit_profile.js';
+
 function fileInputListener() {
     var fileInput = document.getElementById('imageInput');
     if (fileInput) {
@@ -12,27 +14,28 @@ function fileInputListener() {
 }
 
 function editNicknameButtonListener() {
-    var editNicknameButton = document.getElementById("editNicknameButton");
-    editNicknameButton.addEventListener("click", function() {
-        var nicknameInput = document.getElementById("editNicknameInput");
-        var confirmNicknameButton = document.getElementById("confirmNicknameButton");
-        var nickname = document.getElementById("nickname");
-        
-        nicknameInput.style.display = "flex";
-        nickname.style.display = "none";
-        editNicknameButton.style.display = "none"
-        confirmNicknameButton.style.display = "flex"
+    var editUsernameButton = document.getElementById("editNicknameButton");
+    editUsernameButton.addEventListener("click", function() {
+        var usernameInput = document.getElementById("editNicknameInput");
+        var confirmUsernameButton = document.getElementById("confirmNicknameButton");
+        var username = document.getElementById("nickname");
+
+        usernameInput.style.display = "flex";
+        username.style.display = "none";
+        editUsernameButton.style.display = "none"
+        confirmUsernameButton.style.display = "flex"
     })
 }
 
 function confirmNicknameButtonListener() {
     var confirmUsernameButton = document.getElementById("confirmNicknameButton");
     confirmUsernameButton.addEventListener("click", function() {
+        var editUsernameButton = document.getElementById("editNicknameButton");
         var username = document.getElementById("nickname");
+        var topbarUsername = document.getElementById("accountUsername");
         var usernameInput = document.getElementById("editNicknameInput");
         var newUsername = usernameInput.value;
-        
-        
+
         // API call
         (async () => {
             await updateUsername(newUsername);
@@ -41,36 +44,12 @@ function confirmNicknameButtonListener() {
         // display
         usernameInput.style.display = "none";
         username.style.display = "flex";
-        editNicknameButton.style.display = "flex"
+        username.innerHTML = newUsername;
+        topbarUsername.innerHTML = newUsername;
+        editUsernameButton.style.display = "flex"
         confirmUsernameButton.style.display = "none"
     })
 }
-
-const updateUsername = async (newUsername) => {
-    const url = `http://localhost:3000/api/users/${userId}/`;
-    const data = {
-        username: newUsername,
-    };
-
-    try {
-        const response = await fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
-
-        if (response.ok) {
-            const updatedUser = await response.json();
-            console.log('User updated successfully:', updatedUser);
-        } else {
-            console.error('Failed to update user:', response.statusText);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-};
 
 function profileExitButtonListener() {
     var profileExitButton = document.getElementById("profileExitButton");

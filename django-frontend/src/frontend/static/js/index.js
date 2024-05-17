@@ -7,13 +7,13 @@ window.addEventListener('DOMContentLoaded', () => {
 	handleAddFriendListClick();
 	handleFriendRequestsListClick();
 	handleFriendListClick();
-
+	
 	// profile
 	fileInputListener();
 	editNicknameButtonListener();
 	confirmNicknameButtonListener();
 	profileExitButtonListener();
-
+	
 	// profile
 	toggleProfile();
 });
