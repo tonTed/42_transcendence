@@ -4,5 +4,5 @@ document.addEventListener("DOMContentLoaded", function() {
 
     handlerStartMenu(canvas, context);
     handlerGameLoop();
-    initializeNetwork(canvas, context);
+    handlerNetwork(canvas, context);
 });
