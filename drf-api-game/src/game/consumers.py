@@ -15,27 +15,27 @@ class GameConnection(AsyncWebsocketConsumer):
     async def game_loop(self):
         while True:
             await asyncio.sleep(1/60)
-            self.game.update()
+            if self.game.winner == None:
+                self.game.update()
             await self.send_state()
 
     async def send_state(self):
         await self.send(text_data=json.dumps({
             'ball_position': {'x': self.game.ball.x, 'y': self.game.ball.y},
-            'paddle1_position': {'y': self.game.paddle1.y},
-            'paddle2_position': {'y': self.game.paddle2.y},
+            'ball_radius': self.game.ball.radius,
+            'paddle1_position': {'x': self.game.paddle1.x, 'y': self.game.paddle1.y},
+            'paddle2_position': {'x': self.game.paddle2.x, 'y': self.game.paddle2.y},
+            'paddle_height': self.game.paddle1.height,
+            'paddle_width': self.game.paddle1.width,
             'scores': {'player1': self.game.score1, 'player2': self.game.score2},
+            'resetting': self.game.resetting,
+            'winner': self.game.winner
         }))
-    
+
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         command = text_data_json['command']
-        player_id = text_data_json.get('player_id')
-        step = text_data_json.get('step', 0)
+        keys_pressed = text_data_json.get('keysPressed', {})
 
-        if command == "move" and player_id in [1, 2]:
-            if player_id == 1:
-                self.game.paddle1.move(step)
-            elif player_id == 2:
-                self.game.paddle2.move(step)
-    
-
+        if command == "keys":
+            self.game.update_key_states(keys_pressed)
