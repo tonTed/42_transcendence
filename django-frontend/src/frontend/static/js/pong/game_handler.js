@@ -1,29 +1,31 @@
-let keysPressed = {
-    ArrowUp: false,
-    ArrowDown: false,
-    w: false,
-    s: false
+export const gameState = {
+    keysPressed: {
+        ArrowUp: false,
+        ArrowDown: false,
+        w: false,
+        s: false
+    },
+    gameStarted: false
 };
-let gameStarted = false;
 
-function handlerGameLoop() {
+export function handlerGameLoop() {
     document.addEventListener('keydown', function(event) {
-        if (event.key in keysPressed) {
-            keysPressed[event.key] = true;
+        if (event.key in gameState.keysPressed) {
+            gameState.keysPressed[event.key] = true;
         }
     });
 
     document.addEventListener('keyup', function(event) {
-        if (event.key in keysPressed) {
-            keysPressed[event.key] = false;
+        if (event.key in gameState.keysPressed) {
+            gameState.keysPressed[event.key] = false;
         }
     });
 }
 
-function gameIsInPlay(gameData){
+export function gameIsInPlay(gameData){
     return (!gameData.resetting && !gameData.winner);
 }
 
-function winnerIsDecided(gameData){
+export function winnerIsDecided(gameData){
     return (gameData.winner);
 }

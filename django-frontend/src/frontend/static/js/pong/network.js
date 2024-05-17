@@ -1,15 +1,18 @@
+import { gameState } from './game_handler.js';
+import { drawGame } from './game_display.js';
+
 let socket;
 
 function sendKeyStates() {
     if (socket.readyState === WebSocket.OPEN) {
         socket.send(JSON.stringify({
             command: "keys",
-            keysPressed: keysPressed
+            keysPressed: gameState.keysPressed
         }));
     }
 }
 
-function handlerNetwork(canvas, context) {
+export function handlerNetwork(canvas, context) {
     const ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
     const ws_path = ws_scheme + '://' + window.location.hostname + ':3002/ws/game/';
 
@@ -30,6 +33,6 @@ function handlerNetwork(canvas, context) {
             console.error('Chat socket closed unexpectedly');
         };
 
-        gameStarted = true;
+        gameState.gameStarted = true;
     };
 }
