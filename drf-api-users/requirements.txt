@@ -5,3 +5,4 @@ djangorestframework==3.15.1
 sqlparse==0.5.0
 drf-yasg
 django-cors-headers
+requests
