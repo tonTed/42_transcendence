@@ -13,12 +13,12 @@ function fileInputListener() {
     }
 }
 
-function editNicknameButtonListener() {
-    var editUsernameButton = document.getElementById("editNicknameButton");
+function editUsernameButtonListener() {
+    var editUsernameButton = document.getElementById("editUsernameButton");
     editUsernameButton.addEventListener("click", function() {
-        var usernameInput = document.getElementById("editNicknameInput");
-        var confirmUsernameButton = document.getElementById("confirmNicknameButton");
-        var username = document.getElementById("nickname");
+        var usernameInput = document.getElementById("editUsernameInput");
+        var confirmUsernameButton = document.getElementById("confirmUsernameButton");
+        var username = document.getElementById("username");
 
         usernameInput.style.display = "flex";
         username.style.display = "none";
@@ -27,14 +27,16 @@ function editNicknameButtonListener() {
     })
 }
 
-function confirmNicknameButtonListener() {
-    var confirmUsernameButton = document.getElementById("confirmNicknameButton");
+function confirmUsernameButtonListener() {
+    var confirmUsernameButton = document.getElementById("confirmUsernameButton");
     confirmUsernameButton.addEventListener("click", function() {
-        var editUsernameButton = document.getElementById("editNicknameButton");
-        var username = document.getElementById("nickname");
+        var editUsernameButton = document.getElementById("editUsernameButton");
+        var username = document.getElementById("username");
         var topbarUsername = document.getElementById("accountUsername");
-        var usernameInput = document.getElementById("editNicknameInput");
+        var usernameInput = document.getElementById("editUsernameInput");
         var newUsername = usernameInput.value;
+        if (newUsername.length === 0)
+                return ;
 
         // API call
         (async () => {
@@ -62,4 +64,4 @@ function profileExitButtonListener() {
     })
 }
 
-export { fileInputListener, editNicknameButtonListener, profileExitButtonListener, confirmNicknameButtonListener };
+export { fileInputListener, editUsernameButtonListener, profileExitButtonListener, confirmUsernameButtonListener };

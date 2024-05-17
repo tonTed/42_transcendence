@@ -61,11 +61,27 @@
 	color: #5C7080;
 }
 
-#confirmNicknameButton {
+#confirmUsernameButton {
 	display: none;
 }
 
-#editNicknameInput {
+#editUsernameInput {
+	display: none;
+}
+
+#oldPasswordInput {
+	display: flex;
+}
+
+#newPasswordInput {
+	display: none;
+}
+
+#editPasswordButton {
+	display: flex;
+}
+
+#confirmPasswordButton {
 	display: none;
 }
 

@@ -8,36 +8,42 @@
 	<div class="profile-content-container d-flex flex-column justify-content-between">
 		<div class="info-container">
 	
-			<!-- nickname -->
+			<!-- username -->
 			<div class="info-row d-flex justify-content-between align-items-center">
 				<div class="info-type">
-					Nickname:
+					username:
 				</div>
-				<!-- nickname -->
-				<div class="info-data" id="nickname">
+				<!-- username -->
+				<div class="info-data" id="username">
 					{{ user.username }}
 				</div>
-				<!-- new nickname input -->
-				<input class="change-input justify-content-center p-2" id="editNicknameInput" placeholder="new nickname">
-				<!-- nickname edit button -->
-				<div class="change-button btn btn-outline-primary" id="editNicknameButton">
+				<!-- new username input -->
+				<input class="change-input justify-content-center p-2" id="editUsernameInput" placeholder="new username">
+				<!-- username edit button -->
+				<div class="change-button btn btn-outline-primary" id="editUsernameButton">
 					Edit
 				</div>
-				<!-- nickname confirm button -->
-				<div class="change-button btn btn-outline-primary" id="confirmNicknameButton">
+				<!-- username confirm button -->
+				<div class="change-button btn btn-outline-primary" id="confirmUsernameButton">
 					Confirm
 				</div>
 			</div>
 	
-			<!-- 2fa -->
+			<!-- 2fa password -->
 			<div class="info-row d-flex justify-content-between align-items-center">
 				<div class="info-type">
 					2fa pwd:
 				</div>
+				<!-- old password input -->
+				<input class="change-input justify-content-center p-2" id="oldPasswordInput" placeholder="old password">
 				<!-- new password input -->
-				<input class="change-input d-flex justify-content-center p-2" placeholder="new password">
+				<input class="change-input justify-content-center p-2" id="newPasswordInput" placeholder="new password">
 				<!-- password edit button -->
 				<div class="change-button btn btn-outline-primary" id="editPasswordButton">
+					Edit
+				</div>
+				<!-- password confirm button -->
+				<div class="change-button btn btn-outline-primary" id="confirmPasswordButton">
 					Confirm
 				</div>
 			</div>
@@ -69,7 +75,3 @@
 		</div>
 	</div>
 </div>
-
-<!-- change nickname -->
-<!-- change avatar -->
-<!-- create or change 2fa password -->
