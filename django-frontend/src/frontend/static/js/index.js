@@ -1,5 +1,5 @@
 import { handleAddFriendListClick,  handleFriendRequestsListClick, handleFriendListClick } from './sidebar.js';
-import { fileInputListener, editUsernameButtonListener, confirmUsernameButtonListener, profileExitButtonListener } from './profile.js';
+import { fileInputListener, editUsernameButtonListener, confirmUsernameButtonListener, toggle2FA, profileExitButtonListener } from './profile.js';
 import { toggleProfile } from './topbar.js';
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -13,7 +13,6 @@ window.addEventListener('DOMContentLoaded', () => {
 	editUsernameButtonListener();
 	confirmUsernameButtonListener();
 	profileExitButtonListener();
-	
-	// profile
+	toggle2FA();
 	toggleProfile();
 });

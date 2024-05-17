@@ -53,6 +53,22 @@ function confirmUsernameButtonListener() {
     })
 }
 
+function toggle2FA() {
+    var toggleSwitch = document.getElementById('toggle2fa');
+    toggleSwitch.addEventListener('change', function(event) {
+        var infoType = document.getElementById('activate_deactivate_2fa');
+        var password2fa = document.getElementById("password2fa");
+
+        if (event.target.checked) {
+            infoType.innerText = "deactivate 2fa";
+            password2fa.style.display = "flex";
+        } else {
+            password2fa.style.display = "none";
+            infoType.innerText = "activate 2fa";
+        }
+    });
+}
+
 function profileExitButtonListener() {
     var profileExitButton = document.getElementById("profileExitButton");
     profileExitButton.addEventListener("click", function() {
@@ -64,4 +80,4 @@ function profileExitButtonListener() {
     })
 }
 
-export { fileInputListener, editUsernameButtonListener, profileExitButtonListener, confirmUsernameButtonListener };
+export { fileInputListener, editUsernameButtonListener, profileExitButtonListener, confirmUsernameButtonListener, toggle2FA };

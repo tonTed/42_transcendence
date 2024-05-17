@@ -1,6 +1,7 @@
 .container {
-	min-height: 350px;
 	width: 40%;
+	padding-left: 20px;
+	padding-right: 20px;
 	margin-bottom: 200px;
 	border-radius: 30px;
 	background-color: #232b3f;
@@ -32,7 +33,7 @@
 }
 
 .info-type {
-	width: 110px;
+	width: 130px;
 }
 
 .info-data {
@@ -66,6 +67,14 @@
 }
 
 #editUsernameInput {
+	display: none;
+}
+
+#activate_deactivate_2fa {
+	margin-right: 18px;
+}
+
+#password2fa {
 	display: none;
 }
 
