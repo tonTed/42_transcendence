@@ -1,3 +1,4 @@
+import { INTERVAL_DURATION } from './constants.js'
 import { gameState } from './game_handler.js';
 import { drawGame } from './game_display.js';
 
@@ -21,7 +22,7 @@ export function handlerNetwork(canvas, context) {
 
         socket.onopen = function(e) {
             console.log('WebSocket connection established');
-            setInterval(sendKeyStates, 1000 / 60);
+            setInterval(sendKeyStates, INTERVAL_DURATION);
         };
 
         socket.onmessage = function(e) {

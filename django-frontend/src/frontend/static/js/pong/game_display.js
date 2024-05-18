@@ -1,22 +1,26 @@
-import { NET, CANVAS, SCORE_POSITIONS } from "./constants.js";
+import { NET, CANVAS, SCORE, FINAL_SCORE, BALL_COLOR, PADDLES_COLOR } from "./constants.js";
 import { clearCanvas } from './menu_display.js'
 import { gameIsInPlay, winnerIsDecided } from './game_handler.js';
 
 function drawBall(context, ball_position, ball_radius) {
+    context.fillStyle = BALL_COLOR;
     context.beginPath();
     context.arc(ball_position.x, ball_position.y, ball_radius, 0, 2 * Math.PI);
     context.fill();
 }
 
 function drawPaddles(context, paddle1_position, paddle2_position, paddle_width, paddle_height) {
+    context.fillStyle = PADDLES_COLOR;
     context.fillRect(paddle1_position.x, paddle1_position.y, paddle_width, paddle_height);
     context.fillRect(paddle2_position.x, paddle2_position.y, paddle_width, paddle_height);
 }
 
 function drawWinner(context, canvas, winner, scores) {
-    context.textAlign = 'center';
-    context.fillText(`PLAYER ${winner} WINS`, canvas.width / 2, canvas.height / 2 - 20);
-    context.fillText(`${scores.player1} - ${scores.player2}`, canvas.width / 2, canvas.height / 2 + 20);
+    context.fillStyle = FINAL_SCORE.COLOR;
+    context.font = `${SCORE.FONT_SIZE} "${SCORE.FONT}"`;
+    context.textAlign = FINAL_SCORE.TEXT_ALIGN;
+    context.fillText(`PLAYER ${winner} WINS`, FINAL_SCORE.WINNER_X, FINAL_SCORE.WINNER_Y);
+    context.fillText(`${scores.player1} - ${scores.player2}`, FINAL_SCORE.SCORE_X, FINAL_SCORE.SCORE_Y);
 }
 
 function drawNet(context, canvas) {
@@ -24,31 +28,23 @@ function drawNet(context, canvas) {
     context.lineWidth = NET.WIDTH;
     context.setLineDash([NET.DASH_SIZE, NET.GAP_SIZE]);
     context.beginPath();
-    context.moveTo(canvas.width / 2, CANVAS.ORIGIN_Y);
-    context.lineTo(canvas.width / 2, canvas.height);
+    context.moveTo(CANVAS.CENTER_X, CANVAS.ORIGIN_Y);
+    context.lineTo(CANVAS.CENTER_X, canvas.height);
     context.stroke();
     context.setLineDash([]);
 }
 
 function drawScores(context, canvas, scores) {
-    context.fillStyle = '#fff';
-    if (scores.player1 < 10) {
-        context.fillText(scores.player1, canvas.width / 4 - 15, SCORE_POSITIONS.PLAYER1_Y);
-    } else {
-        context.fillText(scores.player1, canvas.width / 4 - 30, SCORE_POSITIONS.PLAYER1_Y);
-    }
-    if (scores.player2 < 10) {
-        context.fillText(scores.player2, (canvas.width / 4) * 3 - 15, SCORE_POSITIONS.PLAYER2_Y);
-    } else {
-        context.fillText(scores.player2, (canvas.width / 4) * 3 - 30, SCORE_POSITIONS.PLAYER2_Y);
-    }
+    context.fillStyle = SCORE.COLOR;
+    context.font = `${SCORE.FONT_SIZE} "${SCORE.FONT}"`;
+    context.textAlign = SCORE.TEXT_ALIGN;
+    context.fillText(scores.player1, SCORE.PLAYER1_X, SCORE.PLAYER1_Y);
+    context.fillText(scores.player2, SCORE.PLAYER2_X, SCORE.PLAYER2_Y);
 }
 
 export function drawGame(canvas, context, gameData) {
     clearCanvas(context, canvas);
     
-    context.fillStyle = '#fff';
-    context.font = '30px "Press Start 2P"';
     drawPaddles(context, gameData.paddle1_position, gameData.paddle2_position, gameData.paddle_width, gameData.paddle_height);
     if (gameIsInPlay(gameData)) {
         drawBall(context, gameData.ball_position, gameData.ball_radius);
