@@ -2,6 +2,7 @@ import json
 import asyncio
 from channels.generic.websocket import AsyncWebsocketConsumer
 from .game_logic import Game
+from .constants import GAME_CONSTS
 
 class GameConnection(AsyncWebsocketConsumer):
     async def connect(self):
@@ -14,7 +15,7 @@ class GameConnection(AsyncWebsocketConsumer):
 
     async def game_loop(self):
         while True:
-            await asyncio.sleep(1/60)
+            await asyncio.sleep(1 / GAME_CONSTS.FPS)
             if self.game.winner == None:
                 self.game.update()
             await self.send_state()
