@@ -58,8 +58,15 @@ class Ball:
             'bottom' : self.y + self.radius
         }
     
+class Player:
+    def __init__(self, id, paddle_x, side):
+        self.id = id
+        self.paddle = Paddle(paddle_x, P.INITIAL_Y, P.HEIGHT, P.WIDTH, P.VELOCITY, P.SPEED, side)
+
 class Game:
     def __init__(self):
+        self.player1 = Player(G.PLAYER1, P.PADDLE1_X, P.LEFT_SIDE)
+        self.player2 = Player(G.PLAYER2, P.PADDLE2_X, P.RIGHT_SIDE)
         self.paddle1 = Paddle(P.PADDLE1_X, P.INITIAL_Y, P.HEIGHT, P.WIDTH, P.VELOCITY, P.SPEED, P.LEFT_SIDE)
         self.paddle2 = Paddle(P.PADDLE2_X, P.INITIAL_Y, P.HEIGHT, P.WIDTH, P.VELOCITY, P.SPEED, P.RIGHT_SIDE)
         self.ball = Ball(C.CENTER_X, C.ORIGIN_Y, B.RADIUS, B.INITIAL_DX, B.INITIAL_DY)
