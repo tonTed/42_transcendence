@@ -106,18 +106,29 @@ class Game:
         if self.serve_state == False and self.collision_with_boundaries() :
             self.ball.dy *= -1
 
-    def check_score(self):
-        if self.ball.x > C.WIDTH:
+    def player_scored(self, player):
+        if player == 1:
+            return self.ball.x > C.WIDTH
+        return self.ball.x < C.ORIGIN_X
+
+    def update_score(self, player):
+        if player == 1:
             self.score1 += 1
-            self.last_scorer = G.PLAYER1
             if (self.score1 >= self.winning_score):
                 self.winner = G.PLAYER1
-            return True
-        elif self.ball.x < C.ORIGIN_X:
+            self.last_scorer = G.PLAYER1
+        else :
             self.score2 += 1
             self.last_scorer = G.PLAYER2
             if (self.score2 >= self.winning_score):
                 self.winner = G.PLAYER2
+
+    def check_score(self):
+        if self.player_scored(G.PLAYER1):
+            self.update_score(G.PLAYER1)
+            return True
+        elif self.player_scored(G.PLAYER2):
+            self.update_score(G.PLAYER2)
             return True
         return False
 
@@ -129,13 +140,15 @@ class Game:
         self.resetting = False
 
     def serve(self):
-        if (self.last_scorer == G.PLAYER1 and self.score1 % 2):
-            self.ball.reset(C.CENTER_X, C.HEIGHT, B.INITIAL_DX, -B.INITIAL_DY)
-        elif (self.last_scorer == G.PLAYER1):
-            self.ball.reset(C.CENTER_X, C.ORIGIN_Y, B.INITIAL_DX, B.INITIAL_DY)
-        elif (self.last_scorer == G.PLAYER2 and self.score2 % 2):
-            self.ball.reset(C.CENTER_X, C.HEIGHT, -B.INITIAL_DX, -B.INITIAL_DY)
+        if self.last_scorer == G.PLAYER1:
+            dx, dy = B.INITIAL_DX, B.INITIAL_DY
+            y = C.HEIGHT if self.score1 % 2 else C.ORIGIN_Y
+            dy = -dy if self.score1 % 2 else dy
         else:
-            self.ball.reset(C.CENTER_X, C.ORIGIN_Y, -B.INITIAL_DX, B.INITIAL_DY)
+            dx, dy = -B.INITIAL_DX, B.INITIAL_DY
+            y = C.HEIGHT if self.score2 % 2 else C.ORIGIN_Y
+            dy = -dy if self.score2 % 2 else dy
+        
+        self.ball.reset(C.CENTER_X, y, dx, dy)
 
         
