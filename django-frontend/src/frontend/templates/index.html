@@ -22,12 +22,14 @@
     <script type="module" src="{% static 'js/sidebar.js' %}"></script>
     <script type="module" src="{% static 'js/chat.js' %}"></script>
     <script type="module" src="{% static 'js/profile.js' %}"></script>
-
+    
 </head>
 <body class="p-0 m-0">
+    <!-- csrf token -->
+    {% csrf_token %}
+    <input type="hidden" id="csrfToken" value="{{ csrf_token }}">
     
     <!-- Page -->
-    {% csrf_token %}
     <div class="page-container d-flex">
         <div class="sidebar-container p-2">
             {% include "sidebar.html" %}

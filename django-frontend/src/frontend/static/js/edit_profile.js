@@ -1,5 +1,6 @@
 const updateUsername = async (newUsername) => {
     const url = `http://localhost:3000/api/users/${userId}/`;
+    const csrfToken = document.getElementById('csrfToken').value;
     const data = {
         username: newUsername,
     };
@@ -9,8 +10,10 @@ const updateUsername = async (newUsername) => {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken,
             },
             body: JSON.stringify(data),
+            credentials: 'include'
         });
 
         if (response.ok) {
