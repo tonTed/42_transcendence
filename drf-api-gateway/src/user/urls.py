@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import updateUser
+from .views import updateUsername
 
 urlpatterns = [
-    path('api/users/<int:user_id>/', updateUser.as_view(), name='user-update'),
+    path('api/users/updateUsername/<int:user_id>/', updateUsername.as_view(), name='user-update'),
 ]

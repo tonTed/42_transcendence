@@ -1,4 +1,4 @@
-import { updateUsername } from './edit_profile.js';
+import { updateUsername, updateAvatar } from './edit_profile.js';
 
 function fileInputListener() {
     var fileInput = document.getElementById('imageInput');
@@ -53,6 +53,20 @@ function confirmUsernameButtonListener() {
     })
 }
 
+function confirmAvatarButtonListener() {
+    var confirmAvatarButton = document.getElementById("confirmAvatarButton");
+    confirmAvatarButton.addEventListener("click", function() {
+        var avatar = null;
+
+        // API call
+        (async () => {
+            await updateAvatar(avatar);
+        })();
+
+        // display new avator on topbar
+    })
+}
+
 function toggle2FA() {
     var toggleSwitch = document.getElementById('toggle2fa');
     toggleSwitch.addEventListener('change', function(event) {
@@ -80,4 +94,4 @@ function profileExitButtonListener() {
     })
 }
 
-export { fileInputListener, editUsernameButtonListener, profileExitButtonListener, confirmUsernameButtonListener, toggle2FA };
+export { fileInputListener, editUsernameButtonListener, profileExitButtonListener, confirmUsernameButtonListener, confirmAvatarButtonListener, toggle2FA };
