@@ -1,10 +1,11 @@
 class BALL_CONSTS:
-    RADIUS = 6
+    RADIUS = 30
     INITIAL_X = 400
     INITIAL_Y = 0
     INITIAL_DX = 4
     INITIAL_DY = 4
     HIT_DX = 8
+    COLLISION_COEFF = 0.4
 
 class PADDLE_CONSTS:
     INITIAL_Y = 300
@@ -14,6 +15,10 @@ class PADDLE_CONSTS:
     VELOCITY = 0
     PADDLE1_X = 5
     PADDLE2_X = 780
+    P1_UP_KEY = 'w'
+    P1_DOWN_KEY = 's'
+    P2_UP_KEY = 'ArrowUp'
+    P2_DOWN_KEY = 'ArrowDown'
 
 class CANVAS_CONSTS:
     WIDTH = 800
