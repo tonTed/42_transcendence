@@ -15,7 +15,7 @@ class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
 
 @api_view(['GET'])
-def get_user_id(request, user_id):
+def get_user_infos(request, user_id):
     try:
         user = User.objects.get(id_42=user_id)
         user_json = UserSerializer(user).data
