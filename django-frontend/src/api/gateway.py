@@ -18,10 +18,6 @@ def get_friends_add() -> list[dict]:
     return friends_add
 
 
-def get_user_info(id42) -> dict:
-    return requests.get(f'http://api-users:3001/api/users/42/{id42}')
-
-
 def get_mock_global_chat_messages() -> list[dict]:
     mock_global_chat_messages: list[dict] = mock.chats.get_mock_global_chat_messages()
     return mock_global_chat_messages

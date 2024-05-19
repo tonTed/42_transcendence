@@ -9,8 +9,8 @@ def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
     if request.session.get('token42') is None:
         return redirect('login')
     
-    id42 = request.session.get('id42')
-    if id42 is None:
+    user_id = request.session.get('id42')
+    if user_id is None:
         return redirect('login')
     
     # FOR EXEMPLE ONLY WILL BE DELETED
@@ -20,7 +20,7 @@ def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
     mock_global_chat_messages: list[dict] = api.gateway.get_mock_global_chat_messages()
 
     # context
-    user_response = api.gateway.get_user_info(id42)
+    user_response = requests.get(f'http://api-gateway:3000/api/users/get_user_info/{user_id}')
     user: dict = user_response.json()
 
     context: dict = {
