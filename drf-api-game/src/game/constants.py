@@ -1,3 +1,5 @@
+from sys import maxsize
+
 class BALL_CONSTS:
     RADIUS = 7
     INITIAL_X = 400
@@ -22,6 +24,12 @@ class CANVAS_CONSTS:
     ORIGIN_Y = 0
     CENTER_X = 400
 
+class CONTROLS_CONSTS:
+    P1_UP_KEY = 'w'
+    P1_DOWN_KEY = 's'
+    P2_UP_KEY = 'ArrowUp'
+    P2_DOWN_KEY = 'ArrowDown'
+
 class GAME_CONSTS:
     FPS = 64
     WINNING_SCORE = 4
@@ -30,7 +38,15 @@ class GAME_CONSTS:
     INTERVAL_TIME = 1.5
     LEFT_SIDE = 0
     RIGHT_SIDE = 1
-    P1_UP_KEY = 'w'
-    P1_DOWN_KEY = 's'
-    P2_UP_KEY = 'ArrowUp'
-    P2_DOWN_KEY = 'ArrowDown'
+    UPPER_BOUND = {
+        'top'    : -maxsize -1,
+        'bottom' : CANVAS_CONSTS.ORIGIN_Y,
+        'left'   : CANVAS_CONSTS.ORIGIN_X,
+        'right'  : CANVAS_CONSTS.WIDTH
+    }
+    LOWER_BOUND = {
+        'top'    : CANVAS_CONSTS.HEIGHT,
+        'bottom' : maxsize,
+        'left'   : CANVAS_CONSTS.ORIGIN_X,
+        'right'  : CANVAS_CONSTS.WIDTH
+    }
