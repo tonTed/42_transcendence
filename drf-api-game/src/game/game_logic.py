@@ -9,14 +9,26 @@ class Paddle:
         self.width = width
         self.velocity = 0
         self.speed = speed
-        self.side = (x > C.CENTER_X)
+        self.side = self.determine_playing_side()
+        self.hitbox = self.calculate_hitbox()
 
-    def move(self):
-        self.y += self.velocity
-        if self.y < C.ORIGIN_Y:
-            self.y = C.ORIGIN_Y
-        elif self.y + self.height > C.HEIGHT:
-            self.y = C.HEIGHT - self.height
+    
+    def update(self, keys_pressed, controls):
+        self.update_velocity(keys_pressed, controls)
+        self.move()
+
+    def calculate_hitbox(self):
+        return {
+            'side': self.x if self.side == G.RIGHT_SIDE else self.x + self.width,
+            'top' : self.y,
+            'bottom' : self.y + self.height
+        }
+    
+    def ball_offset(self, ball_y):
+        return (ball_y - (self.y + self.height / 2))
+    
+    def determine_playing_side(self):
+        return (self.x > C.CENTER_X)
 
     def update_velocity(self, keys_pressed, controls):
         self.velocity = 0
@@ -24,20 +36,22 @@ class Paddle:
             self.velocity -= self.speed
         if keys_pressed[controls['down']]:
             self.velocity += self.speed
-    
-    def update(self, keys_pressed, controls):
-        self.update_velocity(keys_pressed, controls)
-        self.move()
 
-    def ball_offset(self, ball_y):
-        return (ball_y - (self.y + self.height / 2))
+    def move(self):
+        self.y += self.velocity
+        if self.is_out_of_bounds(C.HEIGHT, C.ORIGIN_Y):
+            self.reset(C.HEIGHT, C.ORIGIN_Y)
+
+    def is_out_of_bounds(self, lower_bound, upper_bound):
+        self.hitbox = self.calculate_hitbox()
+        return (self.hitbox['bottom'] > lower_bound or self.hitbox['top'] < upper_bound)
+
+    def reset(self, lower_bound, upper_bound):
+        if (self.hitbox['top'] < upper_bound):
+            self.y = upper_bound
+        else:
+            self.y = lower_bound - self.height
     
-    def calculate_hitbox(self):
-        return {
-            'side': self.x if self.side == G.RIGHT_SIDE else self.x + self.width,
-            'top' : self.y,
-            'bottom' : self.y + self.height
-        }
 
 class Ball:
     def __init__(self, x, y, radius, dx, dy):
@@ -109,7 +123,13 @@ class Player:
         self.paddle = Paddle(paddle_x, PAD.INITIAL_Y, PAD.HEIGHT, PAD.WIDTH, PAD.SPEED)
         self.score = 0
         self.controls = self.get_controls()
+        self.goal = self.get_goal()
     
+    def scored(self, ball_x):
+        if self.paddle.side == G.LEFT_SIDE:
+            return ball_x > self.goal
+        return ball_x < self.goal
+
     def update_score(self):
         self.score += 1
 
@@ -118,6 +138,11 @@ class Player:
             'up' : G.P1_UP_KEY if self.id == 1 else G.P2_UP_KEY,
             'down' : G.P1_DOWN_KEY if self.id == 1 else G.P2_DOWN_KEY
         }
+    
+    def get_goal(self):
+        if (self.paddle.side == G.LEFT_SIDE):
+            return C.WIDTH
+        return C.ORIGIN_X
 
 class Game:
     def __init__(self):
@@ -151,7 +176,7 @@ class Game:
         self.player1.paddle.update(self.keys_pressed, self.player1.controls)
         self.player2.paddle.update(self.keys_pressed, self.player2.controls)
 
-    def winner_is_determined(self):
+    def is_winner_determined(self):
         if (self.player1.score >= self.winning_score):
                 return self.player1.id
         elif (self.player2.score >= self.winning_score):
@@ -159,15 +184,15 @@ class Game:
         return None
 
     def player_scored(self):
-        if self.ball.x > C.WIDTH :
+        if self.player1.scored(self.ball.x):
             self.player1.update_score()
             self.last_scorer = self.player1.id
             return True
-        elif self.ball.x < C.ORIGIN_X :
+        elif self.player2.scored(self.ball.x):
             self.player2.update_score()
             self.last_scorer = self.player2.id
             return True
-        self.winner = self.winner_is_determined()
+        self.winner = self.is_winner_determined()
         return False
 
     async def reset_game(self):
