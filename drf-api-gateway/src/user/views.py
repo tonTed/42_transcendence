@@ -6,23 +6,22 @@ from rest_framework.decorators import api_view
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 
+@api_view(['POST'])
+def create_user(request):
+    response = requests.post('http://api-users:3001/users/', json=request.data)
+    return HttpResponse(response.content, status=response.status_code, content_type='application/json')
+
 @csrf_protect
-@ensure_csrf_cookie
+@api_view(['PUT'])
 def updateUsername(request, user_id):
-    if request.method == 'PUT':
-        url = f'http://api-users:3001/api/users/{user_id}/'
-        response = requests.put(url, data=request.body, headers={'Content-Type': 'application/json'})
-        return HttpResponse(response.content, status=response.status_code, content_type='application/json')
-    return HttpResponse(status=405)
+    response = requests.put(f'http://api-users:3001/users/{user_id}/', data=request.body, headers={'Content-Type': 'application/json'})
+    return HttpResponse(response.content, status=response.status_code, content_type='application/json')
 
 
 @api_view(['GET'])
 def get_user_info(request, user_id):
-    try:
-        response = requests.get(f'http://api-users:3001/api/users/get_user_info/{user_id}')
-        if response.status_code == 200:
-            return JsonResponse(response.json(), status=200)
-        else:
-            return JsonResponse({'message': 'User not found'}, status=404)
-    except requests.exceptions.RequestException as e:
-        return JsonResponse({'message': 'Internal server error', 'error': str(e)}, status=500)
+    response = requests.get(f'http://api-users:3001/users/get_user_info/{user_id}')
+    if response.status_code == 200:
+        return JsonResponse(response.json(), status=200)
+    else:
+        return JsonResponse({'message': 'User not found'}, status=404)
