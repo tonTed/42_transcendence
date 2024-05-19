@@ -41,7 +41,7 @@ def callback(request) -> HttpResponsePermanentRedirect:
         requests.post('http://api-users:3001/api/users/', json={
             'id_42': id42,
             'username': response.json()['login'],
-            'image_url': response.json()['image']['versions']['small'],
+            'avatar_url': response.json()['image']['versions']['small'],
             'email': response.json()['email'],
         })
         return redirect('index', permanent=True)

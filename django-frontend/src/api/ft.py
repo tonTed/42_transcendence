@@ -26,5 +26,5 @@ def get_user_info(access_token: str) -> dict:
         'first_name': user['first_name'],
         'last_name': user['last_name'],
         'full_name': user['displayname'],
-        'image_url': user['image']['versions']['small'],
+        'avatar_url': user['image']['versions']['small'],
     }
