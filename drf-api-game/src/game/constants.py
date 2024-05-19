@@ -1,5 +1,5 @@
 class BALL_CONSTS:
-    RADIUS = 9
+    RADIUS = 7
     INITIAL_X = 400
     INITIAL_Y = 0
     INITIAL_DX = 3
