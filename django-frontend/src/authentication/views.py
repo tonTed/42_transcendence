@@ -36,7 +36,7 @@ def callback(request) -> HttpResponsePermanentRedirect:
     request.session['id42'] = user_id
 
     # Check if user exists in the database
-    user = requests.get(f'http://api-gateway:3000/api/users/get_user_info/{user_id}')
+    user = requests.get(f'http://api-gateway:3000/users/get_user_info/{user_id}')
     if user.status_code == 404:
         requests.post('http://api-users:3001/api/users/', json={
             'id_42': user_id,

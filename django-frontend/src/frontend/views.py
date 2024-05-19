@@ -20,7 +20,7 @@ def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
     mock_global_chat_messages: list[dict] = api.gateway.get_mock_global_chat_messages()
 
     # context
-    user_response = requests.get(f'http://api-gateway:3000/api/users/get_user_info/{user_id}')
+    user_response = requests.get(f'http://api-gateway:3000/users/get_user_info/{user_id}')
     user: dict = user_response.json()
 
     context: dict = {

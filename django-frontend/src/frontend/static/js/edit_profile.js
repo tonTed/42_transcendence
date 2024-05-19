@@ -1,5 +1,5 @@
 const updateUsername = async (newUsername) => {
-    const url = `http://localhost:3000/api/users/updateUsername/${userId}/`;
+    const url = `http://localhost:3000/users/updateUsername/${userId}/`;
     const csrfToken = document.getElementById('csrfToken').value;
     const data = {
         username: newUsername,
@@ -28,7 +28,7 @@ const updateUsername = async (newUsername) => {
 };
 
 const updateAvatar = async (avatar) => {
-    const url = `http://localhost:3000/api/users/updateAvatar/${userId}/`;
+    const url = `http://localhost:3000/users/updateAvatar/${userId}/`;
     const csrfToken = document.getElementById('csrfToken').value;
     // var image
 
