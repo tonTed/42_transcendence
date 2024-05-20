@@ -53,7 +53,7 @@ help:
 	@echo "  up              : Start the containers"
 	@echo "  down            : Stop the containers"
 	@echo "  exec-frontend   : Access the frontend container"
-	@echo "  exec-game	 : Access the api-game container"
+	@echo "  exec-game	     : Access the api-game container"
 	@echo "  exec-gateway	 : Access the api-gateway container"
 	@echo "  exec-database   : Access the database container"
 	@echo "  logs-frontend   : Show the logs of the frontend container"
