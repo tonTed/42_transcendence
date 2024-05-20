@@ -3,7 +3,7 @@ version: '3.8'
 services:
   django-frontend:
     env_file:
-      - .env
+      - django-frontend/.env
     container_name: django-frontend
     build:
       context: ./django-frontend
@@ -22,7 +22,7 @@ services:
 
   api-gateway:
     env_file:
-      - .env
+      - drf-api-gateway/.env
     container_name: api-gateway
     build:
       context: ./drf-api-gateway
@@ -39,7 +39,7 @@ services:
 
   api-users:
     env_file:
-      - .env
+      - drf-api-users/.env
     container_name: api-users
     build:
       context: ./drf-api-users
@@ -56,7 +56,7 @@ services:
 
   api-game:
     env_file:
-      - .env
+      - drf-api-game/.env
     container_name: api-game
     build:
       context: ./drf-api-game
@@ -94,7 +94,7 @@ services:
 
   database:
     env_file:
-      - .env
+      - postgres/.env
     container_name: database
     build:
       context: ./postgres
@@ -106,7 +106,7 @@ services:
     networks:
       - transcendence-network
     healthcheck:
-        test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+        test: ["CMD-SHELL", "pg_isready -U postgres --dbname=api_users_db"]
         interval: 10s
         timeout: 5s
         retries: 5
