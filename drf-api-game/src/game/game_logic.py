@@ -45,7 +45,6 @@ class Paddle:
             'bottom' : self.y + self.offset_y
         }
     
-
 class Ball:
     def __init__(self, x: int, y: int, radius: int, dx: int, dy: int, hit_dx: int, hit_coeff: float):
         self.x = x
@@ -97,11 +96,11 @@ class Player:
 
     def get_controls(self) -> dict:
         return {
-            'up' : CTRL.P1_UP_KEY if self.id == 1 else CTRL.P2_UP_KEY,
-            'down' : CTRL.P1_DOWN_KEY if self.id == 1 else CTRL.P2_DOWN_KEY
+            'up' : CTRL.P1_UP_KEY if self.id == GAME.PLAYER1 else CTRL.P2_UP_KEY,
+            'down' : CTRL.P1_DOWN_KEY if self.id == GAME.PLAYER1 else CTRL.P2_DOWN_KEY
         }
 
-class Table:
+class PlayArea:
     def __init__(self, x: float, y: float, width: int, height: int) -> None:
         self.x = x
         self.y = y
@@ -123,7 +122,43 @@ class Table:
         }
 
 class CollisionHandler:
-    def detect_collision(self, object1: dict, object2: dict) -> bool:
+    def __init__(self, ball, paddle1, paddle2, table) -> None:
+        self.ball = ball
+        self.paddle1 = paddle1
+        self.paddle2 = paddle2
+        self.table = table
+
+    def ball_and_paddles(self) -> None:
+        ball_hitbox = self.ball.get_hitbox()
+        paddle1_hitbox = self.paddle1.get_hitbox()
+        paddle2_hitbox = self.paddle2.get_hitbox()
+
+        if self._detect_collision(ball_hitbox, paddle1_hitbox):
+            self.ball.update_speed(self.ball.hit_dx, (self.ball.y - self.paddle1.y) * self.ball.hit_coeff)
+        elif self._detect_collision(ball_hitbox, paddle2_hitbox):
+            self.ball.update_speed(-self.ball.hit_dx, (self.ball.y - self.paddle2.y) * self.ball.hit_coeff)
+
+    def ball_and_boundaries(self) -> None:
+        ball_hitbox = self.ball.get_hitbox()
+
+        if self._detect_collision(ball_hitbox, self.table.upper_bound) or self._detect_collision(ball_hitbox, self.table.lower_bound):
+            self.ball.update_speed(self.ball.dx, -self.ball.dy)
+
+    def paddles_and_boundaries(self) -> None:
+        paddle1_hitbox = self.paddle1.get_hitbox()
+        paddle2_hitbox = self.paddle2.get_hitbox()
+
+        if self._detect_collision(paddle1_hitbox, self.table.lower_bound):
+            self.paddle1.reset(self.table.lower_bound['top'] - self.paddle1.offset_y)
+        elif self._detect_collision(paddle1_hitbox, self.table.upper_bound):
+            self.paddle1.reset(self.table.upper_bound['bottom'] + self.paddle1.offset_y)
+        
+        if self._detect_collision(paddle2_hitbox, self.table.lower_bound):
+            self.paddle2.reset(self.table.lower_bound['top'] - self.paddle2.offset_y)
+        elif self._detect_collision(paddle2_hitbox, self.table.upper_bound):
+            self.paddle2.reset(self.table.upper_bound['bottom'] + self.paddle2.offset_y)
+
+    def _detect_collision(self, object1: dict, object2: dict) -> bool:
         return not (
             object1['right'] < object2['left'] or
             object1['left'] > object2['right'] or
@@ -131,42 +166,33 @@ class CollisionHandler:
             object1['bottom'] < object2['top']
         )
 
-    def check_collision_ball_and_paddles(self, ball: 'Ball', paddle1: 'Paddle', paddle2: 'Paddle') -> None:
-        ball_hitbox = ball.get_hitbox()
-        paddle1_hitbox = paddle1.get_hitbox()
-        paddle2_hitbox = paddle2.get_hitbox()
-
-        if self.detect_collision(ball_hitbox, paddle1_hitbox):
-            ball.update_speed(ball.hit_dx, (ball.y - paddle1.y) * ball.hit_coeff)
-        elif self.detect_collision(ball_hitbox, paddle2_hitbox):
-            ball.update_speed(-ball.hit_dx, (ball.y - paddle2.y) * ball.hit_coeff)
-
-    def check_collision_ball_and_boundaries(self, ball: 'Ball', table: 'Table') -> None:
-        ball_hitbox = ball.get_hitbox()
-
-        if self.detect_collision(ball_hitbox, table.upper_bound) or self.detect_collision(ball_hitbox, table.lower_bound):
-            ball.update_speed(ball.dx, -ball.dy)
-
-    def check_collision_paddles_and_boundaries(self, paddle1: 'Paddle', paddle2: 'Paddle', table: 'Table') -> None:
-        paddle1_hitbox = paddle1.get_hitbox()
-        paddle2_hitbox = paddle2.get_hitbox()
-
-        if self.detect_collision(paddle1_hitbox, table.lower_bound):
-            paddle1.reset(table.lower_bound['top'] - paddle1.offset_y)
-        elif self.detect_collision(paddle1_hitbox, table.upper_bound):
-            paddle1.reset(table.upper_bound['bottom'] + paddle1.offset_y)
-        
-        if self.detect_collision(paddle2_hitbox, table.lower_bound):
-            paddle2.reset(table.lower_bound['top'] - paddle2.offset_y)
-        elif self.detect_collision(paddle2_hitbox, table.upper_bound):
-            paddle2.reset(table.upper_bound['bottom'] + paddle2.offset_y)
-
 class Game:
     def __init__(self) -> None:
-        self.table = Table(CANVAS.WIDTH / 2, CANVAS.HEIGHT / 2, CANVAS.WIDTH, CANVAS.HEIGHT)
-        self.player1 = Player(GAME.PLAYER1, PADDLE.PADDLE1_X, self.table.right_goal)
-        self.player2 = Player(GAME.PLAYER2, PADDLE.PADDLE2_X, self.table.left_goal)
-        self.ball = Ball(BALL.INITIAL_X, BALL.INITIAL_Y, BALL.RADIUS, BALL.INITIAL_DX, BALL.INITIAL_DY, BALL.HIT_DX, BALL.COLLISION_COEFF)
+        self.table = PlayArea(
+            CANVAS.WIDTH / 2,
+            CANVAS.HEIGHT / 2, 
+            CANVAS.WIDTH, 
+            CANVAS.HEIGHT
+        )
+        self.player1 = Player(
+            GAME.PLAYER1, 
+            PADDLE.PADDLE1_X, 
+            self.table.right_goal
+        )
+        self.player2 = Player(
+            GAME.PLAYER2,
+            PADDLE.PADDLE2_X,
+            self.table.left_goal
+        )
+        self.ball = Ball(
+            BALL.INITIAL_X, 
+            BALL.INITIAL_Y, 
+            BALL.RADIUS, 
+            BALL.INITIAL_DX, 
+            BALL.INITIAL_DY, 
+            BALL.HIT_DX, 
+            BALL.COLLISION_COEFF
+        )
         self.keys_pressed = {
             self.player1.controls['up'] : False,
             self.player1.controls['down'] : False,
@@ -179,7 +205,12 @@ class Game:
         self.winner = None
         self.winning_score = GAME.WINNING_SCORE
         self.last_scorer = self.player2.id
-        self.collision_handler = CollisionHandler()
+        self.collision_handler = CollisionHandler(
+            self.ball,
+            self.player1.paddle,
+            self.player2.paddle,
+            self.table
+        )
 
     def update_key_states(self, keys_pressed: dict) -> None:
         self.keys_pressed = keys_pressed
@@ -193,9 +224,9 @@ class Game:
             self.reset_task = asyncio.create_task(self.reset_game())
 
     def check_collisions(self) -> None:
-        self.collision_handler.check_collision_ball_and_paddles(self.ball, self.player1.paddle, self.player2.paddle)
-        self.collision_handler.check_collision_ball_and_boundaries(self.ball, self.table)
-        self.collision_handler.check_collision_paddles_and_boundaries(self.player1.paddle, self.player2.paddle, self.table)
+        self.collision_handler.ball_and_paddles()
+        self.collision_handler.ball_and_boundaries()
+        self.collision_handler.paddles_and_boundaries()
             
     def player_won(self, score: int) -> bool:
         return score >= self.winning_score
@@ -228,7 +259,12 @@ class Game:
         else:
             dx, dy = self.get_serve_velocity(self.player2, reverse=True)
             y = self.get_serve_y_position(self.player2)
-        self.ball.reset(self.table.x, y + self.ball.radius * 2 * (1 if dy > 0 else -1), dx, dy)
+        self.ball.reset(
+            self.table.x,
+            y + self.ball.radius * 2 * (1 if dy > 0 else -1),
+            dx,
+            dy
+        )
 
     def get_serve_velocity(self, player: Player, reverse: bool = False) -> tuple:
         dx = -self.ball.initial_dx if reverse else self.ball.initial_dx
