@@ -91,11 +91,11 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB'),
-        'USER': os.environ.get('POSTGRES_USER'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'NAME': os.environ.get('API_GAME_DB_NAME'),
+        'USER': os.environ.get('API_GAME_DB_USER'),
+        'PASSWORD': os.environ.get('API_GAME_DB_PASSWORD'),
         'HOST': 'database',
-        'PORT': os.environ.get('POSTGRES_PORT'),
+        'PORT': os.environ.get('API_GAME_DB_PORT'),
     }
 }
 

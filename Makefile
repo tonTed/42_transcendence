@@ -41,6 +41,10 @@ rm-images: down
 setup-venvs:
 	./scripts-tools/setup_venvs.sh
 
+fclean: down
+	rm -rf ./postgres/postgres_data/*
+	docker system prune -a -f
+	@echo "run: docker volume rm $(docker volume ls -q)"
 
 # help: List all available commands
 help:
