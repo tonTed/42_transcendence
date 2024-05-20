@@ -24,8 +24,10 @@ class GameConnection(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'ball_position': {'x': self.game.ball.x, 'y': self.game.ball.y},
             'ball_radius': self.game.ball.radius,
-            'paddle1_position': {'x': self.game.player1.paddle.x, 'y': self.game.player1.paddle.y},
-            'paddle2_position': {'x': self.game.player2.paddle.x, 'y': self.game.player2.paddle.y},
+            'paddle1_position': {'x': self.game.player1.paddle.x - self.game.player1.paddle.width / 2,
+                                  'y': self.game.player1.paddle.y - self.game.player1.paddle.height / 2},
+            'paddle2_position': {'x': self.game.player2.paddle.x - self.game.player2.paddle.width / 2,
+                                  'y': self.game.player2.paddle.y - self.game.player2.paddle.height / 2},
             'paddle_height': self.game.player1.paddle.height,
             'paddle_width': self.game.player1.paddle.width,
             'scores': {'player1': self.game.player1.score, 'player2': self.game.player2.score},

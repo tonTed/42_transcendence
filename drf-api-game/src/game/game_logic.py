@@ -1,40 +1,27 @@
 import asyncio
-from sys import maxsize
 from .constants import (
     BALL_CONSTS as BALL,
     PADDLE_CONSTS as PADDLE, 
     CANVAS_CONSTS as CANVAS,
     GAME_CONSTS as GAME,
     CONTROLS_CONSTS as CTRL)
+from sys import maxsize
 
 class Paddle:
     def __init__(self, x: int, y: int, height: int, width: int, speed: int):
         self.x = x
         self.y = y
-        self.height = height
+        self.offset_x = width / 2
+        self.offset_y = height / 2
         self.width = width
+        self.height = height
         self.velocity = 0
         self.speed = speed
-        self.playing_side = self.determine_playing_side()
         self.hitbox = self.get_hitbox()
 
-    def update(self, keys_pressed: dict, controls: dict) -> None:
+    def update_position(self, keys_pressed: dict, controls: dict) -> None:
         self.update_velocity(keys_pressed, controls)
         self.move()
-
-    def get_hitbox(self) -> dict:
-        return {
-            'left': self.x,
-            'right': self.x + self.width,
-            'top' : self.y,
-            'bottom' : self.y + self.height
-        }
-    
-    def ball_offset(self, ball_y: int) -> float:
-        return (ball_y - (self.y + self.height / 2))
-    
-    def determine_playing_side(self) -> bool:
-        return (self.x > CANVAS.CENTER_X)
 
     def update_velocity(self, keys_pressed: dict, controls: dict) -> None:
         self.velocity = 0
@@ -45,25 +32,31 @@ class Paddle:
 
     def move(self) -> None:
         self.y += self.velocity
-        if self.is_out_of_bounds(CANVAS.HEIGHT, CANVAS.ORIGIN_Y):
-            self.reset(CANVAS.HEIGHT, CANVAS.ORIGIN_Y)
 
-    def is_out_of_bounds(self, lower_bound: int, upper_bound: int) -> bool:
-        self.hitbox = self.get_hitbox()
-        return (self.hitbox['bottom'] > lower_bound or self.hitbox['top'] < upper_bound)
-
-    def reset(self, lower_bound: int, upper_bound: int) -> None:
-        self.y = upper_bound if self.hitbox['top'] < upper_bound else lower_bound - self.height
+    def reset(self, y: int) -> None:
+        self.y = y
+        self.dy = 0
+        
+    def get_hitbox(self) -> dict:
+        return {
+            'left': self.x - self.offset_x,
+            'right': self.x + self.offset_x,
+            'top' : self.y - self.offset_y,
+            'bottom' : self.y + self.offset_y
+        }
     
 
 class Ball:
-    def __init__(self, x: int, y: int, radius: int, dx: int, dy: int):
+    def __init__(self, x: int, y: int, radius: int, dx: int, dy: int, hit_dx: int, hit_coeff: float):
         self.x = x
         self.y = y
         self.radius = radius
         self.dx = dx
         self.dy = dy
-        self.hitbox = self.get_hitbox()
+        self.initial_dx = dx
+        self.initial_dy = dy
+        self.hit_dx = hit_dx
+        self.hit_coeff = hit_coeff
 
     def update_position(self) -> None:
         self.x += self.dx
@@ -88,15 +81,16 @@ class Ball:
         }
     
 class Player:
-    def __init__(self, id: int, paddle_x: int):
+    def __init__(self, id: int, paddle_x: int, goal: int) -> None:
         self.id = id
         self.paddle = Paddle(paddle_x, PADDLE.INITIAL_Y, PADDLE.HEIGHT, PADDLE.WIDTH, PADDLE.SPEED)
         self.score = 0
         self.controls = self.get_controls()
-        self.goal = self.get_goal()
+        self.goal = goal
+        self.playing_side = (self.paddle.x > self.goal)
     
     def scored(self, ball_x: int) -> bool:
-        return ball_x > self.goal if self.paddle.playing_side == GAME.LEFT_SIDE else ball_x < self.goal
+        return ball_x > self.goal if self.playing_side == GAME.LEFT_SIDE else ball_x < self.goal
 
     def update_score(self) -> None:
         self.score += 1
@@ -106,84 +100,116 @@ class Player:
             'up' : CTRL.P1_UP_KEY if self.id == 1 else CTRL.P2_UP_KEY,
             'down' : CTRL.P1_DOWN_KEY if self.id == 1 else CTRL.P2_DOWN_KEY
         }
-    
-    def get_goal(self) -> int:
-        return CANVAS.WIDTH if self.paddle.playing_side == GAME.LEFT_SIDE else CANVAS.ORIGIN_X
+
+class Table:
+    def __init__(self, x: float, y: float, width: int, height: int) -> None:
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
+        self.left_goal = self.x - self.width / 2
+        self.right_goal = self.x + self.width / 2
+        self.upper_bound = {
+            'top'   : -maxsize - 1,
+            'bottom': self.y - self.height / 2,
+            'left'  : self.left_goal,
+            'right' : self.right_goal
+        }
+        self.lower_bound = {
+            'top'    : self.y + self.height / 2,
+            'bottom' : maxsize,
+            'left'   : self.left_goal,
+            'right'  : self.right_goal
+        }
+
+class CollisionHandler:
+    def detect_collision(self, object1: dict, object2: dict) -> bool:
+        return not (
+            object1['right'] < object2['left'] or
+            object1['left'] > object2['right'] or
+            object1['top'] > object2['bottom'] or
+            object1['bottom'] < object2['top']
+        )
+
+    def check_collision_ball_and_paddles(self, ball: 'Ball', paddle1: 'Paddle', paddle2: 'Paddle') -> None:
+        ball_hitbox = ball.get_hitbox()
+        paddle1_hitbox = paddle1.get_hitbox()
+        paddle2_hitbox = paddle2.get_hitbox()
+
+        if self.detect_collision(ball_hitbox, paddle1_hitbox):
+            ball.update_speed(ball.hit_dx, (ball.y - paddle1.y) * ball.hit_coeff)
+        elif self.detect_collision(ball_hitbox, paddle2_hitbox):
+            ball.update_speed(-ball.hit_dx, (ball.y - paddle2.y) * ball.hit_coeff)
+
+    def check_collision_ball_and_boundaries(self, ball: 'Ball', table: 'Table') -> None:
+        ball_hitbox = ball.get_hitbox()
+
+        if self.detect_collision(ball_hitbox, table.upper_bound) or self.detect_collision(ball_hitbox, table.lower_bound):
+            ball.update_speed(ball.dx, -ball.dy)
+
+    def check_collision_paddles_and_boundaries(self, paddle1: 'Paddle', paddle2: 'Paddle', table: 'Table') -> None:
+        paddle1_hitbox = paddle1.get_hitbox()
+        paddle2_hitbox = paddle2.get_hitbox()
+
+        if self.detect_collision(paddle1_hitbox, table.lower_bound):
+            paddle1.reset(table.lower_bound['top'] - paddle1.offset_y)
+        elif self.detect_collision(paddle1_hitbox, table.upper_bound):
+            paddle1.reset(table.upper_bound['bottom'] + paddle1.offset_y)
+        
+        if self.detect_collision(paddle2_hitbox, table.lower_bound):
+            paddle2.reset(table.lower_bound['top'] - paddle2.offset_y)
+        elif self.detect_collision(paddle2_hitbox, table.upper_bound):
+            paddle2.reset(table.upper_bound['bottom'] + paddle2.offset_y)
 
 class Game:
-    def __init__(self):
-        self.player1 = Player(GAME.PLAYER1, PADDLE.PADDLE1_X)
-        self.player2 = Player(GAME.PLAYER2, PADDLE.PADDLE2_X)
-        self.ball = Ball(BALL.INITIAL_X, BALL.INITIAL_Y, BALL.RADIUS, BALL.INITIAL_DX, BALL.INITIAL_DY)
+    def __init__(self) -> None:
+        self.table = Table(CANVAS.WIDTH / 2, CANVAS.HEIGHT / 2, CANVAS.WIDTH, CANVAS.HEIGHT)
+        self.player1 = Player(GAME.PLAYER1, PADDLE.PADDLE1_X, self.table.right_goal)
+        self.player2 = Player(GAME.PLAYER2, PADDLE.PADDLE2_X, self.table.left_goal)
+        self.ball = Ball(BALL.INITIAL_X, BALL.INITIAL_Y, BALL.RADIUS, BALL.INITIAL_DX, BALL.INITIAL_DY, BALL.HIT_DX, BALL.COLLISION_COEFF)
         self.keys_pressed = {
             self.player1.controls['up'] : False,
             self.player1.controls['down'] : False,
             self.player2.controls['up'] : False,
             self.player2.controls['down'] : False,
         }
-        self.upper_bound = GAME.UPPER_BOUND
-        self.lower_bound = GAME.LOWER_BOUND
         self.resetting = True
+        self.reset_time = GAME.INTERVAL_TIME
         self.reset_task = asyncio.create_task(self.reset_game())
         self.winner = None
         self.winning_score = GAME.WINNING_SCORE
-        self.serve_state= True
-        self.last_scorer = None
+        self.last_scorer = self.player2.id
+        self.collision_handler = CollisionHandler()
 
     def update_key_states(self, keys_pressed: dict) -> None:
         self.keys_pressed = keys_pressed
 
     def update(self) -> None:
-        if not self.resetting:
-            self.ball.update_position()
-            self.check_collisions()
-        self.update_paddles()
+        self.ball.update_position()
+        self.player1.paddle.update_position(self.keys_pressed, self.player1.controls)
+        self.player2.paddle.update_position(self.keys_pressed, self.player2.controls)
+        self.check_collisions()
         if (self.reset_task is None or self.reset_task.done()) and self.player_scored():
             self.reset_task = asyncio.create_task(self.reset_game())
 
-    def check_collision_ball_and_paddles(self, ball_hitbox: dict, paddle1_hitbox: dict, paddle2_hitbox: dict):
-        if self.detect_collision(ball_hitbox, paddle1_hitbox):
-            self.ball.update_speed(BALL.HIT_DX, self.player1.paddle.ball_offset(self.ball.y) * BALL.COLLISION_COEFF)
-            self.serve_state = False
-        elif self.detect_collision(ball_hitbox, paddle2_hitbox):
-            self.ball.update_speed(-BALL.HIT_DX, self.player2.paddle.ball_offset(self.ball.y) * BALL.COLLISION_COEFF)
-            self.serve_state = False
-
-    def check_collision_ball_and_boundaries(self, ball_hitbox: dict, lower_hitbox: dict, upper_hitbox: dict):
-        if not self.serve_state and (self.detect_collision(ball_hitbox, upper_hitbox) or 
-                                    self.detect_collision(ball_hitbox, lower_hitbox)):
-            self.ball.update_speed(self.ball.dx, -self.ball.dy)
-
     def check_collisions(self) -> None:
-        ball_hitbox = self.ball.get_hitbox()
-        paddle1_hitbox = self.player1.paddle.get_hitbox()
-        paddle2_hitbox = self.player2.paddle.get_hitbox()
-
-        self.check_collision_ball_and_paddles(ball_hitbox, paddle1_hitbox, paddle2_hitbox)
-        self.check_collision_ball_and_boundaries(ball_hitbox, self.lower_bound, self.upper_bound)
+        self.collision_handler.check_collision_ball_and_paddles(self.ball, self.player1.paddle, self.player2.paddle)
+        self.collision_handler.check_collision_ball_and_boundaries(self.ball, self.table)
+        self.collision_handler.check_collision_paddles_and_boundaries(self.player1.paddle, self.player2.paddle, self.table)
             
-    def detect_collision(self, object1: dict, object2: dict) -> bool:
-        if object1['right'] < object2['left'] or object1['left'] > object2['right']:
-            return False
-        if object1['top'] > object2['bottom'] or object1['bottom'] < object2['top']:
-            return False
-        return True
-
-    def update_paddles(self) -> None:
-        self.player1.paddle.update(self.keys_pressed, self.player1.controls)
-        self.player2.paddle.update(self.keys_pressed, self.player2.controls)
-
     def player_won(self, score: int) -> bool:
-        return score > self.winning_score
+        return score >= self.winning_score
         
     def player_scored(self) -> bool:
         if self.player1.scored(self.ball.x):
             self.player1.update_score()
+            self.last_scorer = self.player1.id
             if self.player_won(self.player1.score):
                 self.winner = self.player1.id
             return True
         elif self.player2.scored(self.ball.x):
             self.player2.update_score()
+            self.last_scorer = self.player2.id
             if self.player_won(self.player2.score):
                 self.winner = self.player2.id
             return True
@@ -191,8 +217,7 @@ class Game:
 
     async def reset_game(self) -> None:
         self.resetting = True
-        self.serve_state = True
-        await asyncio.sleep(GAME.INTERVAL_TIME)
+        await asyncio.sleep(self.reset_time)
         self.serve()
         self.resetting = False
 
@@ -203,17 +228,15 @@ class Game:
         else:
             dx, dy = self.get_serve_velocity(self.player2, reverse=True)
             y = self.get_serve_y_position(self.player2)
-            
-        self.ball.reset(CANVAS.CENTER_X, y, dx, dy)
+        self.ball.reset(self.table.x, y + self.ball.radius * 2 * (1 if dy > 0 else -1), dx, dy)
 
     def get_serve_velocity(self, player: Player, reverse: bool = False) -> tuple:
-        dx = -BALL.INITIAL_DX if reverse else BALL.INITIAL_DX
-        dy = BALL.INITIAL_DY
+        dx = -self.ball.initial_dx if reverse else self.ball.initial_dx
+        dy = self.ball.initial_dy
         if player.score % 2:
             dy = -dy
         return dx, dy
 
     def get_serve_y_position(self, player: Player) -> int:
-        return CANVAS.HEIGHT if player.score % 2 else CANVAS.ORIGIN_Y
+        return self.table.lower_bound['top'] if player.score % 2 else self.table.upper_bound['bottom']
 
-        
