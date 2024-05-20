@@ -1,5 +1,4 @@
 import asyncio
-from sys import maxsize
 from .constants import (
     BALL_CONSTS as BALL,
     PADDLE_CONSTS as PADDLE, 
@@ -8,83 +7,8 @@ from .constants import (
     )
 from .models.ball import Ball
 from .models.player import Player
-
-class PlayArea:
-    def __init__(self, x: float, y: float, width: int, height: int) -> None:
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.left_goal = self.x - self.width / 2
-        self.right_goal = self.x + self.width / 2
-        self.upper_bound = {
-            'top': -maxsize - 1,
-            'bottom': self.y - self.height / 2,
-            'left': self.left_goal,
-            'right': self.right_goal
-        }
-        self.lower_bound = {
-            'top': self.y + self.height / 2,
-            'bottom': maxsize,
-            'left': self.left_goal,
-            'right': self.right_goal
-        }
-
-class CollisionHandler:
-    def __init__(self, ball, paddle1, paddle2, table) -> None:
-        self.ball = ball
-        self.paddle1 = paddle1
-        self.paddle2 = paddle2
-        self.table = table
-
-    def ball_and_paddles(self) -> None:
-        ball_hitbox = self.ball.get_hitbox()
-        paddle1_hitbox = self.paddle1.get_hitbox()
-        paddle2_hitbox = self.paddle2.get_hitbox()
-
-        if self._detect_collision(ball_hitbox, paddle1_hitbox):
-            self.ball.update_speed(
-                self.ball.hit_dx, 
-                (self.ball.y - self.paddle1.y) * self.ball.hit_coeff
-            )
-        elif self._detect_collision(ball_hitbox, paddle2_hitbox):
-            self.ball.update_speed(
-                -self.ball.hit_dx, 
-                (self.ball.y - self.paddle2.y) * self.ball.hit_coeff
-            )
-
-    def ball_and_boundaries(self) -> None:
-        ball_hitbox = self.ball.get_hitbox()
-
-        if (self._detect_collision(ball_hitbox, self.table.upper_bound) or 
-            self._detect_collision(ball_hitbox, self.table.lower_bound)):
-            self.ball.update_speed(self.ball.dx, -self.ball.dy)
-
-    def paddles_and_boundaries(self) -> None:
-        paddle1_hitbox = self.paddle1.get_hitbox()
-        paddle2_hitbox = self.paddle2.get_hitbox()
-
-        if self._detect_collision(paddle1_hitbox, self.table.lower_bound):
-            self.paddle1.reset(self.table.lower_bound['top'] - 
-                               self.paddle1.offset_y)
-        elif self._detect_collision(paddle1_hitbox, self.table.upper_bound):
-            self.paddle1.reset(self.table.upper_bound['bottom'] + 
-                               self.paddle1.offset_y)
-        
-        if self._detect_collision(paddle2_hitbox, self.table.lower_bound):
-            self.paddle2.reset(self.table.lower_bound['top'] - 
-                               self.paddle2.offset_y)
-        elif self._detect_collision(paddle2_hitbox, self.table.upper_bound):
-            self.paddle2.reset(self.table.upper_bound['bottom'] + 
-                               self.paddle2.offset_y)
-
-    def _detect_collision(self, object1: dict, object2: dict) -> bool:
-        return not (
-            object1['right'] < object2['left'] or
-            object1['left'] > object2['right'] or
-            object1['top'] > object2['bottom'] or
-            object1['bottom'] < object2['top']
-        )
+from .models.play_area import PlayArea
+from .collision_handler import CollisionHandler
 
 class Game:
     def __init__(self) -> None:
@@ -146,8 +70,7 @@ class Game:
             self.player2.controls
         )
         self.check_collisions()
-        if (self.reset_task is None or self.reset_task.done()) and (
-            self.player_scored()):
+        if self.resetting == False and self.player_scored():
             self.reset_task = asyncio.create_task(self.reset_game())
 
     def check_collisions(self) -> None:
