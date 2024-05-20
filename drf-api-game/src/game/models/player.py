@@ -1,4 +1,8 @@
-from ..constants import GAME_CONSTS as GAME, PADDLE_CONSTS as PADDLE, CONTROLS_CONSTS as CTRL
+from ..constants import (
+    GAME_CONSTS as GAME, 
+    PADDLE_CONSTS as PADDLE, 
+    CONTROLS_CONSTS as CTRL
+)
 from .paddle import Paddle
 
 class Player:
