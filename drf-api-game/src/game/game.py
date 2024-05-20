@@ -5,39 +5,9 @@ from .constants import (
     PADDLE_CONSTS as PADDLE, 
     CANVAS_CONSTS as CANVAS,
     GAME_CONSTS as GAME,
-    CONTROLS_CONSTS as CTRL)
-from .models.paddle import Paddle
+    )
 from .models.ball import Ball
-
-class Player:
-    def __init__(self, id: int, paddle_x: int, goal: int) -> None:
-        self.id = id
-        self.paddle = Paddle(
-            paddle_x, 
-            PADDLE.INITIAL_Y, 
-            PADDLE.HEIGHT, 
-            PADDLE.WIDTH, 
-            PADDLE.SPEED
-        )
-        self.score = 0
-        self.controls = self.get_controls()
-        self.goal = goal
-        self.playing_side = (self.paddle.x > self.goal)
-    
-    def scored(self, ball_x: int) -> bool:
-        if self.playing_side == GAME.LEFT_SIDE:
-            return ball_x > self.goal
-        else:
-            return ball_x < self.goal
-
-    def update_score(self) -> None:
-        self.score += 1
-
-    def get_controls(self) -> dict:
-        if self.id == GAME.PLAYER1:
-            return {'up': CTRL.P1_UP_KEY, 'down': CTRL.P1_DOWN_KEY}
-        else:
-            return {'up': CTRL.P2_UP_KEY, 'down': CTRL.P2_DOWN_KEY}
+from .models.player import Player
 
 class PlayArea:
     def __init__(self, x: float, y: float, width: int, height: int) -> None:
