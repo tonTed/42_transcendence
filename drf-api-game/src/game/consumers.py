@@ -1,7 +1,7 @@
 import json
 import asyncio
 from channels.generic.websocket import AsyncWebsocketConsumer
-from .game_logic import Game
+from .game import Game
 from .constants import GAME_CONSTS
 
 class GameConnection(AsyncWebsocketConsumer):
