@@ -7,6 +7,9 @@ down:
 exec-frontend:
 	docker exec -it django-frontend /bin/sh
 
+exec-game:
+	docker exec -it api-game /bin/sh
+
 exec-gateway:
 	docker exec -it api-gateway /bin/sh
 
@@ -18,6 +21,9 @@ exec-database:
 
 logs-frontend:
 	@docker logs --tail 50 --follow django-frontend
+
+logs-game:
+	@docker logs --tail 50 --follow api-game
 
 logs-gateway:
 	@docker logs --tail 50 --follow api-gateway
@@ -47,9 +53,11 @@ help:
 	@echo "  up              : Start the containers"
 	@echo "  down            : Stop the containers"
 	@echo "  exec-frontend   : Access the frontend container"
+	@echo "  exec-game	     : Access the api-game container"
 	@echo "  exec-gateway	 : Access the api-gateway container"
 	@echo "  exec-database   : Access the database container"
 	@echo "  logs-frontend   : Show the logs of the frontend container"
+	@echo "  logs-game       : Show the logs of the api-game container"
 	@echo "  logs-gateway    : Show the logs of the api-gateway container"
 	@echo "  logs-database   : Show the logs of the database container"
 	@echo "  rm-images       : Remove all images"
