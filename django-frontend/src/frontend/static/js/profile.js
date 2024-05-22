@@ -35,8 +35,10 @@ function confirmUsernameButtonListener() {
         var topbarUsername = document.getElementById("accountUsername");
         var usernameInput = document.getElementById("editUsernameInput");
         var newUsername = usernameInput.value;
-        if (newUsername.length === 0)
-                return ;
+        if (newUsername.length === 0) {
+            alert("Please choose a username first.");
+            return ;
+        }
 
         // API call
         (async () => {
@@ -56,14 +58,23 @@ function confirmUsernameButtonListener() {
 function confirmAvatarButtonListener() {
     var confirmAvatarButton = document.getElementById("confirmAvatarButton");
     confirmAvatarButton.addEventListener("click", function() {
-        var avatar = null;
-
+        var imageInput = document.getElementById("imageInput");
+        var topbar_avatar = document.getElementById("");
+        if (imageInput.files.length === 0) {
+            alert("Please choose a file first.");
+            return;
+        }
+        
+        
         // API call
+        var avatar = imageInput.files[0];
+
         (async () => {
             await updateAvatar(avatar);
         })();
 
-        // display new avator on topbar
+        // display new avatar on topbar
+
     })
 }
 

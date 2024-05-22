@@ -30,24 +30,25 @@ const updateUsername = async (newUsername) => {
 const updateAvatar = async (avatar) => {
     const url = `http://localhost:3000/users/updateAvatar/${userId}/`;
     const csrfToken = document.getElementById('csrfToken').value;
-    // var image
-
+    var formData = new FormData();
+    formData.append("avatar", avatar);
+    
     try {
         const response = await fetch(url, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken,
             },
-            body: null,
+            body: formData,
             credentials: 'include'
         });
 
         if (response.ok) {
             const updatedUser = await response.json();
-            console.log('User Avatar updated successfully:', updatedUser);
+            console.log('Avatar updated successfully:', updatedUser);
         } else {
-            console.error('Failed to update user:', response.statusText);
+            const errorData = await response.text();
+            console.error('Failed to update avatar:', errorData);
         }
     } catch (error) {
         console.error('Error:', error);

@@ -9,13 +9,19 @@ from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 @api_view(['POST'])
 def create_user(request):
     response = requests.post('http://api-users:3001/users/', json=request.data)
-    return HttpResponse(response.content, status=response.status_code, content_type='application/json')
+    return HttpResponse(response.content, status=response.status_code, content_type=request.content_type)
 
 @csrf_protect
 @api_view(['PUT'])
 def updateUsername(request, user_id):
-    response = requests.put(f'http://api-users:3001/users/{user_id}/', data=request.body, headers={'Content-Type': 'application/json'})
-    return HttpResponse(response.content, status=response.status_code, content_type='application/json')
+    response = requests.put(f'http://api-users:3001/users/updateUsername/{user_id}/', data=request.body, headers={'Content-Type': request.content_type})
+    return HttpResponse(response.content, status=response.status_code, content_type=request.content_type)
+
+@csrf_protect
+@api_view(['PUT'])
+def updateAvatar(request, user_id):
+    response = requests.put(f'http://api-users:3001/users/updateAvatar/{user_id}/', data=request.body, headers={'Content-Type': request.content_type})
+    return HttpResponse(response.content, status=response.status_code, content_type=request.content_type)
 
 
 @api_view(['GET'])
