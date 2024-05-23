@@ -23,7 +23,7 @@ class updateAvatar(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     parser_classes = (MultiPartParser, FormParser)
-    
+
     def put(self, request, *args, **kwargs):
         try:
             user = self.get_object()

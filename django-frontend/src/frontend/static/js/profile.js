@@ -59,22 +59,28 @@ function confirmAvatarButtonListener() {
     var confirmAvatarButton = document.getElementById("confirmAvatarButton");
     confirmAvatarButton.addEventListener("click", function() {
         var imageInput = document.getElementById("imageInput");
-        var topbar_avatar = document.getElementById("");
+        var topbar_avatar = document.getElementById("accountAvatar");
+        
         if (imageInput.files.length === 0) {
             alert("Please choose a file first.");
             return;
         }
-        
-        
+
         // API call
         var avatar = imageInput.files[0];
 
         (async () => {
-            await updateAvatar(avatar);
+            try {
+                const newAvatarUrl = await updateAvatar(avatar);
+                const updatedUrl = newAvatarUrl.replace('http://api-users:3001', 'http://localhost:3001');
+
+                // change avatar in topbar
+                topbar_avatar.src = updatedUrl;
+            } catch (error) {
+                console.error("Failed to update avatar in topbar:", error);
+            }
         })();
-
-        // display new avatar on topbar
-
+        
     })
 }
 

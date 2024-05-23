@@ -10,6 +10,7 @@ urlpatterns = [
     path('users/updateUsername/<int:pk>/', updateUsername.as_view(), name='user-view-create'),
     path('users/updateAvatar/<int:pk>/', updateAvatar.as_view(), name='user-view-create'),
     path('users/get_user_info/<int:user_id>/', get_user_infos, name='user-info'),
+    # TODO make a url that returns the file at media/avatars/<avatar_filename> for the frontend
 ]
 
 if settings.DEBUG:
