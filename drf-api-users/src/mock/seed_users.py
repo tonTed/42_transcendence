@@ -1,16 +1,30 @@
-# import requests
-# import json
-# from requests import Response
+import os
+import sys
+import json
+import django
 
-# access_token = "b4ef6b00a1f605b16e9657628604397f184844acbbeb8dad84510415265da7e2"
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# response: Response = requests.get('https://api.intra.42.fr/v2/campus/25/users', headers={
-#     'Authorization': f'Bearer {access_token}'
-# })
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
+django.setup()
 
-# # Parse the JSON response
-# json_response = response.json()
+from users.models import User
 
-# # Write the formatted JSON response to a file
-# with open('mock/mock_users.json', 'w') as file:
-#     json.dump(json_response, file, indent=4)
+with open('mock/mock_users.json') as f:
+    data = json.load(f)
+
+for item in data:
+	username = item.get('login')
+	email = item.get('email')
+	avatar_url = item.get('image', {}).get('link')
+	avatar = None
+
+	user = User.objects.create(
+		username=username,
+		email=email,
+		avatar_url=avatar_url,
+		avatar=avatar
+	)
+	user.save()
+
+print("Fake Users created")
