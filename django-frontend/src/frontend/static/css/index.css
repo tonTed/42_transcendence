@@ -30,11 +30,11 @@ html, body {
 }
 
 .profile-container {
-    display: none;
+    display: flex;
     height: 94%;
 }
 
 .game-container {
-    display: flex;
+    display: none;
     height: 94%;
 }

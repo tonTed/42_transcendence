@@ -1,72 +1,99 @@
+<script>
+	var userId = {{ user.id }};
+</script>
 <div class="container justify-content-center">
 	<div class="header d-flex justify-content-center align-items-center">
 		Account Information
 	</div>
 	<div class="profile-content-container d-flex flex-column justify-content-between">
 		<div class="info-container">
-	
-			<!-- nickname -->
-			<div class="info-row d-flex justify-content-between align-items-center">
-				<div class="info-type">
-					Nickname:
+
+			<!-- username -->
+			<div class="info-row d-flex align-items-center">
+				<div class="left-col">
+					<div>
+						username:
+					</div>
 				</div>
-				<!-- nickname -->
-				<div class="info-data" id="nickname">
-					{{ user.full_name }}
+				<div class="mid-col">
+					<!-- username -->
+					<div id="username">
+						{{ user.username }}
+					</div>
+					<!-- new username input -->
+					<input class="change-input justify-content-center p-2" id="editUsernameInput" placeholder="new username">
 				</div>
-				<!-- new nickname input -->
-				<input class="change-input justify-content-center p-2" id="editNicknameInput" placeholder="new nickname">
-				<!-- nickname edit button -->
-				<div class="change-button btn btn-outline-primary" id="editNicknameButton">
-					Edit
-				</div>
-				<!-- nickname confirm button -->
-				<div class="change-button btn btn-outline-primary" id="confirmNicknameButton">
-					Confirm
-				</div>
-			</div>
-	
-			<!-- 2fa -->
-			<div class="info-row d-flex justify-content-between align-items-center">
-				<div class="info-type">
-					2fa pwd:
-				</div>
-				<!-- new password input -->
-				<input class="change-input d-flex justify-content-center p-2" placeholder="new password">
-				<!-- password edit button -->
-				<div class="change-button btn btn-outline-primary" id="editPasswordButton">
-					Confirm
+				<div class="right-col">
+					<!-- username edit button -->
+					<div class="change-button btn btn-outline-primary" id="editUsernameButton">
+						Edit
+					</div>
+					<!-- username confirm button -->
+					<div class="change-button btn btn-outline-primary" id="confirmUsernameButton">
+						Confirm
+					</div>
 				</div>
 			</div>
-			
+
 			<!-- avatar -->
 			<div class="info-row d-flex justify-content-between align-items-center">
-				<label class="choose-file-button d-flex justify-content-center align-items-center" for="imageInput">
-					Choose File
-				</label>
-				<!-- new avatar input -->
-				<input id="imageInput" type="file" accept="image/*"/>
-				<!-- file name -->
-				<span class="file-name d-flex justify-content-start" id="fileName">No files chosen</span>
-				<!-- edit avatar button -->
-				<div class="change-button btn btn-outline-primary" id="editAvatarButton">
-					Confirm
+				<div class="left-col">
+					<label class="choose-file-button d-flex justify-content-center align-items-center" for="imageInput">
+						Choose File
+					</label>
+					<!-- new avatar input -->
+					<input id="imageInput" type="file" accept="image/*"/>
+				</div>
+				<div class="mid-col">
+					<!-- file name -->
+					<span class="file-name d-flex justify-content-start" id="fileName">No files chosen</span>
+				</div>
+				<div class="right-col">
+					<!-- confirm avatar button -->
+					<div class="change-button btn btn-outline-primary" id="confirmAvatarButton">
+						Confirm
+					</div>
+				</div>
+			</div>
+
+			<!-- 2fa activate/deactivate -->
+			<div class="info-row d-flex align-items-center">
+				<div class="left-col">
+					<div id="activate_deactivate_2fa">
+						activate 2fa
+					</div>
+				</div>
+				<div class="mid-col">
+					<!-- toggle switch -->
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" id="toggle2fa">
+					</div>
 				</div>
 			</div>
 	
-			<!-- Add more if needed.... -->
-			<div class="info-row">
-				add more if needed....
+			<!-- 2fa password -->
+			<div class="info-row justify-content-between align-items-center" id="password2fa">
+				<!-- old password input -->
+				<input class="change-input justify-content-center p-2" id="oldPasswordInput" placeholder="old password">
+				<!-- new password input -->
+				<input class="change-input justify-content-center p-2" id="newPasswordInput" placeholder="new password">
+				<div class="right-col">
+					<!-- password edit button -->
+					<div class="change-button btn btn-outline-primary" id="editPasswordButton">
+						Edit
+					</div>
+					<!-- password confirm button -->
+					<div class="change-button btn btn-outline-primary" id="confirmPasswordButton">
+						Confirm
+					</div>
+				</div>
 			</div>
+
 		</div>
-		<div class="exit-button-container d-flex justify-content-center">
+		<div class="exit-button-container d-flex justify-content-center mt-3">
 			<div class="profile-exit-button btn btn-outline-primary" id="profileExitButton">
 				back to game
 			</div>
 		</div>
 	</div>
 </div>
-
-<!-- change nickname -->
-<!-- change avatar -->
-<!-- create or change 2fa password -->

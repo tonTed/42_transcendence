@@ -1,6 +1,7 @@
 .container {
-	min-height: 350px;
-	width: 40%;
+	width: 35%;
+	padding-left: 20px;
+	padding-right: 20px;
 	margin-bottom: 200px;
 	border-radius: 30px;
 	background-color: #232b3f;
@@ -28,20 +29,28 @@
 }
 
 .info-row {
+	width: 100%;
 	margin-bottom: 25px;
 }
 
-.info-type {
-	width: 110px;
+.left-col {
+	width: 27%;
 }
 
-.info-data {
-	width: 250px;
+.mid-col {
+	width: 55%;
+	padding-left: 15px;
+	padding-right: 15px;
+	overflow: hidden;
+}
+
+.right-col {
+	width: 18%;
 }
 
 .change-button {
 	height: 35px;
-	width: 82px;
+	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -49,7 +58,7 @@
 
 .change-input {
 	height: 35px;
-	width: 250px;
+	width: 100%;
 	background-color: #131722;
 	border-radius: 8px;
 	border: none;
@@ -61,15 +70,38 @@
 	color: #5C7080;
 }
 
-#confirmNicknameButton {
+#confirmUsernameButton {
 	display: none;
 }
 
-#editNicknameInput {
+#editUsernameInput {
+	display: none;
+}
+
+#password2fa {
+	display: none;
+}
+
+#oldPasswordInput {
+	width: 250px;
+	display: flex;
+}
+
+#newPasswordInput {
+	width: 250px;
+	display: none;
+}
+
+#editPasswordButton {
+	display: flex;
+}
+
+#confirmPasswordButton {
 	display: none;
 }
 
 .choose-file-button {
+	margin: 0;
 	height: 45px;
 	width: 110px;
 	font-size: large;

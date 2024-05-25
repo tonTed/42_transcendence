@@ -4,5 +4,8 @@ django-rest-framework==0.1.0
 djangorestframework==3.15.1
 sqlparse==0.5.0
 drf-yasg
+django-cors-headers
+requests
+Pillow
 psycopg==3.1.18
 psycopg-binary==3.1.18

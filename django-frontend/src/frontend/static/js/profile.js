@@ -1,3 +1,5 @@
+import { updateUsername, updateAvatar } from './edit_profile.js';
+
 function fileInputListener() {
     var fileInput = document.getElementById('imageInput');
     if (fileInput) {
@@ -11,33 +13,91 @@ function fileInputListener() {
     }
 }
 
-function editNicknameButtonListener() {
-    var editNicknameButton = document.getElementById("editNicknameButton");
-    editNicknameButton.addEventListener("click", function() {
-        var nicknameInput = document.getElementById("editNicknameInput");
-        var confirmNicknameButton = document.getElementById("confirmNicknameButton");
-        var nickname = document.getElementById("nickname");
-        
-        nicknameInput.style.display = "flex";
-        nickname.style.display = "none";
-        editNicknameButton.style.display = "none"
-        confirmNicknameButton.style.display = "flex"
+function editUsernameButtonListener() {
+    var editUsernameButton = document.getElementById("editUsernameButton");
+    editUsernameButton.addEventListener("click", function() {
+        var usernameInput = document.getElementById("editUsernameInput");
+        var confirmUsernameButton = document.getElementById("confirmUsernameButton");
+        var username = document.getElementById("username");
+
+        usernameInput.style.display = "flex";
+        username.style.display = "none";
+        editUsernameButton.style.display = "none"
+        confirmUsernameButton.style.display = "flex"
     })
 }
 
-function confirmNicknameButtonListener() {
-    var confirmNicknameButton = document.getElementById("confirmNicknameButton");
-    confirmNicknameButton.addEventListener("click", function() {
-        var nickname = document.getElementById("nickname");
-        var nicknameInput = document.getElementById("editNicknameInput");
-        
-        nicknameInput.style.display = "none";
-        nickname.style.display = "flex";
-        editNicknameButton.style.display = "flex"
-        confirmNicknameButton.style.display = "none"
+function confirmUsernameButtonListener() {
+    var confirmUsernameButton = document.getElementById("confirmUsernameButton");
+    confirmUsernameButton.addEventListener("click", function() {
+        var editUsernameButton = document.getElementById("editUsernameButton");
+        var username = document.getElementById("username");
+        var topbarUsername = document.getElementById("accountUsername");
+        var usernameInput = document.getElementById("editUsernameInput");
+        var newUsername = usernameInput.value;
+        if (newUsername.length === 0) {
+            alert("Please choose a username first.");
+            return ;
+        }
 
         // API call
+        (async () => {
+            await updateUsername(newUsername);
+        })();
+
+        // display
+        usernameInput.style.display = "none";
+        username.style.display = "flex";
+        username.innerHTML = newUsername;
+        topbarUsername.innerHTML = newUsername;
+        editUsernameButton.style.display = "flex"
+        confirmUsernameButton.style.display = "none"
     })
+}
+
+function confirmAvatarButtonListener() {
+    var confirmAvatarButton = document.getElementById("confirmAvatarButton");
+    confirmAvatarButton.addEventListener("click", function() {
+        var imageInput = document.getElementById("imageInput");
+        var topbar_avatar = document.getElementById("accountAvatar");
+        
+        if (imageInput.files.length === 0) {
+            alert("Please choose a file first.");
+            return;
+        }
+
+        // API call
+        var avatar = imageInput.files[0];
+
+        (async () => {
+            try {
+                const newAvatarUrl = await updateAvatar(avatar);
+                const updatedUrl = newAvatarUrl.replace('http://api-users:3001', 'http://localhost:3001');
+
+                // change avatar in topbar
+                topbar_avatar.src = updatedUrl;
+            } catch (error) {
+                console.error("Failed to update avatar in topbar:", error);
+            }
+        })();
+        
+    })
+}
+
+function toggle2FA() {
+    var toggleSwitch = document.getElementById('toggle2fa');
+    toggleSwitch.addEventListener('change', function(event) {
+        var infoType = document.getElementById('activate_deactivate_2fa');
+        var password2fa = document.getElementById("password2fa");
+
+        if (event.target.checked) {
+            infoType.innerText = "deactivate 2fa";
+            password2fa.style.display = "flex";
+        } else {
+            password2fa.style.display = "none";
+            infoType.innerText = "activate 2fa";
+        }
+    });
 }
 
 function profileExitButtonListener() {
@@ -51,4 +111,4 @@ function profileExitButtonListener() {
     })
 }
 
-export { fileInputListener, editNicknameButtonListener, profileExitButtonListener, confirmNicknameButtonListener };
+export { fileInputListener, editUsernameButtonListener, profileExitButtonListener, confirmUsernameButtonListener, confirmAvatarButtonListener, toggle2FA };

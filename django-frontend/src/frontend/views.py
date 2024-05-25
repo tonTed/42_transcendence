@@ -8,12 +8,20 @@ import requests
 def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
     if request.session.get('token42') is None:
         return redirect('login')
-
-    user: dict = api.gateway.get_user_info(request.session['token42'])
+    
+    user_id = request.session.get('id42')
+    if user_id is None:
+        return redirect('login')
+    
+    # FOR EXEMPLE ONLY WILL BE DELETED
     friends: list[dict] = api.gateway.get_friends()
     friends_requests: list[dict] = api.gateway.get_friends_requests()
     friends_add: list[dict] = api.gateway.get_friends_add()
     mock_global_chat_messages: list[dict] = api.gateway.get_mock_global_chat_messages()
+
+    # context
+    user_response = requests.get(f'http://api-gateway:3000/users/get_user_info/{user_id}')
+    user: dict = user_response.json()
 
     context: dict = {
         'user': user,
@@ -30,18 +38,7 @@ def login(request):
     render(request, 'login.html')
 
 
-# Game
-def game(request):
-    return render(request, 'game.html')
-
-
-def gateway(request: HttpRequest) -> HttpResponse:
-    response = requests.get('http://api-gateway:3000/api/hello/')
-    print(response.json())
-    return HttpResponse(response.json())
-
 def login_password(request: HttpRequest) -> HttpResponse:
     if request.session.get('token42'):
         return redirect('index')
     return render(request, 'login_password.html')
-

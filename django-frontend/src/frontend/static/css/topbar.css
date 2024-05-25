@@ -14,7 +14,8 @@
 }
 
 .account-avatar img {
-	height: 100%;
+	height: 40px;
+	width: 40px;
 	border-radius: 100%;
 }
 
@@ -24,6 +25,8 @@
 
 .account-username {
     font-weight: 500;
+	margin-left: 15px;
+	margin-right: 15px;
 }
 
 /* .account-logout {
