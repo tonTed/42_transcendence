@@ -32,14 +32,15 @@ def callback(request) -> HttpResponsePermanentRedirect:
         'Authorization': f'Bearer {access_token}'
     })
 
-    user_id = response.json()["id"]
-    request.session['id42'] = user_id
+    id42 = response.json()["id"]
+    request.session['id42'] = id42
 
     # Check if user exists in the database
-    user = requests.get(f'http://api-gateway:3000/users/get_user_info/{user_id}')
+    user = requests.get(f'http://api-gateway:3000/users/get_user_info/{id42}')
     if user.status_code == 404:
+        print("404>>>>>>>>>>>>>>>>>>>>>404>>>>>>>>>>>>>>>>>>>404")
         requests.post('http://api-gateway:3000/users/create_user/', json={
-            'id_42': user_id,
+            'id_42': id42,
             'username': response.json()['login'],
             'avatar_url': response.json()['image']['versions']['small'],
             'email': response.json()['email'],
