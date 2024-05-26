@@ -11,19 +11,17 @@
 
 		<!-- friend list content -->
 		<div class="list-content" id="friend-list-content">
-			{% for friend in friends %}
 				<!-- User -->
 				<div class="user d-flex justify-content-between align-items-center">
 					<!-- User name  -->
 					<div>
-						<div class="user-name">{{ friend.name }}</div>
+						<div class="user-name">Exemple</div>
 					</div>
 					<!-- User status  -->
 					<div class="d-flex justify-content-end">
 						<div class="user-button user-status" style="{% if friend.status == 'online' %}color: green;{% elif friend.status == 'offline' %}color: red;{% else %}color: orange;{% endif %}">&#8226;</div>
 					</div>
 				</div>
-			{% endfor %}
 		</div>
 
 	</div>
@@ -38,12 +36,11 @@
 
 		<!-- friend requests content -->
 		<div class="list-content" id="friend-requests-list-content">
-			{% for friend in friend_requests %}
 			<!-- User -->
 			<div class="user d-flex justify-content-between align-items-center">
 				<!-- User name -->
 				<div>
-					<div class="user-name">{{ friend.name }}</div>
+					<div class="user-name">exemple</div>
 				</div>
 				<!-- User requests actions -->
 				<div class="request-actions d-flex justify-content-between align-items-center">
@@ -51,7 +48,6 @@
 					<div class="decline-request-button" type="submit">x</div>
 				</div>
 			</div>
-			{% endfor %}
 		</div>
 		
 	</div>
