@@ -24,8 +24,8 @@ def updateAvatar(request, user_id):
 
 
 @api_view(['GET'])
-def get_user_info(request, user_id):
-    response = requests.get(f'http://api-users:3001/users/get_user_info/{user_id}')
+def get_user_info_with_id42(request, user_id):
+    response = requests.get(f'http://api-users:3001/users/get_user_info_with_id42/{user_id}')
     if response.status_code == 200:
         return JsonResponse(response.json(), status=200)
     else:

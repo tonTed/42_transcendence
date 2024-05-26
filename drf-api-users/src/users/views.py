@@ -17,7 +17,7 @@ class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     parser_classes = (MultiPartParser, FormParser, JSONParser)
 
 @api_view(['GET'])
-def get_user_infos(request, user_id):
+def get_user_info_with_id42(request, user_id):
     try:
         user = User.objects.get(id_42=user_id)
         user_json = UserSerializer(user).data

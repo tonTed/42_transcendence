@@ -14,7 +14,7 @@ def get_access_token(code: str) -> str:
 
 
 # https://api.intra.42.fr/apidoc/2.0/users/me.html
-def get_user_info(access_token: str) -> dict:
+def get_user_info_with_id42(access_token: str) -> dict:
     response: Response = requests.get('https://api.intra.42.fr/v2/me', headers={
         'Authorization': f'Bearer {access_token}'
     })
