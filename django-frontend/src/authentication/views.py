@@ -50,10 +50,6 @@ def callback(request) -> HttpResponsePermanentRedirect:
     return redirect('index', permanent=True)
 
 
-def co(request: HttpRequest) -> HttpResponse:
-    return render(request, 'index.html')
-
-
 def remove_session(request: HttpRequest) -> HttpResponsePermanentRedirect:
     request.session.flush()
     return redirect('index', permanent=True)

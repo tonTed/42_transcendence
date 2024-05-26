@@ -34,10 +34,6 @@ def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
     return render(request, 'index.html', context=context)
 
 
-def login(request):
-    render(request, 'login.html')
-
-
 def login_password(request: HttpRequest) -> HttpResponse:
     if request.session.get('token42'):
         return redirect('index')
