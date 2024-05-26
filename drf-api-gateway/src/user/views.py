@@ -3,8 +3,7 @@ import requests
 from django.http import HttpResponse
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_protect
 
 @api_view(['POST'])
 def create_user(request):
@@ -14,7 +13,7 @@ def create_user(request):
 @csrf_protect
 @api_view(['PUT'])
 def updateUsername(request, user_id):
-    response = requests.put(f'http://api-users:3001/users/updateUsername/{user_id}/', data=request.body, headers={'Content-Type': request.content_type})
+    response = requests.put(f'http://api-users:3001/users/{user_id}', data=request.body, headers={'Content-Type': request.content_type})
     return HttpResponse(response.content, status=response.status_code, content_type=request.content_type)
 
 @csrf_protect
