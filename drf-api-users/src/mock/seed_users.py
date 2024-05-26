@@ -14,17 +14,18 @@ with open('mock/mock_users.json') as f:
     data = json.load(f)
 
 for item in data:
+	id_42 = item.get('id')
 	username = item.get('login')
 	email = item.get('email')
 	avatar_url = item.get('image', {}).get('link')
 	avatar = None
 
-	user = User.objects.create(
-		username=username,
-		email=email,
-		avatar_url=avatar_url,
-		avatar=avatar
-	)
-	user.save()
-
-print("Fake Users created")
+	if not User.objects.filter(id_42=id_42).exists():
+		user = User.objects.create(
+            id_42=id_42,
+            username=username,
+            email=email,
+            avatar_url=avatar_url,
+            avatar=avatar
+        )
+		user.save()
