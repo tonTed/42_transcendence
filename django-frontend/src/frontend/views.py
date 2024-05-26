@@ -9,26 +9,21 @@ def index(request: HttpRequest) -> HttpResponse | HttpResponseRedirect:
     if request.session.get('token42') is None:
         return redirect('login')
     
-    user_id = request.session.get('id42')
-    if user_id is None:
+    id_42 = request.session.get('id_42')
+    if id_42 is None:
         return redirect('login')
     
     # FOR EXEMPLE ONLY WILL BE DELETED
-    friends: list[dict] = api.gateway.get_friends()
-    friends_requests: list[dict] = api.gateway.get_friends_requests()
-    friends_add: list[dict] = api.gateway.get_friends_add()
     mock_global_chat_messages: list[dict] = api.gateway.get_mock_global_chat_messages()
 
     # context
-    user_response = requests.get(f'http://api-gateway:3000/users/get_user_info_with_id42/{user_id}')
-    user: dict = user_response.json()
+    user: dict = requests.get(f'http://api-gateway:3000/users/get_user_info_with_id_42/{id_42}').json()
+    users: dict = requests.get(f'http://api-gateway:3000/users/').json()
+    users = list(filter(lambda user: user['id_42'] != str(id_42), users))
 
     context: dict = {
         'user': user,
-        'other_users': 'other_users',
-        'friends': friends,
-        'friends_add': friends_add,
-        'friend_requests': friends_requests,
+        'users': users,
         'mock_global_chat_messages': mock_global_chat_messages,
     }
     return render(request, 'index.html', context=context)

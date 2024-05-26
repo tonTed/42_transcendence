@@ -17,9 +17,9 @@ class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     parser_classes = (MultiPartParser, FormParser, JSONParser)
 
 @api_view(['GET'])
-def get_user_info_with_id42(request, user_id):
+def get_user_info_with_id_42(request, id_42):
     try:
-        user = User.objects.get(id_42=user_id)
+        user = User.objects.get(id_42=id_42)
         user_json = UserSerializer(user).data
         return Response(user_json, status=200)
     except User.DoesNotExist:
