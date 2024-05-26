@@ -11,19 +11,3 @@ def get_access_token(code: str) -> str:
         'redirect_uri': os.getenv('42_REDIRECT_URI')
     })
     return response.json()['access_token']
-
-
-# https://api.intra.42.fr/apidoc/2.0/users/me.html
-def get_user_info_with_id42(access_token: str) -> dict:
-    response: Response = requests.get('https://api.intra.42.fr/v2/me', headers={
-        'Authorization': f'Bearer {access_token}'
-    })
-    user = response.json()
-    return {
-        'login': user['login'],
-        'email': user['email'],
-        'first_name': user['first_name'],
-        'last_name': user['last_name'],
-        'full_name': user['displayname'],
-        'avatar_url': user['image']['versions']['small'],
-    }
