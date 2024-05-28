@@ -1,0 +1,39 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    background-color: #131722;
+    color:  #c0c0c0;
+}
+
+
+.page-container {
+    height: 100%;
+    width: 100%;
+}
+
+.sidebar-container {
+    height: 100%;
+	width: 400px;
+    border-right: 3px solid #232b3f;
+    color:  #c0c0c0;
+}
+
+.content-container {
+    height: 100%;
+    width: 100%;
+}
+
+.topbar-container {
+    min-height: 45px;
+    height: 6%;
+    width: 100%;
+}
+
+.profile-container {
+    display: flex;
+    height: 94%;
+}
+
+.game-container {
+    height: 94%;
+}

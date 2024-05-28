@@ -78,6 +78,8 @@ services:
     image: reverse-proxy:latest
     ports:
       - "80:80"
+    volumes:
+      - ./reverse-proxy/app:/app
     networks:
       - transcendence-network
     depends_on:

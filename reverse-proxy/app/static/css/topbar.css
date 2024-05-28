@@ -1,0 +1,38 @@
+/* account info */
+
+.account-infos {
+	min-height: 48px;
+	height: 80%;
+	background-color: #232b3f;
+	border-radius: 30px;
+	cursor: pointer;
+}
+
+.account-avatar {
+	height: 100%;
+	margin-right: 10px;
+}
+
+.account-avatar img {
+	height: 40px;
+	width: 40px;
+	border-radius: 100%;
+}
+
+.account-user {
+	margin-right: 10px;
+}
+
+.account-username {
+    font-weight: 500;
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+/* .account-logout {
+
+} */
+
+.logout-button {
+    border-radius: 30px;
+}
