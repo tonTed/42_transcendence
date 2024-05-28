@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 import requests
 import api.gateway
+import os
+
 
 ID42 = '84489'
 
@@ -42,3 +44,32 @@ def chat(request: HttpRequest) -> HttpResponse:
 
 def pong(request: HttpRequest) -> HttpResponse:
     return render(request, 'pongNew.html')
+
+
+CALLBACK_URL = (f'https://api.intra.42.fr/oauth/authorize'
+                f'?client_id={os.getenv('42_UID')}'
+                f'&redirect_uri=http://localhost:8000/app/callback/'
+                f'&response_type=code'
+                f'&scope=public')
+
+
+def login(request: HttpRequest) -> HttpResponse:
+    return render(request, 'loginNew.html', context={'url': CALLBACK_URL})
+
+
+def callback(request) -> HttpResponse:
+
+    response42 = requests.post('https://api.intra.42.fr/oauth/token', params={
+        'grant_type': 'authorization_code',
+        'client_id': os.getenv('42_UID'),
+        'client_secret': os.getenv('42_SECRET'),
+        'code': request.GET.get('code'),
+        'redirect_uri': 'http://localhost:8000/app/callback/'
+    })
+    access_token = response42.json()['access_token']
+
+    response: HttpResponse = redirect(f"http://localhost/app")
+    response.set_cookie('token42', access_token)
+    return response
+
+

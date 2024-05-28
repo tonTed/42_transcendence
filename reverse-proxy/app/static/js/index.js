@@ -14,7 +14,29 @@ class ContentLoader {
 	}
 }
 
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Vérifier si ce cookie commence par le nom recherché
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 window.addEventListener('DOMContentLoaded', async () => {
+
+	// check is cookie token42 exists
+	if (getCookie('token42') === null) {
+		window.location.href = 'http://localhost/app/login/';
+	}
+
 
 	const frontendLoader = new ContentLoader(BASE_URL);
 
