@@ -71,15 +71,15 @@ services:
       database:
         condition: service_healthy
 
-  reverse-proxy:
-    container_name: reverse-proxy
+  webserver:
+    container_name: webserver
     build:
-      context: ./reverse-proxy
-    image: reverse-proxy:latest
+      context: ./webserver
+    image: webserver:latest
     ports:
       - "80:80"
     volumes:
-      - ./reverse-proxy/app:/app
+      - ./webserver/app:/app
     networks:
       - transcendence-network
     depends_on:
