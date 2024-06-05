@@ -1,4 +1,18 @@
 import { loadCanvasGame } from './pong/main.js';
+import { toggleProfile } from './topbar.js';
+import {
+	handleAddFriendListClick,
+	handleFriendRequestsListClick,
+	handleFriendListClick,
+} from './sidebar.js';
+import {
+	fileInputListener,
+	editUsernameButtonListener,
+	confirmUsernameButtonListener,
+	confirmAvatarButtonListener,
+	profileExitButtonListener,
+	toggle2FA,
+} from './profile.js';
 
 
 const BASE_URL = 'http://localhost:8000/app';
@@ -50,6 +64,21 @@ window.addEventListener('DOMContentLoaded', async () => {
 	await frontendLoader.fromFetch('friend_list/', 'friendContainer');
 	await frontendLoader.fromFetch('chat/', 'chatContainer');
 	await frontendLoader.fromFetch('pong/', 'gameContainer');
+	await frontendLoader.fromFetch('profile/', 'profileContainer');
 
 	await loadCanvasGame();
+
+	// sidebar
+	handleAddFriendListClick();
+	handleFriendRequestsListClick();
+	handleFriendListClick();
+
+	// profile
+	fileInputListener();
+	editUsernameButtonListener();
+	confirmUsernameButtonListener();
+	confirmAvatarButtonListener();
+	profileExitButtonListener();
+	toggle2FA();
+	toggleProfile();
 });

@@ -18,6 +18,18 @@ def topbar(request: HttpRequest) -> HttpResponse:
     return render(request, 'topbarNew.html', context=context)
 
 
+def profile(request: HttpRequest) -> HttpResponse:
+
+    id_42 = request.COOKIES.get('id42')
+
+    user: dict = requests.get(f'http://api-gateway:3000/users/get_user_info_with_id_42/{id_42}')
+
+    context: dict = {
+        'user': user.json(),
+    }
+    return render(request, 'profileNew.html', context=context)
+
+
 def friend_list(request: HttpRequest) -> HttpResponse:
 
     id_42 = request.COOKIES.get('id42')

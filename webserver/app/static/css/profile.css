@@ -1,0 +1,126 @@
+.container {
+	width: 35%;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin-bottom: 200px;
+	border-radius: 30px;
+	background-color: #232b3f;
+	overflow: hidden;
+}
+
+.header {
+	height: 12%;
+	width: 100%;
+	padding: 3px;
+	font-weight: 600;
+	font-size: x-large;
+	border-bottom: 3px solid #131722;
+}
+
+.profile-content-container {
+	height: 88%;
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+
+.info-container {
+	font-weight: 400;
+	font-size: larger;
+}
+
+.info-row {
+	width: 100%;
+	margin-bottom: 25px;
+}
+
+.left-col {
+	width: 27%;
+}
+
+.mid-col {
+	width: 55%;
+	padding-left: 15px;
+	padding-right: 15px;
+	overflow: hidden;
+}
+
+.right-col {
+	width: 18%;
+}
+
+.change-button {
+	height: 35px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.change-input {
+	height: 35px;
+	width: 100%;
+	background-color: #131722;
+	border-radius: 8px;
+	border: none;
+	color: #c0c0c0;
+}
+
+.change-input::placeholder {
+	font-size: medium;
+	color: #5C7080;
+}
+
+#confirmUsernameButton {
+	display: none;
+}
+
+#editUsernameInput {
+	display: none;
+}
+
+#password2fa {
+	display: none;
+}
+
+#oldPasswordInput {
+	width: 250px;
+	display: flex;
+}
+
+#newPasswordInput {
+	width: 250px;
+	display: none;
+}
+
+#editPasswordButton {
+	display: flex;
+}
+
+#confirmPasswordButton {
+	display: none;
+}
+
+.choose-file-button {
+	margin: 0;
+	height: 45px;
+	width: 110px;
+	font-size: large;
+	border-radius: 10px;
+	background-color: #0d6efd;
+	color: #ededed;
+	cursor: pointer;
+}
+
+#imageInput {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+.file-name {
+	width: 250px;
+}
+
+.exit-button-container {
+	width: 100%;
+}
