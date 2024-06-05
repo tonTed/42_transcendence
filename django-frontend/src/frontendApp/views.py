@@ -2,26 +2,25 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 import requests
 import api.gateway
+import api.ft
 import os
 
 
-ID42 = '84489'
-
 def topbar(request: HttpRequest) -> HttpResponse:
 
-    id_42 = ID42
+    id_42 = request.COOKIES.get('id42')
 
-    user: dict = requests.get(f'http://api-gateway:3000/users/get_user_info_with_id_42/{id_42}').json()
-    print(user)
+    user: dict = requests.get(f'http://api-gateway:3000/users/get_user_info_with_id_42/{id_42}')
+
     context: dict = {
-        'user': user,
+        'user': user.json(),
     }
     return render(request, 'topbarNew.html', context=context)
 
 
 def friend_list(request: HttpRequest) -> HttpResponse:
 
-    id_42 = ID42
+    id_42 = request.COOKIES.get('id42')
 
     users: dict = requests.get(f'http://api-gateway:3000/users/').json()
     users_dict = list(filter(lambda user: user['id_42'] != str(id_42), users))
@@ -32,8 +31,6 @@ def friend_list(request: HttpRequest) -> HttpResponse:
 
 
 def chat(request: HttpRequest) -> HttpResponse:
-
-    id_42 = ID42
 
     mock_global_chat_messages: list[dict] = api.gateway.get_mock_global_chat_messages()
     context: dict = {
@@ -59,17 +56,23 @@ def login(request: HttpRequest) -> HttpResponse:
 
 def callback(request) -> HttpResponse:
 
-    response42 = requests.post('https://api.intra.42.fr/oauth/token', params={
-        'grant_type': 'authorization_code',
-        'client_id': os.getenv('42_UID'),
-        'client_secret': os.getenv('42_SECRET'),
-        'code': request.GET.get('code'),
-        'redirect_uri': 'http://localhost:8000/app/callback/'
-    })
-    access_token = response42.json()['access_token']
+    access_token = api.ft.get_access_token_app(request.GET.get('code'))
+
+    me = api.ft.get_me(access_token)
+
+    print(me)
+
+    user = requests.get(f'http://api-gateway:3000/users/get_user_info_with_id_42/{me["id_42"]}')
+
+    if user.status_code == 404:
+        user = requests.post('http://api-gateway:3000/users/create_user/', json=me)
+
+    if user.json()['is_2fa_enabled']:
+        return redirect('login_password', permanent=True)
 
     response: HttpResponse = redirect(f"http://localhost/app")
     response.set_cookie('token42', access_token)
+    response.set_cookie('id42', me['id_42'])
     return response
 
 

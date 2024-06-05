@@ -9,7 +9,13 @@ class ContentLoader {
 	}
 
 	async fromFetch(endpoint, containerId) {
-		const response = await fetch(`${this.baseurl}/${endpoint}`);
+		const response = await fetch(
+			`${this.baseurl}/${endpoint}`,
+			{
+				method: 'GET',
+				credentials: 'include',
+			}
+		);
 		document.getElementById(containerId).innerHTML = await response.text();
 	}
 }
