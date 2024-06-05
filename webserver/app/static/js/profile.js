@@ -1,11 +1,11 @@
 import { updateUsername, updateAvatar } from './edit_profile.js';
 
 function fileInputListener() {
-    var fileInput = document.getElementById('imageInput');
+    const fileInput = document.getElementById('imageInput');
     if (fileInput) {
         fileInput.addEventListener('change', function () {
-            var fileName = fileInput.files.length > 0 ? fileInput.files[0].name : 'No file chosen';
-            var fileNameDisplay = document.getElementById('fileName');
+            const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : 'No file chosen';
+            const fileNameDisplay = document.getElementById('fileName');
             fileNameDisplay.textContent = fileName;
         });
     } else {
@@ -14,11 +14,11 @@ function fileInputListener() {
 }
 
 function editUsernameButtonListener() {
-    var editUsernameButton = document.getElementById("editUsernameButton");
+    const editUsernameButton = document.getElementById("editUsernameButton");
     editUsernameButton.addEventListener("click", function() {
-        var usernameInput = document.getElementById("editUsernameInput");
-        var confirmUsernameButton = document.getElementById("confirmUsernameButton");
-        var username = document.getElementById("username");
+        const usernameInput = document.getElementById("editUsernameInput");
+        const confirmUsernameButton = document.getElementById("confirmUsernameButton");
+        const username = document.getElementById("username");
 
         usernameInput.style.display = "flex";
         username.style.display = "none";
@@ -28,13 +28,13 @@ function editUsernameButtonListener() {
 }
 
 function confirmUsernameButtonListener() {
-    var confirmUsernameButton = document.getElementById("confirmUsernameButton");
+    const confirmUsernameButton = document.getElementById("confirmUsernameButton");
     confirmUsernameButton.addEventListener("click", function() {
-        var editUsernameButton = document.getElementById("editUsernameButton");
-        var username = document.getElementById("username");
-        var topbarUsername = document.getElementById("accountUsername");
-        var usernameInput = document.getElementById("editUsernameInput");
-        var newUsername = usernameInput.value;
+        const editUsernameButton = document.getElementById("editUsernameButton");
+        const username = document.getElementById("username");
+        const topbarUsername = document.getElementById("accountUsername");
+        const usernameInput = document.getElementById("editUsernameInput");
+        const newUsername = usernameInput.value;
         if (newUsername.length === 0) {
             alert("Please choose a username first.");
             return ;
@@ -56,10 +56,10 @@ function confirmUsernameButtonListener() {
 }
 
 function confirmAvatarButtonListener() {
-    var confirmAvatarButton = document.getElementById("confirmAvatarButton");
+    const confirmAvatarButton = document.getElementById("confirmAvatarButton");
     confirmAvatarButton.addEventListener("click", function() {
-        var imageInput = document.getElementById("imageInput");
-        var topbar_avatar = document.getElementById("accountAvatar");
+        const imageInput = document.getElementById("imageInput");
+        const topbar_avatar = document.getElementById("accountAvatar");
         
         if (imageInput.files.length === 0) {
             alert("Please choose a file first.");
@@ -67,7 +67,7 @@ function confirmAvatarButtonListener() {
         }
 
         // API call
-        var avatar = imageInput.files[0];
+        const avatar = imageInput.files[0];
 
         (async () => {
             try {
@@ -85,10 +85,10 @@ function confirmAvatarButtonListener() {
 }
 
 function toggle2FA() {
-    var toggleSwitch = document.getElementById('toggle2fa');
+    const toggleSwitch = document.getElementById('toggle2fa');
     toggleSwitch.addEventListener('change', function(event) {
-        var infoType = document.getElementById('activate_deactivate_2fa');
-        var password2fa = document.getElementById("password2fa");
+        const infoType = document.getElementById('activate_deactivate_2fa');
+        const password2fa = document.getElementById("password2fa");
 
         if (event.target.checked) {
             infoType.innerText = "deactivate 2fa";
@@ -101,10 +101,10 @@ function toggle2FA() {
 }
 
 function profileExitButtonListener() {
-    var profileExitButton = document.getElementById("profileExitButton");
+    const profileExitButton = document.getElementById("profileExitButton");
     profileExitButton.addEventListener("click", function() {
-        var gameContainer = document.getElementById("gameContainer");
-        var profileContainer = document.getElementById("profileContainer");
+        const gameContainer = document.getElementById("gameContainer");
+        const profileContainer = document.getElementById("profileContainer");
 
         gameContainer.style.display = "flex";
         profileContainer.style.display = "none";

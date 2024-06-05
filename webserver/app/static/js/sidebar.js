@@ -1,8 +1,8 @@
 function handleFriendListClick() {
-    let title = document.getElementById('friend-list-title');
+    const title = document.getElementById('friend-list-title');
     title.onclick = function() {
-        let content = document.getElementById('friend-list-content');
-        let computedDisplay = window.getComputedStyle(content).getPropertyValue('display');
+        const content = document.getElementById('friend-list-content');
+        const computedDisplay = window.getComputedStyle(content).getPropertyValue('display');
         if (computedDisplay === 'none') {
 			document.getElementById('friend-list-title-arrow').innerHTML = "&#x25BC;";
             content.style.display = 'block';
@@ -15,10 +15,10 @@ function handleFriendListClick() {
 
 // Show and hide friend requests list content
 function handleFriendRequestsListClick() {
-    let title = document.getElementById('friend-requests-list-title');
+    const title = document.getElementById('friend-requests-list-title');
     title.onclick = function() {
-        let content = document.getElementById('friend-requests-list-content');
-        let computedDisplay = window.getComputedStyle(content).getPropertyValue('display');
+        const content = document.getElementById('friend-requests-list-content');
+        const computedDisplay = window.getComputedStyle(content).getPropertyValue('display');
         if (computedDisplay === 'none') {
 			document.getElementById('friend-requests-list-title-arrow').innerHTML = "&#x25BC;";
             content.style.display = 'block';
@@ -31,10 +31,10 @@ function handleFriendRequestsListClick() {
 
 // Show and hide add friend list content
 function handleAddFriendListClick() {
-	let title = document.getElementById('add-friend-list-title');
+	const title = document.getElementById('add-friend-list-title');
     title.onclick = function() {
-		let content = document.getElementById('add-friend-list-content');
-        let computedDisplay = window.getComputedStyle(content).getPropertyValue('display');
+		const content = document.getElementById('add-friend-list-content');
+        const computedDisplay = window.getComputedStyle(content).getPropertyValue('display');
         if (computedDisplay === 'none') {
 			document.getElementById('add-friend-list-title-arrow').innerHTML = "&#x25BC;";
 			content.style.display = 'block';

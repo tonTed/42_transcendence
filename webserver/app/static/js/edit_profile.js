@@ -30,7 +30,7 @@ const updateUsername = async (newUsername) => {
 const updateAvatar = async (avatar) => {
     const url = `http://localhost:3000/users/updateAvatar/${userId}/`;
     const csrfToken = document.getElementById('csrfToken').value;
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append("avatar", avatar);
 
     try {

@@ -1,8 +1,8 @@
 function toggleProfile() {
-    var accountInfos = document.getElementById("accountInfos");
+    const accountInfos = document.getElementById("accountInfos");
     accountInfos.addEventListener("click", function() {
-      var gameContainer = document.getElementById("gameContainer");
-      var profileContainer = document.getElementById("profileContainer");
+      const gameContainer = document.getElementById("gameContainer");
+      const profileContainer = document.getElementById("profileContainer");
 
       if (profileContainer.style.display !== "flex") {
         gameContainer.style.display = "none";
