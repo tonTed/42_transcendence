@@ -80,6 +80,7 @@ services:
       - "80:80"
     volumes:
       - ./webserver/app:/app
+      - ./webserver/default.conf:/etc/nginx/conf.d/default.conf
     networks:
       - transcendence-network
     depends_on:
@@ -102,7 +103,7 @@ services:
     container_name: database
     build:
       context: ./postgres
-    image: postgres:16.2-alpine3.19
+    image: database:latest
     volumes:
       - ./postgres/postgres_data:/var/lib/postgresql/data
     ports:
