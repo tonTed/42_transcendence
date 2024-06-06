@@ -1,6 +1,6 @@
 
 
-const BASE_URL = 'http://localhost:8000/app';
+const BASE_URL = 'http://localhost/frontend';
 
 export class ContentLoader {
 	constructor(baseurl) {
@@ -14,7 +14,6 @@ export class ContentLoader {
 }
 
 window.addEventListener('DOMContentLoaded', async () => {
-
 
 	const frontendLoader = new ContentLoader(BASE_URL);
 

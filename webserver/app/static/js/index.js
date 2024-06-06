@@ -15,7 +15,7 @@ import {
 } from './profile.js';
 
 
-const BASE_URL = 'http://localhost:8000/app';
+const BASE_URL = 'frontend';
 
 class ContentLoader {
 	constructor(baseurl) {
@@ -54,7 +54,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 	// check is cookie token42 exists
 	if (getCookie('token42') === null) {
-		window.location.href = 'http://localhost/app/login/';
+		window.location.href = '/login';
 	}
 
 

@@ -20,7 +20,7 @@ def get_access_token_app(code: str) -> str:
         'client_id': os.getenv('42_UID'),
         'client_secret': os.getenv('42_SECRET'),
         'code': code,
-        'redirect_uri': 'http://localhost:8000/app/callback/'
+        'redirect_uri': 'http://localhost/callback'
     })
     return response.json()['access_token']
 

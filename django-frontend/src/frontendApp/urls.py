@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import topbar, friend_list, chat, pong, login, callback, profile
+from .views import topbar, friend_list, chat, pong, login, callback, profile, logout
 
 
 urlpatterns = [
@@ -9,5 +9,5 @@ urlpatterns = [
     path('pong/', pong, name='pongNew'),
     path('login/', login, name='loginNew'),
     path('callback/', callback, name='callbackNew'),
-    path('profile/', profile, name='profileNew')
+    path('profile/', profile, name='profileNew'),
 ]

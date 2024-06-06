@@ -16,11 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from frontendApp.views import callback, logout
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('frontend.urls')),
-    path('', include('authentication.urls')),
-    path('app/', include('frontendApp.urls')),
+    path('frontend/', include('frontendApp.urls')),
+    path('callback/', callback, name='callback'),
+    path('logout/', logout, name='logoutNew'),
+    path('old/', include('frontend.urls')),
+    path('old/', include('authentication.urls')),
 ]

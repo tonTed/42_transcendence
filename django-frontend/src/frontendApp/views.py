@@ -5,12 +5,14 @@ import api.gateway
 import api.ft
 import os
 
+BASE_URL = 'http://api-gateway:3000/api'
+
 
 def topbar(request: HttpRequest) -> HttpResponse:
 
     id_42 = request.COOKIES.get('id42')
 
-    user: dict = requests.get(f'http://api-gateway:3000/users/get_user_info_with_id_42/{id_42}')
+    user: dict = requests.get(f'{BASE_URL}/users/get_user_info_with_id_42/{id_42}')
 
     context: dict = {
         'user': user.json(),
@@ -22,7 +24,7 @@ def profile(request: HttpRequest) -> HttpResponse:
 
     id_42 = request.COOKIES.get('id42')
 
-    user: dict = requests.get(f'http://api-gateway:3000/users/get_user_info_with_id_42/{id_42}')
+    user: dict = requests.get(f'{BASE_URL}/users/get_user_info_with_id_42/{id_42}')
 
     context: dict = {
         'user': user.json(),
@@ -34,7 +36,7 @@ def friend_list(request: HttpRequest) -> HttpResponse:
 
     id_42 = request.COOKIES.get('id42')
 
-    users: dict = requests.get(f'http://api-gateway:3000/users/').json()
+    users: dict = requests.get(f'{BASE_URL}/users/').json()
     users_dict = list(filter(lambda user: user['id_42'] != str(id_42), users))
     context: dict = {
         'users': users_dict,
@@ -57,7 +59,7 @@ def pong(request: HttpRequest) -> HttpResponse:
 
 CALLBACK_URL = (f'https://api.intra.42.fr/oauth/authorize'
                 f'?client_id={os.getenv('42_UID')}'
-                f'&redirect_uri=http://localhost:8000/app/callback/'
+                f'&redirect_uri=http://localhost/callback'
                 f'&response_type=code'
                 f'&scope=public')
 
@@ -72,19 +74,22 @@ def callback(request) -> HttpResponse:
 
     me = api.ft.get_me(access_token)
 
-    print(me)
-
-    user = requests.get(f'http://api-gateway:3000/users/get_user_info_with_id_42/{me["id_42"]}')
+    user = requests.get(f'{BASE_URL}/users/get_user_info_with_id_42/{me["id_42"]}')
 
     if user.status_code == 404:
-        user = requests.post('http://api-gateway:3000/users/create_user/', json=me)
+        user = requests.post(f'{BASE_URL}/users/create_user/', json=me)
 
     if user.json()['is_2fa_enabled']:
         return redirect('login_password', permanent=True)
 
-    response: HttpResponse = redirect(f"http://localhost/app")
+    response: HttpResponse = redirect(f"/")
     response.set_cookie('token42', access_token)
     response.set_cookie('id42', me['id_42'])
     return response
 
 
+def logout(request: HttpRequest) -> HttpResponse:
+    response: HttpResponse = redirect(f"http://localhost")
+    response.delete_cookie('token42')
+    response.delete_cookie('id42')
+    return response
