@@ -1,55 +1,55 @@
 import os
-from django.shortcuts import render, redirect
-from django.http import HttpRequest, HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
-import api.ft
+from django.shortcuts import redirect, render
+from django.http import HttpRequest, HttpResponse, HttpResponsePermanentRedirect
 import requests
-from requests import Response
+import api.ft
 
 
+BASE_URL = 'http://api-gateway:3000/api'
 
 CALLBACK_URL = (f'https://api.intra.42.fr/oauth/authorize'
                 f'?client_id={os.getenv('42_UID')}'
-                f'&redirect_uri={os.getenv('42_REDIRECT_URI')}'
+                f'&redirect_uri=http://localhost/callback'
                 f'&response_type=code'
                 f'&scope=public')
 
 
 def login(request: HttpRequest) -> HttpResponse:
-    return render(request, 'login.html', context={'url': CALLBACK_URL})
+    return render(request, 'loginNew.html', context={'url': CALLBACK_URL})
 
 
-def logout(request: HttpRequest) -> HttpResponsePermanentRedirect:
-    del request.session['token42']
-    return redirect('index', permanent=True)
+def callback(request) -> HttpResponse:
 
+    access_token = api.ft.get_access_token_app(request.GET.get('code'))
 
-def callback(request) -> HttpResponsePermanentRedirect:
-    access_token: str = api.ft.get_access_token(request.GET.get('code'))
+    me = api.ft.get_me(access_token)
 
-    request.session['token42']: str = access_token
+    user = requests.get(f'{BASE_URL}/users/get_user_info_with_id_42/{me["id_42"]}')
+    print(user.json())
 
-    response: Response = requests.get('https://api.intra.42.fr/v2/me', headers={
-        'Authorization': f'Bearer {access_token}'
-    })
-
-    id_42 = response.json()["id"]
-    request.session['id_42'] = id_42
-
-    user = requests.get(f'http://api-gateway:3000/users/get_user_info_with_id_42/{id_42}')
     if user.status_code == 404:
-        requests.post('http://api-gateway:3000/users/create_user/', json={
-            'id_42': id_42,
-            'username': response.json()['login'],
-            'avatar_url': response.json()['image']['versions']['small'],
-            'email': response.json()['email'],
-        })
-        return redirect('index', permanent=True)
+        user = requests.post(f'{BASE_URL}/users/create_user/', json=me)
 
     if user.json()['is_2fa_enabled']:
         return redirect('login_password', permanent=True)
-    return redirect('index', permanent=True)
 
+    response: HttpResponse = redirect(f"/")
+    response.set_cookie('token42', access_token)
+    response.set_cookie('id42', me['id_42'])
+    return response
+
+
+def logout(request: HttpRequest) -> HttpResponse:
+    response: HttpResponse = redirect(f"http://localhost")
+    response.delete_cookie('token42')
+    response.delete_cookie('id42')
+    return response
 
 def remove_session(request: HttpRequest) -> HttpResponsePermanentRedirect:
     request.session.flush()
-    return redirect('index', permanent=True)
+    response: HttpResponse = redirect(f"/")
+    response.delete_cookie('token42')
+    response.delete_cookie('id42')
+    return response
+
+

@@ -10,7 +10,7 @@
 	</div>
 	<!-- logout button -->
 	<div class="account-logout">
-		<form action="{% url 'logoutNew' %}" method="post">
+		<form action="{% url 'logout' %}" method="post">
 			{% csrf_token %}
 			<button href="" class="btn btn-outline-primary logout-button" type="submit">Logout</button>
 		</form>
