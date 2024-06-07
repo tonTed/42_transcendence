@@ -24,6 +24,5 @@ urlpatterns = [
     path('frontend/', include('frontendApp.urls')),
     path('callback/', callback, name='callback'),
     path('logout/', logout, name='logoutNew'),
-    path('old/', include('frontend.urls')),
     path('old/', include('authentication.urls')),
 ]
