@@ -21,7 +21,7 @@ const updateUsername = async (newUsername) => {
 
         if (response.ok) {
             const updatedUser = await response.json();
-            console.log('Username updated successfully:', updatedUser);
+            console.debug('Username updated successfully:', updatedUser);
         } else {
             console.error('Failed to update user:', response.statusText);
         }
@@ -49,7 +49,7 @@ const updateAvatar = async (avatar) => {
 
         if (response.ok) {
             const updatedUser = await response.json();
-            console.log('Avatar updated successfully:', updatedUser);
+            console.debug('Avatar updated successfully:', updatedUser);
             return updatedUser.avatar;
         } else {
             const errorData = await response.text();

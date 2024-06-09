@@ -35,15 +35,6 @@ window.addEventListener('DOMContentLoaded', async () => {
 		window.location.href = '/login';
 	}
 
-	const liveUpdateSocket = new WebSocket('ws://localhost:3000/ws/live-update/');
-	liveUpdateSocket.onopen = () => {
-		console.log('WebSocket connection opened');
-	};
-	liveUpdateSocket.onclose = () => {
-		console.log('WebSocket connection closed');
-	};
-
-
 	const indexLoader = new ContentLoader(contentLoaderConfig);
 	await indexLoader.loadAll();
 
@@ -62,4 +53,21 @@ window.addEventListener('DOMContentLoaded', async () => {
 	profileExitButtonListener();
 	toggle2FA();
 	toggleProfile();
+
+	const liveUpdateSocket = new WebSocket('ws://localhost:3000/ws/live-update/');
+	liveUpdateSocket.onopen = () => {
+		console.debug('live-update socket opened');
+	};
+
+	liveUpdateSocket.onmessage = (event) => {
+		const eventData = JSON.parse(event.data);
+		for (const event of eventData.data.split(',')) {
+			indexLoader.load(event);
+		}
+	};
+
+	liveUpdateSocket.onclose = () => {
+		console.debug('live-update socket closed');
+	};
 });
+

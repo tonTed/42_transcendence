@@ -15,6 +15,7 @@ export class ContentLoader {
 	async load(endpoint) {
 		const route = this.routes[endpoint];
 		if (route) {
+			console.debug(`Loading ${endpoint}`);
 			const response = await fetch(
                 `${this.baseurl}/${route.endpoint}`,
                 {
