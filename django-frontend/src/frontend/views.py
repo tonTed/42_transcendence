@@ -17,7 +17,7 @@ def topbar(request: HttpRequest) -> HttpResponse:
     context: dict = {
         'user': user.json(),
     }
-    return render(request, 'topbarNew.html', context=context)
+    return render(request, 'topbar.html', context=context)
 
 
 def profile(request: HttpRequest) -> HttpResponse:
@@ -29,7 +29,7 @@ def profile(request: HttpRequest) -> HttpResponse:
     context: dict = {
         'user': user.json(),
     }
-    return render(request, 'profileNew.html', context=context)
+    return render(request, 'profile.html', context=context)
 
 
 def friend_list(request: HttpRequest) -> HttpResponse:
@@ -41,7 +41,7 @@ def friend_list(request: HttpRequest) -> HttpResponse:
     context: dict = {
         'users': users_dict,
     }
-    return render(request, 'sidebarNew.html', context=context)
+    return render(request, 'sidebar.html', context=context)
 
 
 def chat(request: HttpRequest) -> HttpResponse:
@@ -50,8 +50,8 @@ def chat(request: HttpRequest) -> HttpResponse:
     context: dict = {
         'messages': mock_global_chat_messages,
     }
-    return render(request, 'chatNew.html', context=context)
+    return render(request, 'chat.html', context=context)
 
 
 def pong(request: HttpRequest) -> HttpResponse:
-    return render(request, 'pongNew.html')
+    return render(request, 'pong.html')

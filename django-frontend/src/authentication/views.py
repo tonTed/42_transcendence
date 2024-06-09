@@ -15,7 +15,7 @@ CALLBACK_URL = (f'https://api.intra.42.fr/oauth/authorize'
 
 
 def login(request: HttpRequest) -> HttpResponse:
-    return render(request, 'loginNew.html', context={'url': CALLBACK_URL})
+    return render(request, 'login.html', context={'url': CALLBACK_URL})
 
 
 def callback(request) -> HttpResponse:
