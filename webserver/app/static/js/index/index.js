@@ -1,4 +1,4 @@
-import { loadCanvasGame } from './pong/main.js';
+import { loadCanvasGame } from '../pong/main.js';
 import { toggleProfile } from './topbar.js';
 import {
 	handleAddFriendListClick,
@@ -14,29 +14,11 @@ import {
 	toggle2FA,
 } from './profile.js';
 
-import { ContentLoader } from './ContentLoader.js';
-
-
-const BASE_URL = 'frontend';
-
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Vérifier si ce cookie commence par le nom recherché
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
+import { ContentLoader } from '../ContentLoader.js';
+import { getCookie } from '../utils.js';
 
 const contentLoaderConfig = {
-	baseurl: BASE_URL,
+	baseurl: 'frontend',
 	routes: {
 		topbar: { endpoint: 'topbar/', containerId: 'topbarContainer' },
 		friendList: { endpoint: 'friend_list/', containerId: 'friendContainer' },
@@ -54,8 +36,8 @@ window.addEventListener('DOMContentLoaded', async () => {
 	}
 
 
-	const frontendLoader = new ContentLoader(contentLoaderConfig);
-	await frontendLoader.loadAll();
+	const indexLoader = new ContentLoader(contentLoaderConfig);
+	await indexLoader.loadAll();
 
 	await loadCanvasGame();
 
