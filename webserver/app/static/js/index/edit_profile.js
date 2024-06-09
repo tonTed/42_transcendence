@@ -1,6 +1,9 @@
+import { getCookie } from "../utils.js";
+
 const updateUsername = async (newUsername) => {
-    const url = `http://localhost:3000/users/updateUsername/${userId}/`;
-    const csrfToken = document.getElementById('csrfToken').value;
+    const userId = getCookie('id');
+    const url = `api/users/updateUsername/${userId}/`;
+    const csrfToken = getCookie('csrftoken');
     const data = {
         username: newUsername,
     };
@@ -18,7 +21,7 @@ const updateUsername = async (newUsername) => {
 
         if (response.ok) {
             const updatedUser = await response.json();
-            console.log('Username updated successfully:', updatedUser);
+            console.debug('Username updated successfully:', updatedUser);
         } else {
             console.error('Failed to update user:', response.statusText);
         }
@@ -28,8 +31,9 @@ const updateUsername = async (newUsername) => {
 };
 
 const updateAvatar = async (avatar) => {
-    const url = `http://localhost:3000/users/updateAvatar/${userId}/`;
-    const csrfToken = document.getElementById('csrfToken').value;
+    const userId = getCookie('id');
+    const url = `api/users/updateAvatar/${userId}/`;
+    const csrfToken = getCookie('csrftoken');
     const formData = new FormData();
     formData.append("avatar", avatar);
 
@@ -45,7 +49,7 @@ const updateAvatar = async (avatar) => {
 
         if (response.ok) {
             const updatedUser = await response.json();
-            console.log('Avatar updated successfully:', updatedUser);
+            console.debug('Avatar updated successfully:', updatedUser);
             return updatedUser.avatar;
         } else {
             const errorData = await response.text();

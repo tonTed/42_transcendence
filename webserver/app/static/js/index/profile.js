@@ -32,7 +32,6 @@ function confirmUsernameButtonListener() {
     confirmUsernameButton.addEventListener("click", function() {
         const editUsernameButton = document.getElementById("editUsernameButton");
         const username = document.getElementById("username");
-        const topbarUsername = document.getElementById("accountUsername");
         const usernameInput = document.getElementById("editUsernameInput");
         const newUsername = usernameInput.value;
         if (newUsername.length === 0) {
@@ -48,8 +47,6 @@ function confirmUsernameButtonListener() {
         // display
         usernameInput.style.display = "none";
         username.style.display = "flex";
-        username.innerHTML = newUsername;
-        topbarUsername.innerHTML = newUsername;
         editUsernameButton.style.display = "flex"
         confirmUsernameButton.style.display = "none"
     })
@@ -111,4 +108,12 @@ function profileExitButtonListener() {
     })
 }
 
-export { fileInputListener, editUsernameButtonListener, profileExitButtonListener, confirmUsernameButtonListener, confirmAvatarButtonListener, toggle2FA };
+export {
+    fileInputListener,
+    editUsernameButtonListener,
+    profileExitButtonListener,
+    confirmUsernameButtonListener,
+    confirmAvatarButtonListener,
+    toggle2FA,
+};
+

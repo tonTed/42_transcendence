@@ -21,7 +21,7 @@ export function handlerNetwork(canvas, context) {
         socket = new WebSocket(ws_path);
 
         socket.onopen = function(e) {
-            console.log('WebSocket connection established');
+            console.debug('WebSocket connection established');
             setInterval(sendKeyStates, INTERVAL_DURATION);
         };
 
