@@ -5,7 +5,7 @@ import api.gateway
 import api.ft
 import os
 
-BASE_URL = 'http://api-gateway:3000/api'
+BASE_URL = os.getenv('API_URL')
 
 
 def topbar(request: HttpRequest) -> HttpResponse:
