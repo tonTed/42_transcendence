@@ -1,6 +1,9 @@
+import { getCookie } from "../utils.js";
+
 const updateUsername = async (newUsername) => {
-    const url = `http://localhost:3000/users/updateUsername/${userId}/`;
-    const csrfToken = document.getElementById('csrfToken').value;
+    const userId = getCookie('id');
+    const url = `api/users/updateUsername/${userId}/`;
+    const csrfToken = getCookie('csrftoken');
     const data = {
         username: newUsername,
     };
@@ -28,8 +31,9 @@ const updateUsername = async (newUsername) => {
 };
 
 const updateAvatar = async (avatar) => {
-    const url = `http://localhost:3000/users/updateAvatar/${userId}/`;
-    const csrfToken = document.getElementById('csrfToken').value;
+    const userId = getCookie('id');
+    const url = `api/users/updateAvatar/${userId}/`;
+    const csrfToken = getCookie('csrftoken');
     const formData = new FormData();
     formData.append("avatar", avatar);
 

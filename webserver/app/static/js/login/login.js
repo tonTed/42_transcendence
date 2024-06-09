@@ -1,7 +1,7 @@
 import { ContentLoader } from '../ContentLoader.js';
 
 const loginLoaderConfig = {
-	baseurl: 'frontend',
+	baseurl: '/frontend',
 	routes: {
 		login: { endpoint: 'login/', containerId: 'loginContainer' },
 	}
@@ -10,8 +10,8 @@ const loginLoaderConfig = {
 
 window.addEventListener('DOMContentLoaded', async () => {
 
-	const frontendLoader = new ContentLoader(loginLoaderConfig);
+	const loginLoader = new ContentLoader(loginLoaderConfig);
 
-	await frontendLoader.loadAll();
+	await loginLoader.loadAll();
 });
 

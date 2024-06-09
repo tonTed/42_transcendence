@@ -36,6 +36,7 @@ def callback(request) -> HttpResponse:
     response: HttpResponse = redirect(f"/")
     response.set_cookie('token42', access_token)
     response.set_cookie('id42', me['id_42'])
+    response.set_cookie('id', user.json()['id'])
     return response
 
 
@@ -43,6 +44,7 @@ def logout(request: HttpRequest) -> HttpResponse:
     response: HttpResponse = redirect(f"http://localhost")
     response.delete_cookie('token42')
     response.delete_cookie('id42')
+    response.delete_cookie('id')
     return response
 
 def remove_session(request: HttpRequest) -> HttpResponsePermanentRedirect:
@@ -50,6 +52,7 @@ def remove_session(request: HttpRequest) -> HttpResponsePermanentRedirect:
     response: HttpResponse = redirect(f"/")
     response.delete_cookie('token42')
     response.delete_cookie('id42')
+    response.delete_cookie('id')
     return response
 
 
