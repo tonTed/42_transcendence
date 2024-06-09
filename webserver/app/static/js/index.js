@@ -14,25 +14,10 @@ import {
 	toggle2FA,
 } from './profile.js';
 
+import { ContentLoader } from './ContentLoader.js';
+
 
 const BASE_URL = 'frontend';
-
-class ContentLoader {
-	constructor(baseurl) {
-		this.baseurl = baseurl;
-	}
-
-	async fromFetch(endpoint, containerId) {
-		const response = await fetch(
-			`${this.baseurl}/${endpoint}`,
-			{
-				method: 'GET',
-				credentials: 'include',
-			}
-		);
-		document.getElementById(containerId).innerHTML = await response.text();
-	}
-}
 
 function getCookie(name) {
     let cookieValue = null;
@@ -50,6 +35,17 @@ function getCookie(name) {
     return cookieValue;
 }
 
+const contentLoaderConfig = {
+	baseurl: BASE_URL,
+	routes: {
+		topbar: { endpoint: 'topbar/', containerId: 'topbarContainer' },
+		friendList: { endpoint: 'friend_list/', containerId: 'friendContainer' },
+		chat: { endpoint: 'chat/', containerId: 'chatContainer' },
+		pong: { endpoint: 'pong/', containerId: 'gameContainer' },
+		profile: { endpoint: 'profile/', containerId: 'profileContainer' }
+	}
+};
+
 window.addEventListener('DOMContentLoaded', async () => {
 
 	// check is cookie token42 exists
@@ -58,13 +54,8 @@ window.addEventListener('DOMContentLoaded', async () => {
 	}
 
 
-	const frontendLoader = new ContentLoader(BASE_URL);
-
-	await frontendLoader.fromFetch('topbar/', 'topbarContainer');
-	await frontendLoader.fromFetch('friend_list/', 'friendContainer');
-	await frontendLoader.fromFetch('chat/', 'chatContainer');
-	await frontendLoader.fromFetch('pong/', 'gameContainer');
-	await frontendLoader.fromFetch('profile/', 'profileContainer');
+	const frontendLoader = new ContentLoader(contentLoaderConfig);
+	await frontendLoader.loadAll();
 
 	await loadCanvasGame();
 
