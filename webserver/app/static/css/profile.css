@@ -1,11 +1,14 @@
 .container {
-	width: 35%;
+	width: 100%;
 	padding-left: 20px;
 	padding-right: 20px;
 	margin-bottom: 200px;
+	margin-left: 20px;
+	margin-right: 20px;
 	border-radius: 30px;
 	background-color: #232b3f;
 	overflow: hidden;
+	max-width: 600px;
 }
 
 .header {
