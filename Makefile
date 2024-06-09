@@ -19,6 +19,9 @@ exec-user-service:
 exec-database:
 	docker exec -it database /bin/sh
 
+exec-webserver:
+	docker exec -it webserver /bin/sh
+
 logs-frontend:
 	@docker logs --tail 50 --follow django-frontend
 
@@ -33,6 +36,9 @@ logs-user-service:
 
 logs-database:
 	@docker logs --tail 50 --follow database
+
+logs-webserver:
+	@docker logs --tail 50 --follow webserver
 
 rm-images: down
 	@docker rmi "django-frontend" "drf-api-gateway" "drf-api-users"
