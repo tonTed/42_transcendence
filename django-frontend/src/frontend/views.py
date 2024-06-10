@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 import requests
-import api.gateway
 import api.ft
 import os
 import jwt
@@ -55,14 +54,8 @@ def friend_list(request: HttpRequest) -> HttpResponse:
     return render(request, 'sidebar.html', context=context)
 
 
-# TODO: Implement chat when all others todos are done
-def chat(request: HttpRequest) -> HttpResponse:
-
-    mock_global_chat_messages: list[dict] = api.gateway.get_mock_global_chat_messages()
-    context: dict = {
-        'messages': mock_global_chat_messages,
-    }
-    return render(request, 'chat.html', context=context)
+def history(request: HttpRequest) -> HttpResponse:
+    return render(request, 'history.html')
 
 
 # TODO: Useless views put template in static folder

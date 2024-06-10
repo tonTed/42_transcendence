@@ -22,7 +22,7 @@ const contentLoaderConfig = {
 	routes: {
 		topbar: { endpoint: 'topbar/', containerId: 'topbarContainer' },
 		friendList: { endpoint: 'friend_list/', containerId: 'friendContainer' },
-		chat: { endpoint: 'chat/', containerId: 'chatContainer' },
+		history: { endpoint: 'history/', containerId: 'historyContainer' },
 		pong: { endpoint: 'pong/', containerId: 'gameContainer' },
 		profile: { endpoint: 'profile/', containerId: 'profileContainer' }
 	}
