@@ -6,6 +6,8 @@ import api.ft
 import os
 import jwt
 
+# TODO: Manage errors and redirects for unauthorized access creatin a function that checks if the user is authorized
+# TODO: Merge topbar and profil ?
 
 BASE_URL = os.getenv('API_URL')
 
@@ -38,6 +40,7 @@ def profile(request: HttpRequest) -> HttpResponse:
     return render(request, 'profile.html', context=context)
 
 
+# TODO: Implement friend list create a schema for the friend list and refactor name to user-list
 def friend_list(request: HttpRequest) -> HttpResponse:
 
     jwt_token = request.COOKIES.get('jwt_token')
@@ -52,6 +55,7 @@ def friend_list(request: HttpRequest) -> HttpResponse:
     return render(request, 'sidebar.html', context=context)
 
 
+# TODO: Implement chat when all others todos are done
 def chat(request: HttpRequest) -> HttpResponse:
 
     mock_global_chat_messages: list[dict] = api.gateway.get_mock_global_chat_messages()
@@ -61,5 +65,6 @@ def chat(request: HttpRequest) -> HttpResponse:
     return render(request, 'chat.html', context=context)
 
 
+# TODO: Useless views put template in static folder
 def pong(request: HttpRequest) -> HttpResponse:
     return render(request, 'pong.html')

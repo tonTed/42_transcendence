@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import topbar, friend_list, chat, pong, profile
+from frontend.views import topbar, friend_list, chat, pong, profile
 
 
 urlpatterns = [

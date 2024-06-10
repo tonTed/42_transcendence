@@ -18,6 +18,14 @@ def login(request: HttpRequest) -> HttpResponse:
     return render(request, 'login.html', context={'url': CALLBACK_URL})
 
 
+# TODO: Manage errors:
+# - request
+# - access_token
+# - me
+# - user
+# - jwt_token
+# TODO: ask to password if new user
+# TODO: ask to password if 2fa enabled
 def callback(request) -> HttpResponse:
 
     access_token = api.ft.get_access_token(request.GET.get('code'))
@@ -25,7 +33,6 @@ def callback(request) -> HttpResponse:
     me = api.ft.get_me(access_token)
 
     user = requests.get(f'{API_URL}/users/get_user_info_with_id_42/{me["id_42"]}')
-    print(user.json())
 
     if user.status_code == 404:
         user = requests.post(f'{API_URL}/users/create_user/', json=me)
@@ -34,18 +41,21 @@ def callback(request) -> HttpResponse:
         return redirect('login_password', permanent=True)
     
     jwt_token = requests.post(f'{API_URL}/auth/generate/', json={'user_id': user.json()['id']})
-    print(jwt_token.json())
 
     response: HttpResponse = redirect(f"/")
     response.set_cookie('jwt_token', jwt_token.json()['access'])
     return response
 
 
+# TODO: Manage logout from api 42 to do automatically login without password
 def logout(request: HttpRequest) -> HttpResponse:
-    response: HttpResponse = redirect(f"http://localhost")
+    request.session.flush()
+    response: HttpResponse = redirect(f"/")
     response.delete_cookie('jwt_token')
     return response
 
+
+# TODO: Remove when logout is managed and timeout is set
 def remove_session(request: HttpRequest) -> HttpResponsePermanentRedirect:
     request.session.flush()
     response: HttpResponse = redirect(f"/")
