@@ -10,5 +10,7 @@ urlpatterns = [
     path('users/get_user_info_with_id_42/<int:id_42>/', get_user_info_with_id_42, name='user-info'),
 ]
 
+
+# TODO: What's happening here if settings.DEBUG is False?
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

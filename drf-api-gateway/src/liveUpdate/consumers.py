@@ -5,6 +5,10 @@ from asgiref.sync import async_to_sync
 
 
 class LiveUpdateConsumer(WebsocketConsumer):
+    def __init__(self, *args, **kwargs):
+        super().__init__(args, kwargs)
+        self.group_name = None
+
     def connect(self):
         self.group_name = 'live_update'
 

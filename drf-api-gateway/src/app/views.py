@@ -2,7 +2,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import requests
 
-AUTH_URL = 'http://api-auth:3003/auth'
+# TODO: create auth app to handle token generation, verification, and refresh
+# TODO: Manage refresh token if needed and redirect to login page if token is expired
+# TODO: AUTH_URL = 'http://api-auth:3003/auth/' use env variable
+# TODO: Create middleware to check if user is authorized and ignore some routes (like login)
+
 
 @api_view(['POST'])
 def generate_token(request):
@@ -15,6 +19,7 @@ def generate_token(request):
     except Exception as e:
         return Response({"error": str(e)}, status=500)
 
+
 @api_view(['POST'])
 def verify_token(request):
     try:
@@ -25,4 +30,3 @@ def verify_token(request):
         return Response(response.json(), status=response.status_code)
     except Exception as e:
         return Response({"error": str(e)}, status=500)
-

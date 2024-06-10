@@ -1,6 +1,8 @@
 from django.urls import path
 from .views import get_user_info_with_id_42, updateUsername, updateAvatar, create_user, users, user_info
 
+
+# TODO: Remove id from path and use jwt token to get user id
 urlpatterns = (
     path('', users, name='create-user'),
     path('<int:id>/', user_info, name='user_info'),

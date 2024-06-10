@@ -1,13 +1,14 @@
-from ..constants import (
+from game.constants import (
     GAME_CONSTS as GAME, 
     PADDLE_CONSTS as PADDLE, 
     CONTROLS_CONSTS as CTRL
 )
-from .paddle import Paddle
+from game.models.paddle import Paddle
+
 
 class Player:
-    def __init__(self, id: int, paddle_x: int, goal: int) -> None:
-        self.id = id
+    def __init__(self, player_id: int, paddle_x: int, goal: int) -> None:
+        self.id = player_id
         self.paddle = Paddle(
             paddle_x, 
             PADDLE.INITIAL_Y, 
