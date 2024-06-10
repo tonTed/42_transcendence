@@ -6,6 +6,7 @@ from game.constants import GAME_CONSTS
 
 
 # TODO: Create an init method that initializes the game and starts the game loop
+# TODO: Check JWT token and user_id to start the game
 class GameConnection(AsyncWebsocketConsumer):
     async def connect(self):
         self.game = Game()

@@ -7,11 +7,18 @@ from liveUpdate.decorators import refresh_live_update
 import jwt
 
 
+# TODO: Add URL to user service in .env and const at beginning of file
+# TODO: Create middleware to check if user is authorized and ignore some routes (like login)
+# TODO: Remove id from path and use jwt token to get user id
+# TODO: Manage if error occurs in requests
+# TODO: Add verbose json data to response
+# TODO: refactor to use jwt token to get user id
+
 @api_view(['GET'])
 def users(request):
-
     response = requests.get('http://api-users:3001/users/', json=request.data)
     return HttpResponse(response.content, status=response.status_code, content_type=request.content_type)
+
 
 @api_view(['GET'])
 def user_info(request, id):
