@@ -7,6 +7,7 @@ class BALL_CONSTS:
     HIT_DX = 8
     COLLISION_COEFF = 0.3
 
+
 class PADDLE_CONSTS:
     INITIAL_Y = 300
     HEIGHT = 60
@@ -15,11 +16,13 @@ class PADDLE_CONSTS:
     PADDLE1_X = 10
     PADDLE2_X = 790
 
+
 class CANVAS_CONSTS:
     WIDTH = 800
     HEIGHT = 600
     ORIGIN_X = 0
     ORIGIN_Y = 0
+
 
 class GAME_CONSTS:
     FPS = 64
@@ -30,8 +33,11 @@ class GAME_CONSTS:
     LEFT_SIDE = 0
     RIGHT_SIDE = 1
 
+
 ''' need to change the controls in js script
 to modify the controls '''
+
+
 class CONTROLS_CONSTS:
     P1_UP_KEY = 'w'
     P1_DOWN_KEY = 's'

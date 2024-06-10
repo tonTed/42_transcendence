@@ -1,5 +1,6 @@
 from sys import maxsize
 
+
 class PlayArea:
     def __init__(self, x: float, y: float, width: int, height: int) -> None:
         self.x = x

@@ -10,6 +10,7 @@ class Paddle:
         self.velocity = 0
         self.speed = speed
         self.hitbox = self.get_hitbox()
+        self.dy = 0
 
     def update_position(self, keys_pressed: dict, controls: dict) -> None:
         self.update_velocity(keys_pressed, controls)
