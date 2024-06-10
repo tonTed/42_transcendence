@@ -1,7 +1,7 @@
 import { getCookie } from "../utils.js";
 
 const updateUsername = async (newUsername) => {
-    const userId = getCookie('id');
+    const userId = 42;
     const url = `api/users/updateUsername/${userId}/`;
     const csrfToken = getCookie('csrftoken');
     const data = {
@@ -31,7 +31,7 @@ const updateUsername = async (newUsername) => {
 };
 
 const updateAvatar = async (avatar) => {
-    const userId = getCookie('id');
+    const userId = 42;
     const url = `api/users/updateAvatar/${userId}/`;
     const csrfToken = getCookie('csrftoken');
     const formData = new FormData();

@@ -4,10 +4,12 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_protect
 from liveUpdate.decorators import refresh_live_update
+import jwt
 
 
 @api_view(['GET'])
 def users(request):
+
     response = requests.get('http://api-users:3001/users/', json=request.data)
     return HttpResponse(response.content, status=response.status_code, content_type=request.content_type)
 
@@ -27,6 +29,9 @@ def create_user(request):
 @api_view(['PUT'])
 @refresh_live_update(['topbar', 'friendList', 'profile'])
 def updateUsername(request, user_id):
+    jwt_token = request.COOKIES.get('jwt_token')
+    payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
+    user_id = payload['user_id']
     response = requests.put(f'http://api-users:3001/users/{user_id}', data=request.body,
                             headers={'Content-Type': request.content_type})
     return HttpResponse(response.content, status=response.status_code, content_type=request.content_type)
@@ -35,6 +40,9 @@ def updateUsername(request, user_id):
 @csrf_protect
 @api_view(['PUT'])
 def updateAvatar(request, user_id):
+    jwt_token = request.COOKIES.get('jwt_token')
+    payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
+    user_id = payload['user_id']
     response = requests.put(f'http://api-users:3001/users/{user_id}', data=request.body,
                             headers={'Content-Type': request.content_type})
     return HttpResponse(response.content, status=response.status_code, content_type=request.content_type)
