@@ -17,8 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
+from .views import generate_token, verify_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include('user.urls')),
+    path('api/auth/generate/', generate_token, name='generate_token'),
+    path('api/auth/verify/', verify_token, name='verify_token'),
 ]

@@ -71,6 +71,23 @@ services:
       database:
         condition: service_healthy
 
+  api-auth:
+    env_file:
+      - drf-api-auth/.env
+    container_name: api-auth
+    build:
+      context: ./drf-api-auth
+    image: drf-api-auth:latest
+    volumes:
+      - ./drf-api-auth:/app
+    ports:
+      - "3003:3003"
+    networks:
+      - transcendence-network
+    depends_on:
+      database:
+        condition: service_healthy
+
   webserver:
     container_name: webserver
     build:

@@ -4,15 +4,19 @@ import requests
 import api.gateway
 import api.ft
 import os
+import jwt
+
 
 BASE_URL = os.getenv('API_URL')
 
 
 def topbar(request: HttpRequest) -> HttpResponse:
 
-    id_42 = request.COOKIES.get('id42')
+    jwt_token = request.COOKIES.get('jwt_token')
+    payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
+    user_id = payload['user_id']
 
-    user: dict = requests.get(f'{BASE_URL}/users/get_user_info_with_id_42/{id_42}')
+    user: dict = requests.get(f'{BASE_URL}/users/{user_id}')
 
     context: dict = {
         'user': user.json(),
@@ -22,9 +26,11 @@ def topbar(request: HttpRequest) -> HttpResponse:
 
 def profile(request: HttpRequest) -> HttpResponse:
 
-    id_42 = request.COOKIES.get('id42')
+    jwt_token = request.COOKIES.get('jwt_token')
+    payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
+    user_id = payload['user_id']
 
-    user: dict = requests.get(f'{BASE_URL}/users/get_user_info_with_id_42/{id_42}')
+    user: dict = requests.get(f'{BASE_URL}/users/{user_id}')
 
     context: dict = {
         'user': user.json(),
@@ -34,10 +40,12 @@ def profile(request: HttpRequest) -> HttpResponse:
 
 def friend_list(request: HttpRequest) -> HttpResponse:
 
-    id_42 = request.COOKIES.get('id42')
+    jwt_token = request.COOKIES.get('jwt_token')
+    payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
+    user_id = payload['user_id']
 
     users: dict = requests.get(f'{BASE_URL}/users/').json()
-    users_dict = list(filter(lambda user: user['id_42'] != str(id_42), users))
+    users_dict = list(filter(lambda user: user['id'] != str(user_id), users))
     context: dict = {
         'users': users_dict,
     }
