@@ -56,8 +56,3 @@ def friend_list(request: HttpRequest) -> HttpResponse:
 
 def history(request: HttpRequest) -> HttpResponse:
     return render(request, 'history.html')
-
-
-# TODO: Useless views put template in static folder
-def pong(request: HttpRequest) -> HttpResponse:
-    return render(request, 'pong.html')

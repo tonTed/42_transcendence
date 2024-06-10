@@ -23,7 +23,6 @@ const contentLoaderConfig = {
 		topbar: { endpoint: 'topbar/', containerId: 'topbarContainer' },
 		friendList: { endpoint: 'friend_list/', containerId: 'friendContainer' },
 		history: { endpoint: 'history/', containerId: 'historyContainer' },
-		pong: { endpoint: 'pong/', containerId: 'gameContainer' },
 		profile: { endpoint: 'profile/', containerId: 'profileContainer' }
 	}
 };
@@ -61,6 +60,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 	toggle2FA();
 	toggleProfile();
 
+	// TODO: Refactor in other functions
 	const liveUpdateSocket = new WebSocket('ws://localhost:3000/ws/live-update/');
 	liveUpdateSocket.onopen = () => {
 		console.debug('live-update socket opened');
