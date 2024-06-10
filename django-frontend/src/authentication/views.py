@@ -32,27 +32,24 @@ def callback(request) -> HttpResponse:
 
     if user.json()['is_2fa_enabled']:
         return redirect('login_password', permanent=True)
+    
+    jwt_token = requests.post(f'{API_URL}/auth/generate/', json={'user_id': user.json()['id']})
+    print(jwt_token.json())
 
     response: HttpResponse = redirect(f"/")
-    response.set_cookie('token42', access_token)
-    response.set_cookie('id42', me['id_42'])
-    response.set_cookie('id', user.json()['id'])
+    response.set_cookie('jwt_token', jwt_token.json()['access'])
     return response
 
 
 def logout(request: HttpRequest) -> HttpResponse:
     response: HttpResponse = redirect(f"http://localhost")
-    response.delete_cookie('token42')
-    response.delete_cookie('id42')
-    response.delete_cookie('id')
+    response.delete_cookie('jwt_token')
     return response
 
 def remove_session(request: HttpRequest) -> HttpResponsePermanentRedirect:
     request.session.flush()
     response: HttpResponse = redirect(f"/")
-    response.delete_cookie('token42')
-    response.delete_cookie('id42')
-    response.delete_cookie('id')
+    response.delete_cookie('jwt_token')
     return response
 
 

@@ -11,6 +11,11 @@ def users(request):
     response = requests.get('http://api-users:3001/users/', json=request.data)
     return HttpResponse(response.content, status=response.status_code, content_type=request.content_type)
 
+@api_view(['GET'])
+def user_info(request, id):
+    response = requests.get(f'http://api-users:3001/users/{id}')
+    return HttpResponse(response.content, status=response.status_code, content_type=request.content_type)
+
 
 @api_view(['POST'])
 def create_user(request):

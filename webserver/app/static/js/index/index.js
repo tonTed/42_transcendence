@@ -30,8 +30,15 @@ const contentLoaderConfig = {
 
 window.addEventListener('DOMContentLoaded', async () => {
 
-	// check is cookie token42 exists
-	if (getCookie('token42') === null) {
+	const jwtToken = getCookie('jwt_token');
+	const isValid = await fetch('/api/auth/verify/', {
+		method: 'POST',
+		headers: {
+			Authorization: `${jwtToken}`
+		}
+	});
+
+	if (isValid.status !== 200) {
 		window.location.href = '/login';
 	}
 
