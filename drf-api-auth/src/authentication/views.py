@@ -2,7 +2,11 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.conf import settings
 import jwt
-from datetime import datetime
+from datetime import datetime, timezone
+
+
+# TODO: Manage refresh token
+
 
 @api_view(['POST'])
 def generate_token(request):
@@ -12,11 +16,12 @@ def generate_token(request):
         return Response({'error': 'User ID not found'}, status=500)
     payload = {
         'user_id': user_id,
-        'exp': datetime.utcnow() + settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
-        'iat': datetime.utcnow(),
+        'exp': datetime.now(timezone.utc) + settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
+        'iat': datetime.now(timezone.utc),
     }
     token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
     return Response({'access': token})
+
 
 @api_view(['POST'])
 def verify_token(request):
