@@ -42,6 +42,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 	}
 
 	const indexLoader = new ContentLoader(contentLoaderConfig);
+	indexLoader.setJwtToken(jwtToken);
 	await indexLoader.loadAll();
 
 	await loadCanvasGame();
