@@ -1,6 +1,7 @@
 from django.db import models
 
 
+# TODO: remove blank using patch instead put to update data
 class User(models.Model):
     username = models.CharField(max_length=100, blank=True)
     avatar_url = models.CharField(max_length=255, blank=True, null=True)

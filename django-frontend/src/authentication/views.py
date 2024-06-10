@@ -53,13 +53,3 @@ def logout(request: HttpRequest) -> HttpResponse:
     response: HttpResponse = redirect(f"/")
     response.delete_cookie('jwt_token')
     return response
-
-
-# TODO: Remove when logout is managed and timeout is set
-def remove_session(request: HttpRequest) -> HttpResponsePermanentRedirect:
-    request.session.flush()
-    response: HttpResponse = redirect(f"/")
-    response.delete_cookie('jwt_token')
-    return response
-
-

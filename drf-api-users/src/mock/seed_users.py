@@ -2,7 +2,6 @@ import os
 import sys
 import json
 import django
-from users.models import User
 
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -10,6 +9,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "app.settings")
 django.setup()
 
+from users.models import User
 
 with open('mock/mock_users.json') as f:
     data = json.load(f)
