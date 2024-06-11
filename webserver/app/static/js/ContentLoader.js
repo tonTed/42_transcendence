@@ -23,7 +23,7 @@ export class ContentLoader {
                     method: 'GET',
                     credentials: 'include',
 					headers: {
-						'Authorization': `Bearer ${this.jwt_token}`
+						'Authorization': `${this.jwt_token}`
 					}
                 }
             );

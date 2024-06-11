@@ -27,7 +27,6 @@ def get_user_id_from_token(view_func):
         token = request.headers.get('Authorization')
         if not token:
             return JsonResponse({'error': 'Authorization header missing'}, status=401)
-        token = token.split(' ')[1]
         user_id = extract_info_from_jwt(token, 'user_id')
         if not user_id:
             return JsonResponse({'error': 'Invalid or expired token'}, status=401)
