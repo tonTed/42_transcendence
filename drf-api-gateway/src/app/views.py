@@ -30,3 +30,10 @@ def verify_token(request):
         return Response(response.json(), status=response.status_code)
     except Exception as e:
         return Response({"error": str(e)}, status=500)
+
+
+@api_view(['POST'])
+def verify_password(request):
+    print(request.data)
+    response = requests.post('http://api-users:3001/users/verify_password/', json=request.data)
+    return Response(response.json(), status=response.status_code)

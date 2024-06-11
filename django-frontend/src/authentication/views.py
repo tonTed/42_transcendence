@@ -24,8 +24,6 @@ def login(request: HttpRequest) -> HttpResponse:
 # - me
 # - user
 # - jwt_token
-# TODO: ask to password if new user
-# TODO: ask to password if 2fa enabled
 def callback(request) -> HttpResponse:
 
     access_token = api.ft.get_access_token(request.GET.get('code'))
@@ -35,16 +33,20 @@ def callback(request) -> HttpResponse:
     user = requests.get(f'{API_URL}/users/get_user_info_with_id_42/{me["id_42"]}')
 
     if user.status_code == 404:
-        # Rediriger vers une page pour créer un mot de passe
-        request.session['me'] = me  # Stocker les données utilisateur dans la session
+        request.session['me'] = me
         return redirect('create_password')
 
-    # if user.json()['is_2fa_enabled']:
+    user = user.json()
 
-    jwt_token = requests.post(f'{API_URL}/auth/generate/', json={'user_id': user.json()['id']})
+    if user['is_2fa_enabled']:
+        request.session['user_id'] = user['id']
+        return redirect('verify_2fa')
+
+    jwt_response = requests.post(f'{API_URL}/auth/generate/', json={'user_id': user['id']})
+    jwt_token = jwt_response.json()['access']
 
     response: HttpResponse = redirect(f"/")
-    response.set_cookie('jwt_token', jwt_token.json()['access'])
+    response.set_cookie('jwt_token', jwt_token)
     return response
 
 
@@ -73,3 +75,25 @@ def create_password(request):
             return render(request, 'create_password.html', {'error': 'Failed to create user'})
     
     return render(request, 'create_password.html')
+
+
+def verify_2fa(request):
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        user_id = request.session.get('user_id')
+        data = {
+            'user_id': user_id,
+            'password': password
+        }
+        auth_response = requests.post(f'{API_URL}/auth/verify_password/', json=data)
+        
+        if auth_response.status_code == 200:
+            jwt_response = requests.post(f'{API_URL}/auth/generate/', json={'user_id': user_id})
+            jwt_token = jwt_response.json()['access']
+            response = redirect('/')
+            response.set_cookie('jwt_token', jwt_token)
+            return response
+        else:
+            return render(request, 'verify_2fa.html', {'error': 'Failed to verify 2FA'})
+    
+    return render(request, 'verify_2fa.html')
