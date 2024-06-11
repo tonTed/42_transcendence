@@ -47,19 +47,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 	await loadCanvasGame();
 
-	// sidebar
-	handleAddFriendListClick();
-	handleFriendRequestsListClick();
-	handleFriendListClick();
-
-	// profile
-	fileInputListener();
-	editUsernameButtonListener();
-	confirmUsernameButtonListener();
-	confirmAvatarButtonListener();
-	profileExitButtonListener();
-	toggle2FA();
-	toggleProfile();
+	initializeEventListeners();
 
 	// TODO: Refactor in other functions
 	const liveUpdateSocket = new WebSocket('ws://localhost:3000/ws/live-update/');
@@ -67,11 +55,12 @@ window.addEventListener('DOMContentLoaded', async () => {
 		console.debug('live-update socket opened');
 	};
 
-	liveUpdateSocket.onmessage = (event) => {
+	liveUpdateSocket.onmessage = async (event) => {
 		const eventData = JSON.parse(event.data);
 		for (const event of eventData.data.split(',')) {
-			indexLoader.load(event);
+			await indexLoader.load(event);
 		}
+		initializeEventListeners();	
 	};
 
 	liveUpdateSocket.onclose = () => {
@@ -79,3 +68,15 @@ window.addEventListener('DOMContentLoaded', async () => {
 	};
 });
 
+function initializeEventListeners() {
+    handleAddFriendListClick();
+    handleFriendRequestsListClick();
+    handleFriendListClick();
+    fileInputListener();
+    editUsernameButtonListener();
+    confirmUsernameButtonListener();
+    confirmAvatarButtonListener();
+    profileExitButtonListener();
+    toggle2FA();
+    toggleProfile();
+}
