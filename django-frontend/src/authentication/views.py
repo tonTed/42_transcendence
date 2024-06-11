@@ -47,7 +47,6 @@ def callback(request) -> HttpResponse:
     return response
 
 
-# TODO: Manage logout from api 42 to do automatically login without password
 def logout(request: HttpRequest) -> HttpResponse:
     request.session.flush()
     response: HttpResponse = redirect(f"/")

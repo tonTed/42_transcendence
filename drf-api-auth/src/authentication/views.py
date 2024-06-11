@@ -5,9 +5,6 @@ import jwt
 from datetime import datetime, timezone
 
 
-# TODO: Manage refresh token
-
-
 @api_view(['POST'])
 def generate_token(request):
     
