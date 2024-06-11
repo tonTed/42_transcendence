@@ -4,6 +4,7 @@ export class ContentLoader {
 	constructor(config) {
 		this.baseurl = config.baseurl;
 		this.routes = config.routes;
+		this.jwt_token = null;
 	}
 
     /**
@@ -21,6 +22,9 @@ export class ContentLoader {
                 {
                     method: 'GET',
                     credentials: 'include',
+					headers: {
+						'Authorization': `${this.jwt_token}`
+					}
                 }
             );
 			document.getElementById(route.containerId).innerHTML = await response.text();
@@ -34,5 +38,9 @@ export class ContentLoader {
 		for (const endpoint in this.routes) {
 			await this.load(endpoint);
 		}
+	}
+
+	setJwtToken(jwt_token) {
+		this.jwt_token = jwt_token;
 	}
 }

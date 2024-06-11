@@ -22,8 +22,7 @@ const contentLoaderConfig = {
 	routes: {
 		topbar: { endpoint: 'topbar/', containerId: 'topbarContainer' },
 		friendList: { endpoint: 'friend_list/', containerId: 'friendContainer' },
-		chat: { endpoint: 'chat/', containerId: 'chatContainer' },
-		pong: { endpoint: 'pong/', containerId: 'gameContainer' },
+		history: { endpoint: 'history/', containerId: 'historyContainer' },
 		profile: { endpoint: 'profile/', containerId: 'profileContainer' }
 	}
 };
@@ -43,6 +42,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 	}
 
 	const indexLoader = new ContentLoader(contentLoaderConfig);
+	indexLoader.setJwtToken(jwtToken);
 	await indexLoader.loadAll();
 
 	await loadCanvasGame();
@@ -61,6 +61,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 	toggle2FA();
 	toggleProfile();
 
+	// TODO: Refactor in other functions
 	const liveUpdateSocket = new WebSocket('ws://localhost:3000/ws/live-update/');
 	liveUpdateSocket.onopen = () => {
 		console.debug('live-update socket opened');

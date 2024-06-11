@@ -1,49 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>transcendence</title>
+	<meta charset="UTF-8">
+	<title>transcendence</title>
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="static/bootstrap/bootstrap.min.css">
-    <script src="static/bootstrap/bootstrap.min.js"></script>
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="static/bootstrap/bootstrap.min.css">
+	<script src="static/bootstrap/bootstrap.min.js"></script>
 
-    <!-- css -->
-    <link rel="stylesheet" href="static/css/index.css">
-    <link rel="stylesheet" href="static/css/topbar.css">
-    <link rel="stylesheet" href="static/css/sidebar.css">
-    <link rel="stylesheet" href="static/css/chat.css">
-    <link rel="stylesheet" href="static/css/profile.css">
+	<!-- css -->
+	<link rel="stylesheet" href="static/css/index.css">
+	<link rel="stylesheet" href="static/css/topbar.css">
+	<link rel="stylesheet" href="static/css/sidebar.css">
+	<link rel="stylesheet" href="static/css/history.css">
+	<link rel="stylesheet" href="static/css/profile.css">
 
-    <!-- js -->
-    <script type="module" src="static/js/index/index.js"></script>
-    <script type="module" src="static/js/pong/main.js"></script>
+	<!-- js -->
+	<script type="module" src="static/js/index/index.js"></script>
+	<script type="module" src="static/js/pong/main.js"></script>
 
 
 
 </head>
 <body class="p-0 m-0">
-    <!-- Page -->
-    <div class="page-container d-flex">
-        <div class="sidebar-container p-2">
-            <div class="friend-container" id="friendContainer">
-                <!-- "friend" -->
-            </div>
-            <div class="chat-container d-flex flex-column justify-content-center" id="chatContainer">
-                <!-- "chat.html" -->
-            </div>
-        </div>
-        <div class="content-container p-1">
-            <div class="topbar-container d-flex align-items-center justify-content-end" id="topbarContainer">
-                <!-- "topbar.html" -->
-            </div>
-            <div class="profile-container justify-content-center align-items-center" id="profileContainer">
-                <!-- "profile.html" -->
-            </div>
-            <div id="loader"></div>
-            <div class="game-container justify-content-center align-items-center" id="gameContainer">
-            </div>
-        </div>
-    </div>
+	<!-- Page -->
+	<div class="page-container d-flex">
+		<div class="sidebar-container p-2">
+			<div class="friend-container" id="friendContainer">
+				<!-- "friend" -->
+			</div>
+			<div class="history-container d-flex flex-column justify-content-center" id="historyContainer">
+				<!-- "history.html" -->
+			</div>
+		</div>
+		<div class="content-container p-1">
+			<div class="topbar-container d-flex align-items-center justify-content-end" id="topbarContainer">
+				<!-- "topbar.html" -->
+			</div>
+			<div class="profile-container justify-content-center align-items-center" id="profileContainer">
+				<!-- "profile.html" -->
+			</div>
+			<div id="loader"></div>
+			<div class="game-container justify-content-center align-items-center" id="gameContainer">
+				<canvas id="pongCanvas" width="800" height="600" style="background: #000; display: block; margin: 0 auto"></canvas>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
