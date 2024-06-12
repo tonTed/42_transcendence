@@ -26,3 +26,16 @@ def get_user_info_with_id_42(request, id_42):
         return Response(user_json, status=200)
     except User.DoesNotExist:
         return Response({'message': 'User not found'}, status=404)
+
+
+@api_view(['POST'])
+def verify_password(request):
+    print(request.data)
+    try:
+        user = User.objects.get(id=request.data['user_id'])
+        if user.password == request.data['password']:
+            return Response({'message': 'Password verified'}, status=200)
+        else:
+            return Response({'message': 'Password not verified'}, status=400)
+    except User.DoesNotExist:
+        return Response({'message': 'User not found'}, status=404)
