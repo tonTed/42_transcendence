@@ -10,10 +10,8 @@ import jwt
 USER_URL = os.getenv('USER_URL')
 
 # TODO: Create middleware to check if user is authorized and ignore some routes (like login)
-# TODO: Remove id from path and use jwt token to get user id
 # TODO: Manage if error occurs in requests
-# TODO: Add verbose json data to response
-# TODO: refactor to use jwt token to get user id
+
 
 @api_view(['GET'])
 def users(request):
@@ -48,12 +46,14 @@ def create_user(request):
 @csrf_protect
 @api_view(['PATCH'])
 @refresh_live_update(['topbar', 'friendList', 'profile'])
-def updateUsername(request, user_id):
+def updateUsername(request):
     jwt_token = request.COOKIES.get('jwt_token')
     payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
     user_id = payload['user_id']
-    response = requests.patch(f'{USER_URL}/{user_id}', data=request.body,
-                            headers={'Content-Type': request.content_type})
+    response = requests.patch(
+        f'{USER_URL}/{user_id}', data=request.body,
+        headers={'Content-Type': request.content_type}
+    )
     return HttpResponse(
         response.content,
         status=response.status_code,
@@ -63,12 +63,13 @@ def updateUsername(request, user_id):
 
 @csrf_protect
 @api_view(['PUT'])
-def updateAvatar(request, user_id):
+def updateAvatar(request):
     jwt_token = request.COOKIES.get('jwt_token')
     payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
     user_id = payload['user_id']
-    response = requests.put(f'{USER_URL}/{user_id}', data=request.body,
-                            headers={'Content-Type': request.content_type})
+    response = requests.put(
+        f'{USER_URL}/{user_id}', data=request.body,
+        headers={'Content-Type': request.content_type})
     return HttpResponse(
         response.content,
         status=response.status_code,
