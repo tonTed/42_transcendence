@@ -10,7 +10,7 @@ const updateUsername = async (newUsername) => {
     
     try {
         const response = await fetch(url, {
-            method: 'PUT',
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken,
@@ -39,7 +39,7 @@ const updateAvatar = async (avatar) => {
 
     try {
         const response = await fetch(url, {
-            method: 'PUT',
+            method: 'PATCH',
             headers: {
                 'X-CSRFToken': csrfToken,
             },

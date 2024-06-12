@@ -18,31 +18,47 @@ USER_URL = os.getenv('USER_URL')
 @api_view(['GET'])
 def users(request):
     response = requests.get(f'{USER_URL}/')
-    return HttpResponse(response.content, status=response.status_code, content_type=request.content_type)
+    return HttpResponse(
+        response.content,
+        status=response.status_code,
+        content_type=request.content_type
+    )
 
 
 @api_view(['GET'])
 def user_info(request, id):
     response = requests.get(f'{USER_URL}/{id}')
-    return HttpResponse(response.content, status=response.status_code, content_type=request.content_type)
+    return HttpResponse(
+        response.content,
+        status=response.status_code,
+        content_type=request.content_type
+    )
 
 
 @api_view(['POST'])
 def create_user(request):
     response = requests.post(f'{USER_URL}/', json=request.data)
-    return HttpResponse(response.content, status=response.status_code, content_type=request.content_type)
+    return HttpResponse(
+        response.content,
+        status=response.status_code,
+        content_type=request.content_type
+    )
 
 
 @csrf_protect
-@api_view(['PUT'])
+@api_view(['PATCH'])
 @refresh_live_update(['topbar', 'friendList', 'profile'])
 def updateUsername(request, user_id):
     jwt_token = request.COOKIES.get('jwt_token')
     payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
     user_id = payload['user_id']
-    response = requests.put(f'{USER_URL}/{user_id}', data=request.body,
+    response = requests.patch(f'{USER_URL}/{user_id}', data=request.body,
                             headers={'Content-Type': request.content_type})
-    return HttpResponse(response.content, status=response.status_code, content_type=request.content_type)
+    return HttpResponse(
+        response.content,
+        status=response.status_code,
+        content_type=request.content_type
+    )
 
 
 @csrf_protect
@@ -53,7 +69,11 @@ def updateAvatar(request, user_id):
     user_id = payload['user_id']
     response = requests.put(f'{USER_URL}/{user_id}', data=request.body,
                             headers={'Content-Type': request.content_type})
-    return HttpResponse(response.content, status=response.status_code, content_type=request.content_type)
+    return HttpResponse(
+        response.content,
+        status=response.status_code,
+        content_type=request.content_type
+    )
 
 
 @api_view(['GET'])
