@@ -24,8 +24,8 @@ def users(request):
 
 
 @api_view(['GET'])
-def user_info(request, id):
-    response = requests.get(f'{USER_URL}/{id}')
+def user_info(request, user_id):
+    response = requests.get(f'{USER_URL}/{user_id}')
     return HttpResponse(
         response.content,
         status=response.status_code,
@@ -46,7 +46,7 @@ def create_user(request):
 @csrf_protect
 @api_view(['PATCH'])
 @refresh_live_update(['topbar', 'friendList', 'profile'])
-def updateUsername(request):
+def update_username(request):
     jwt_token = request.COOKIES.get('jwt_token')
     payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
     user_id = payload['user_id']
@@ -63,7 +63,7 @@ def updateUsername(request):
 
 @csrf_protect
 @api_view(['PUT'])
-def updateAvatar(request):
+def update_avatar(request):
     jwt_token = request.COOKIES.get('jwt_token')
     payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
     user_id = payload['user_id']
