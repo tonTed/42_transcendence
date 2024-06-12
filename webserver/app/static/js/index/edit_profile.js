@@ -1,8 +1,7 @@
 import { getCookie } from "../utils.js";
 
 const updateUsername = async (newUsername) => {
-    const userId = 42;
-    const url = `api/users/updateUsername/${userId}/`;
+    const url = `api/users/updateUsername/`;
     const csrfToken = getCookie('csrftoken');
     const data = {
         username: newUsername,
@@ -10,7 +9,7 @@ const updateUsername = async (newUsername) => {
     
     try {
         const response = await fetch(url, {
-            method: 'PUT',
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrfToken,
@@ -31,15 +30,14 @@ const updateUsername = async (newUsername) => {
 };
 
 const updateAvatar = async (avatar) => {
-    const userId = 42;
-    const url = `api/users/updateAvatar/${userId}/`;
+    const url = `api/users/updateAvatar/`;
     const csrfToken = getCookie('csrftoken');
     const formData = new FormData();
     formData.append("avatar", avatar);
 
     try {
         const response = await fetch(url, {
-            method: 'PUT',
+            method: 'PATCH',
             headers: {
                 'X-CSRFToken': csrfToken,
             },

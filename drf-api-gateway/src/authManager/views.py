@@ -1,10 +1,12 @@
+import os
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import requests
 
-# TODO: create auth app to handle token generation, verification, and refresh
+AUTH_URL = os.getenv('AUTH_URL')
+USER_URL = os.getenv('USER_URL')
+
 # TODO: Manage refresh token if needed and redirect to login page if token is expired
-# TODO: AUTH_URL = 'http://api-auth:3003/auth/' use env variable
 # TODO: Create middleware to check if user is authorized and ignore some routes (like login)
 
 
@@ -12,7 +14,7 @@ import requests
 def generate_token(request):
     try:
         response = requests.post(
-            'http://api-auth:3003/auth/generate/',
+            f'{AUTH_URL}/generate/',
             json={'user_id': request.data.get('user_id')}
         )
         return Response(response.json())
@@ -24,7 +26,7 @@ def generate_token(request):
 def verify_token(request):
     try:
         response = requests.post(
-            'http://api-auth:3003/auth/verify/',
+            f'{AUTH_URL}/verify/',
             json={'token': request.headers.get('Authorization')}
         )
         return Response(response.json(), status=response.status_code)
@@ -35,5 +37,8 @@ def verify_token(request):
 @api_view(['POST'])
 def verify_password(request):
     print(request.data)
-    response = requests.post('http://api-users:3001/users/verify_password/', json=request.data)
+    response = requests.post(
+        f'{USER_URL}/verify_password/',
+        json=request.data
+    )
     return Response(response.json(), status=response.status_code)
