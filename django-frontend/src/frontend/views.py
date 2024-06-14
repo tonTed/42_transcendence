@@ -44,9 +44,19 @@ def friend_list(request: HttpRequest) -> HttpResponse:
     user_id = request.user_id
 
     users: dict = requests.get(f'{BASE_URL}/users/').json()
-    users_dict = list(filter(lambda user: user['id'] != str(user_id), users))
+
+    user = next((user for user in users if user['id'] == user_id), None)
+
+    friends_ids = user.get('friends', [])
+    friends = [friend for friend in users if friend['id'] in friends_ids]
+    non_friends = [user for user in users if user['id'] != user_id and user['id'] not in friends_ids]
+
+    users_dict = list(filter(lambda user: str(user['id']) != str(user_id), users))
+
     context: dict = {
         'users': users_dict,
+        'friends': friends,
+        'non_friends': non_friends,
     }
     return render(request, 'sidebar.html', context=context)
 

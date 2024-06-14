@@ -18,15 +18,6 @@
     margin-bottom: 8px;
 }
 
-/* .section-header {
-    margin-bottom: 8px;
-    font-size:large;
-    font-weight: bold;
-    color: #3b496d;
-    cursor: pointer;
-    border-radius: 10px;
-} INSERT IN LIST-TITLE */
-
 .list-title {
     color: #3b496d;
     margin-bottom: 8px;
@@ -34,14 +25,6 @@
     font-weight: bold;
     border-radius: 10px;
     cursor: pointer;
-}
-
-.list-title:hover {
-    background-color: #232b3f;
-}
-
-.list-content {
-    display: none;
 }
 
 .user {
