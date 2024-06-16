@@ -38,11 +38,11 @@ class Game:
             BALL.HIT_DX,
             BALL.COLLISION_COEFF
         )
-        self.keys_pressed = {
-            self.player1.controls['up']: False,
-            self.player1.controls['down']: False,
-            self.player2.controls['up']: False,
-            self.player2.controls['down']: False,
+        self.actions = {
+            'p1Up': False,
+            'p1Down': False,
+            'p2Up': False,
+            'p2Down': False
         }
         self.resetting = True
         self.reset_time = GAME.INTERVAL_TIME
@@ -57,18 +57,18 @@ class Game:
             self.table
         )
 
-    def update_key_states(self, keys_pressed: dict) -> None:
-        self.keys_pressed = keys_pressed
+    def update_actions(self, actions: dict) -> None:
+        self.actions = actions
 
     def update(self) -> None:
         self.ball.update_position()
         self.player1.paddle.update_position(
-            self.keys_pressed,
-            self.player1.controls
+            self.actions['p1Up'],
+            self.actions['p1Down']
         )
         self.player2.paddle.update_position(
-            self.keys_pressed,
-            self.player2.controls
+            self.actions['p2Up'],
+            self.actions['p2Down']
         )
         self.check_collisions()
         if self.resetting is False and self.player_scored():

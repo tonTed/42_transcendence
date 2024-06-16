@@ -41,7 +41,7 @@ class GameConnection(AsyncWebsocketConsumer):
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         command = text_data_json['command']
-        keys_pressed = text_data_json.get('keysPressed', {})
+        actions = text_data_json.get('actions', {})
 
-        if command == "keys":
-            self.game.update_key_states(keys_pressed)
+        if command == "actions":
+            self.game.update_actions(actions)
