@@ -1,7 +1,6 @@
 from game.constants import (
     GAME_CONSTS as GAME, 
-    PADDLE_CONSTS as PADDLE, 
-    CONTROLS_CONSTS as CTRL
+    PADDLE_CONSTS as PADDLE,
 )
 from game.models.paddle import Paddle
 
@@ -17,7 +16,6 @@ class Player:
             PADDLE.SPEED
         )
         self.score = 0
-        self.controls = self.get_controls()
         self.goal = goal
         self.playing_side = (self.paddle.x > self.goal)
     
@@ -29,9 +27,3 @@ class Player:
 
     def update_score(self) -> None:
         self.score += 1
-
-    def get_controls(self) -> dict:
-        if self.id == GAME.PLAYER1:
-            return {'up': CTRL.P1_UP_KEY, 'down': CTRL.P1_DOWN_KEY}
-        else:
-            return {'up': CTRL.P2_UP_KEY, 'down': CTRL.P2_DOWN_KEY}

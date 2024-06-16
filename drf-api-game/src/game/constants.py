@@ -32,14 +32,3 @@ class GAME_CONSTS:
     INTERVAL_TIME = 1.5
     LEFT_SIDE = 0
     RIGHT_SIDE = 1
-
-
-''' need to change the controls in js script
-to modify the controls '''
-
-
-class CONTROLS_CONSTS:
-    P1_UP_KEY = 'w'
-    P1_DOWN_KEY = 's'
-    P2_UP_KEY = 'ArrowUp'
-    P2_DOWN_KEY = 'ArrowDown'
