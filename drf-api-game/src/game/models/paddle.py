@@ -12,15 +12,15 @@ class Paddle:
         self.hitbox = self.get_hitbox()
         self.dy = 0
 
-    def update_position(self, keys_pressed: dict, controls: dict) -> None:
-        self.update_velocity(keys_pressed, controls)
+    def update_position(self, up: bool, down: bool) -> None:
+        self.update_velocity(up, down)
         self.move()
 
-    def update_velocity(self, keys_pressed: dict, controls: dict) -> None:
+    def update_velocity(self, up: bool, down: bool) -> None:
         self.velocity = 0
-        if keys_pressed[controls['up']]:
+        if up:
             self.velocity -= self.speed
-        if keys_pressed[controls['down']]:
+        if  down:
             self.velocity += self.speed
 
     def move(self) -> None:

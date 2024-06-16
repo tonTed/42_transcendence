@@ -4,11 +4,11 @@ import { drawGame } from './game_display.js';
 
 let socket;
 
-function sendKeyStates() {
+function sendActions() {
     if (socket.readyState === WebSocket.OPEN) {
         socket.send(JSON.stringify({
-            command: "keys",
-            keysPressed: gameState.keysPressed
+            command: "actions",
+            actions: gameState.actions
         }));
     }
 }
@@ -22,7 +22,7 @@ export function handlerNetwork(canvas, context) {
 
         socket.onopen = function(e) {
             console.debug('WebSocket connection established');
-            setInterval(sendKeyStates, INTERVAL_DURATION);
+            setInterval(sendActions, INTERVAL_DURATION);
         };
 
         socket.onmessage = function(e) {
