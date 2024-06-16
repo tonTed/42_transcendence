@@ -1,5 +1,5 @@
 class BALL_CONSTS:
-    RADIUS = 7
+    RADIUS = 9
     INITIAL_X = 400
     INITIAL_Y = 0
     INITIAL_DX = 3
@@ -10,11 +10,11 @@ class BALL_CONSTS:
 
 class PADDLE_CONSTS:
     INITIAL_Y = 300
-    HEIGHT = 60
+    HEIGHT = 80
     WIDTH = 10
     SPEED = 11
-    PADDLE1_X = 10
-    PADDLE2_X = 790
+    PADDLE1_X = 12
+    PADDLE2_X = 788
 
 
 class CANVAS_CONSTS:
