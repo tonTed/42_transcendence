@@ -1,9 +1,6 @@
 import { loadCanvasGame } from '../pong/main.js';
 import { toggleProfile } from './topbar.js';
 import {
-	handleAddFriendListClick,
-	handleFriendRequestsListClick,
-	handleFriendListClick,
 } from './sidebar.js';
 import {
 	fileInputListener,
@@ -69,9 +66,6 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 
 function initializeEventListeners() {
-    handleAddFriendListClick();
-    handleFriendRequestsListClick();
-    handleFriendListClick();
     fileInputListener();
     editUsernameButtonListener();
     confirmUsernameButtonListener();
