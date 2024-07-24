@@ -11,6 +11,7 @@ class User(models.Model):
     is_2fa_enabled = models.BooleanField(default=False)
     id_42 = models.CharField(max_length=42)
     friends = models.ManyToManyField('self', blank=True)
+    status = models.CharField(max_length=10, default='offline')
 
     def save(self, *args, **kwargs):
         if not self.pk or 'password' in kwargs.get('update_fields', []):

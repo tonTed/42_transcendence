@@ -1,11 +1,6 @@
 import { loadCanvasGame } from '../pong/main.js';
 import { toggleProfile } from './topbar.js';
 import {
-	handleAddFriendListClick,
-	handleFriendRequestsListClick,
-	handleFriendListClick,
-} from './sidebar.js';
-import {
 	fileInputListener,
 	editUsernameButtonListener,
 	confirmUsernameButtonListener,
@@ -21,7 +16,7 @@ const contentLoaderConfig = {
 	baseurl: 'frontend',
 	routes: {
 		topbar: { endpoint: 'topbar/', containerId: 'topbarContainer' },
-		friendList: { endpoint: 'friend_list/', containerId: 'friendContainer' },
+		friendList: { endpoint: 'users_list/', containerId: 'userContainer' },
 		history: { endpoint: 'history/', containerId: 'historyContainer' },
 		profile: { endpoint: 'profile/', containerId: 'profileContainer' }
 	}
@@ -68,10 +63,16 @@ window.addEventListener('DOMContentLoaded', async () => {
 	};
 });
 
+function handleToggleFriendship() {
+    console.log("toggleFriendship");
+    const button = document.getElementById('toggle-friendship');
+    button.onclick = function() {
+        console.log("toggle friendship");
+    };
+}
+
 function initializeEventListeners() {
-    handleAddFriendListClick();
-    handleFriendRequestsListClick();
-    handleFriendListClick();
+	handleToggleFriendship();
     fileInputListener();
     editUsernameButtonListener();
     confirmUsernameButtonListener();

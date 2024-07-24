@@ -53,4 +53,4 @@ def generate_jwt_and_redirect(user_id):
     jwt_token = generate_jwt_token(user_id)
     response = redirect('/')
     response.set_cookie('jwt_token', jwt_token)
-    return response
+    return response, jwt_token

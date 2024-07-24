@@ -4,12 +4,20 @@ import requests
 from helpers.jwt_utils import extract_info_from_jwt, get_user_id_from_token
 import os
 import jwt
+import random
+from pprint import pprint
 
 # TODO: Manage errors and redirects for unauthorized access creatin a function that checks if the user is authorized
 # TODO: Merge topbar and profil ?
 
 BASE_URL = os.getenv('API_URL')
 
+
+def add_status_to_users(users: list) -> list:
+    statuses = ['online', 'offline', 'ingame']
+    for user in users:
+        user['status'] = random.choice(statuses)
+    return users
 
 @get_user_id_from_token
 def topbar(request: HttpRequest) -> HttpResponse:
@@ -39,16 +47,38 @@ def profile(request: HttpRequest) -> HttpResponse:
 
 # TODO: Implement friend list create a schema for the friend list and refactor name to user-list
 @get_user_id_from_token
-def friend_list(request: HttpRequest) -> HttpResponse:
+def users_list(request: HttpRequest) -> HttpResponse:
 
     user_id = request.user_id
 
     users: dict = requests.get(f'{BASE_URL}/users/').json()
-    users_dict = list(filter(lambda user: user['id'] != str(user_id), users))
+
+    # REMOVE ME
+    ids = [user['id'] for user in users]
+
+    me = None
+    users_list = []
+
+    for user in users:
+        if user['id'] == user_id:
+            me = user
+        else:
+            users_list.append(user)
+    
+    # REMOVE ME
+    # Ajouter aléatoirement des IDs à 'me['friends']'
+    num_friends = random.randint(0, len(ids) - 1)  # Nombre aléatoire d'amis
+    friends_ids = random.sample(ids, num_friends)  # Sélection aléatoire des IDs
+    me['friends'] = friends_ids
+
+    # REMOVE ME
+    users_with_status = add_status_to_users(users_list)
+
     context: dict = {
-        'users': users_dict,
+        'users': users_with_status,
+        'friends': me['friends'],
     }
-    return render(request, 'sidebar.html', context=context)
+    return render(request, 'users_list.html', context=context)
 
 
 def history(request: HttpRequest) -> HttpResponse:
