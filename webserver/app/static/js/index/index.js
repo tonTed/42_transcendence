@@ -22,8 +22,7 @@ const contentLoaderConfig = {
 	routes: {
 		topbar: { endpoint: 'topbar/', containerId: 'topbarContainer' },
 		friendList: { endpoint: 'friend_list/', containerId: 'friendContainer' },
-		chat: { endpoint: 'chat/', containerId: 'chatContainer' },
-		pong: { endpoint: 'pong/', containerId: 'gameContainer' },
+		history: { endpoint: 'history/', containerId: 'historyContainer' },
 		profile: { endpoint: 'profile/', containerId: 'profileContainer' }
 	}
 };
@@ -43,34 +42,25 @@ window.addEventListener('DOMContentLoaded', async () => {
 	}
 
 	const indexLoader = new ContentLoader(contentLoaderConfig);
+	indexLoader.setJwtToken(jwtToken);
 	await indexLoader.loadAll();
 
 	await loadCanvasGame();
 
-	// sidebar
-	handleAddFriendListClick();
-	handleFriendRequestsListClick();
-	handleFriendListClick();
+	initializeEventListeners();
 
-	// profile
-	fileInputListener();
-	editUsernameButtonListener();
-	confirmUsernameButtonListener();
-	confirmAvatarButtonListener();
-	profileExitButtonListener();
-	toggle2FA();
-	toggleProfile();
-
+	// TODO: Refactor in other functions
 	const liveUpdateSocket = new WebSocket('ws://localhost:3000/ws/live-update/');
 	liveUpdateSocket.onopen = () => {
 		console.debug('live-update socket opened');
 	};
 
-	liveUpdateSocket.onmessage = (event) => {
+	liveUpdateSocket.onmessage = async (event) => {
 		const eventData = JSON.parse(event.data);
 		for (const event of eventData.data.split(',')) {
-			indexLoader.load(event);
+			await indexLoader.load(event);
 		}
+		initializeEventListeners();	
 	};
 
 	liveUpdateSocket.onclose = () => {
@@ -78,3 +68,15 @@ window.addEventListener('DOMContentLoaded', async () => {
 	};
 });
 
+function initializeEventListeners() {
+    handleAddFriendListClick();
+    handleFriendRequestsListClick();
+    handleFriendListClick();
+    fileInputListener();
+    editUsernameButtonListener();
+    confirmUsernameButtonListener();
+    confirmAvatarButtonListener();
+    profileExitButtonListener();
+    toggle2FA();
+    toggleProfile();
+}

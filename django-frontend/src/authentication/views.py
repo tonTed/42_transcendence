@@ -2,7 +2,7 @@ import os
 from django.shortcuts import redirect, render
 from django.http import HttpRequest, HttpResponse, HttpResponsePermanentRedirect
 import requests
-import api.ft
+from authentication.helpers import get_access_token, get_me, get_user_info, generate_jwt_and_redirect, generate_jwt_token
 
 
 API_URL = os.getenv('API_URL')
@@ -18,38 +18,76 @@ def login(request: HttpRequest) -> HttpResponse:
     return render(request, 'login.html', context={'url': CALLBACK_URL})
 
 
-# TODO: Manage errors:
-# - request
-# - access_token
-# - me
-# - user
-# - jwt_token
-# TODO: ask to password if new user
-# TODO: ask to password if 2fa enabled
-def callback(request) -> HttpResponse:
+def callback(request: HttpRequest) -> HttpResponse:
+    try:
+        code = request.GET.get('code')
+        if not code:
+            return render(
+                request,
+                'error.html',
+                {
+                    'error_code': 400,
+                    'error_message': 'Missing code parameter in request'
+                }
+            )
 
-    access_token = api.ft.get_access_token(request.GET.get('code'))
+        access_token = get_access_token(code)
+        me = get_me(access_token)
+        user, status_code = get_user_info(me["id_42"])
 
-    me = api.ft.get_me(access_token)
+        if status_code == 404:
+            request.session['me'] = me
+            return redirect('create_password')
 
-    user = requests.get(f'{API_URL}/users/get_user_info_with_id_42/{me["id_42"]}')
+        if user.get('is_2fa_enabled'):
+            request.session['user_id'] = user['id']
+            return redirect('verify_2fa')
+        
+        response: HttpResponse = generate_jwt_and_redirect(user['id'])
+        return response
 
-    if user.status_code == 404:
-        user = requests.post(f'{API_URL}/users/create_user/', json=me)
-
-    if user.json()['is_2fa_enabled']:
-        return redirect('login_password', permanent=True)
-    
-    jwt_token = requests.post(f'{API_URL}/auth/generate/', json={'user_id': user.json()['id']})
-
-    response: HttpResponse = redirect(f"/")
-    response.set_cookie('jwt_token', jwt_token.json()['access'])
-    return response
+    except ValueError as e:
+        return render(request, 'error.html', {'error_code': 400, 'error_message': str(e)})
+    except Exception as e:
+        return render(request, 'error.html', {'error_code': 500, 'error_message': str(e)})
 
 
-# TODO: Manage logout from api 42 to do automatically login without password
 def logout(request: HttpRequest) -> HttpResponse:
     request.session.flush()
     response: HttpResponse = redirect(f"/")
     response.delete_cookie('jwt_token')
     return response
+
+
+def create_password(request):
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        me = request.session.get('me')
+        me['password'] = password
+        user_response = requests.post(f'{API_URL}/users/create_user/', json=me)
+        
+        if user_response.status_code == 201:
+            user = user_response.json()
+            return generate_jwt_and_redirect(user['id'])
+        else:
+            return render(request, 'create_password.html', {'error': 'Failed to create user'})
+    
+    return render(request, 'create_password.html')
+
+
+def verify_2fa(request):
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        user_id = request.session.get('user_id')
+        data = {
+            'user_id': user_id,
+            'password': password
+        }
+        auth_response = requests.post(f'{API_URL}/auth/verify_password/', json=data)
+        
+        if auth_response.status_code == 200:
+            return generate_jwt_and_redirect(user_id)
+        else:
+            return render(request, 'verify_2fa.html', {'error': 'Failed to verify 2FA'})
+    
+    return render(request, 'verify_2fa.html')

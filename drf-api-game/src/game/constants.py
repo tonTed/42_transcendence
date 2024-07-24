@@ -1,5 +1,5 @@
 class BALL_CONSTS:
-    RADIUS = 7
+    RADIUS = 9
     INITIAL_X = 400
     INITIAL_Y = 0
     INITIAL_DX = 3
@@ -10,11 +10,11 @@ class BALL_CONSTS:
 
 class PADDLE_CONSTS:
     INITIAL_Y = 300
-    HEIGHT = 60
+    HEIGHT = 80
     WIDTH = 10
     SPEED = 11
-    PADDLE1_X = 10
-    PADDLE2_X = 790
+    PADDLE1_X = 12
+    PADDLE2_X = 788
 
 
 class CANVAS_CONSTS:
@@ -32,14 +32,3 @@ class GAME_CONSTS:
     INTERVAL_TIME = 1.5
     LEFT_SIDE = 0
     RIGHT_SIDE = 1
-
-
-''' need to change the controls in js script
-to modify the controls '''
-
-
-class CONTROLS_CONSTS:
-    P1_UP_KEY = 'w'
-    P1_DOWN_KEY = 's'
-    P2_UP_KEY = 'ArrowUp'
-    P2_DOWN_KEY = 'ArrowDown'

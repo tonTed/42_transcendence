@@ -1,6 +1,6 @@
 class Ball:
-    def __init__(self, x: int, y: int, radius: int, dx: int, dy: int, 
-                 hit_dx: int, hit_coeff: float):
+    def __init__(self, x: float, y: float, radius: float, dx: float, dy: float, 
+                 hit_dx: float, hit_coeff: float):
         self.x = x
         self.y = y
         self.radius = radius

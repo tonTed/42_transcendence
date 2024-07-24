@@ -1,11 +1,10 @@
 from django.urls import path
-from frontend.views import topbar, friend_list, chat, pong, profile
+from frontend.views import topbar, friend_list, profile, history
 
 
 urlpatterns = [
-    path('topbar/', topbar, name='profileNew'),
-    path('friend_list/', friend_list, name='friend_listNew'),
-    path('chat/', chat, name='chatNew'),
-    path('pong/', pong, name='pongNew'),
-    path('profile/', profile, name='profileNew'),
+    path('topbar/', topbar, name='profile'),
+    path('friend_list/', friend_list, name='friend_list'),
+    path('history/', history, name='history'),
+    path('profile/', profile, name='profile'),
 ]
