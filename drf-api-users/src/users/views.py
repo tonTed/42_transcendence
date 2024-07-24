@@ -30,7 +30,6 @@ def get_user_info_with_id_42(request, id_42):
 
 @api_view(['POST'])
 def verify_password(request):
-    print(request.data)
     try:
         user = User.objects.get(id=request.data['user_id'])
         if check_password(request.data['password'], user.password):
