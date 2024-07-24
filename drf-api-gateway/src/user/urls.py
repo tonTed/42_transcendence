@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import get_user_info_with_id_42, update_username, update_avatar, create_user, users, user_info
+from .views import get_user_info_with_id_42, update_username, update_avatar, create_user, users, user_info, set_status
 
 
 urlpatterns = (
@@ -9,4 +9,5 @@ urlpatterns = (
     path('get_user_info_with_id_42/<int:id_42>/', get_user_info_with_id_42, name='get_user_info_with_id_42'),
     path('updateUsername/', update_username, name='user_update_username'),
     path('updateAvatar/', update_avatar, name='user_update_avatar'),
+    path('set_status/', set_status, name='set_status')
 )

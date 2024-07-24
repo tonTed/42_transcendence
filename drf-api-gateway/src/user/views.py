@@ -45,8 +45,25 @@ def create_user(request):
 
 @csrf_protect
 @api_view(['PATCH'])
-@refresh_live_update(['topbar', 'friendList', 'profile'])
+@refresh_live_update(['topbar', 'users_list', 'profile'])
 def update_username(request):
+    jwt_token = request.COOKIES.get('jwt_token')
+    payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
+    user_id = payload['user_id']
+    response = requests.patch(
+        f'{USER_URL}/{user_id}', data=request.body,
+        headers={'Content-Type': request.content_type}
+    )
+    return HttpResponse(
+        response.content,
+        status=response.status_code,
+        content_type=request.content_type
+    )
+
+
+@api_view(['PATCH'])
+@refresh_live_update(['users_list'])
+def set_status(request):
     jwt_token = request.COOKIES.get('jwt_token')
     payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
     user_id = payload['user_id']
