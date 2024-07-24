@@ -10,6 +10,7 @@
 	<!-- Bootstrap -->
 	<link rel="stylesheet" href="static/bootstrap/bootstrap.min.css">
 	<script src="static/bootstrap/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 	<!-- css -->
 	<link rel="stylesheet" href="static/css/index.css">
@@ -27,24 +28,24 @@
 </head>
 <body class="p-0 m-0">
 	<!-- Page -->
-	<div class="page-container d-flex">
-		<div class="sidebar-container p-2">
-			<div class="friend-container" id="friendContainer">
+	<div class="w-100 h-100 d-flex">
+		<div id="sidebarContainer" class="h-100 w-25x p-2">
+			<div id="userContainer">
 				<!-- "friend" -->
 			</div>
-			<div class="history-container d-flex flex-column justify-content-center" id="historyContainer">
+			<div id="historyContainer">
 				<!-- "history.html" -->
 			</div>
 		</div>
-		<div class="content-container p-1">
-			<div class="topbar-container d-flex align-items-center justify-content-end" id="topbarContainer">
+		<div class="h-100 w-100">
+			<div id="topbarContainer" class="align-items-center justify-content-end h-6 w-100 p-1">
 				<!-- "topbar.html" -->
 			</div>
-			<div class="profile-container justify-content-center align-items-center" id="profileContainer">
+			<div id="profileContainer" class="justify-content-center align-items-center">
 				<!-- "profile.html" -->
 			</div>
 			<div id="loader"></div>
-			<div class="game-container justify-content-center align-items-center" id="gameContainer">
+			<div id="gameContainer" class="justify-content-center align-items-center">
 				<canvas id="pongCanvas" width="800" height="600" style="background: #000; display: block; margin: 0 auto"></canvas>
 			</div>
 		</div>

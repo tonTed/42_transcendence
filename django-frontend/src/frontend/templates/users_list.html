@@ -1,0 +1,33 @@
+
+	<!-- User list title -->
+<div class="d-flex justify-content-between fs-4 fw-bold p-2" id="user-list-title">
+	<div>Users</div>
+</div>
+
+<!-- add user list content -->
+<div class="d-flex flex-column h-100 overflow-auto" id="user-list-content">
+	<!-- User -->
+	{% for user in users %}
+	<div class="d-flex justify-content-between align-items-center">
+		<!-- User name -->
+		<div class="user-name rounded p-2">{{ user.username }}</div>
+		<!-- User status  -->
+		<div class="d-flex justify-content-end">
+			<!-- Friend status -->
+			{% if user.id in friends %}
+				<i id="toggle-friendship" class="icon-btn bi bi-dash px-2" title="Remove friend"></i>
+			{% else %}
+				<i id="toggle-friendship" class="icon-btn bi bi-plus px-2" title="Add friend"></i>
+			{% endif %}
+			<!-- User status -->
+			{% if user.status == 'online' %}
+				<i class="bi bi-circle-fill text-success px-2"></i>
+			{% elif user.status == 'offline' %}
+			<i class="bi bi-circle text-danger px-2"></i>
+			{% else %}
+				<i class="bi bi-circle-half text-warning px-2"></i>
+			{% endif %}
+		</div>
+	</div>
+	{% endfor %}
+</div>
