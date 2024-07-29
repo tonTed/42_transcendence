@@ -64,11 +64,16 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 
 function handleToggleFriendship() {
-    console.log("toggleFriendship");
-    const button = document.getElementById('toggle-friendship');
-    button.onclick = function() {
-        console.log("toggle friendship");
-    };
+	const buttons = document.querySelectorAll('.toggle-friendship');
+    buttons.forEach(button => {
+		button.onclick = function() {
+			const user_id = button.getAttribute('data-user-id');
+			const friend_status = button.getAttribute('data-friend-status');
+			console.log("toggleFriendship");
+			console.log(user_id);
+			console.log(friend_status);
+		};
+	});
 }
 
 function initializeEventListeners() {

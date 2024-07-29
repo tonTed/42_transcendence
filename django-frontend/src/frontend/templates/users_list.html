@@ -15,9 +15,19 @@
 		<div class="d-flex justify-content-end">
 			<!-- Friend status -->
 			{% if user.id in friends %}
-				<i id="toggle-friendship" class="icon-btn bi bi-dash px-2" title="Remove friend"></i>
+				<i
+					class="toggle-friendship icon-btn bi bi-dash px-2"
+					title="Remove friend"
+					data-user-id="{{ user.id }}"
+					data-friend-status="remove"
+				></i>
 			{% else %}
-				<i id="toggle-friendship" class="icon-btn bi bi-plus px-2" title="Add friend"></i>
+				<i
+					class="toggle-friendship icon-btn bi bi-plus px-2"
+					title="Add friend"
+					data-user-id="{{ user.id }}"
+					data-friend-status="add"
+				></i>
 			{% endif %}
 			<!-- User status -->
 			{% if user.status == 'online' %}
