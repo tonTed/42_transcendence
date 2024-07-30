@@ -20,3 +20,17 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
+    
+    def add_friend(self, friend):
+        if friend not in self.friends.all().values_list('id', flat=True):
+            self.friends.add(friend)
+            self.save()
+            return True
+        return False
+
+    def remove_friend(self, friend):
+        if friend in self.friends.all().values_list('id', flat=True):
+            self.friends.remove(friend)
+            self.save()
+            return True
+        return False

@@ -101,3 +101,30 @@ def get_user_info_with_id_42(request, id_42):
         return JsonResponse(response.json(), status=200)
     else:
         return JsonResponse({'message': 'User not found'}, status=404)
+
+
+@api_view(['PATCH'])
+@refresh_live_update(['users_list'])
+def update_friend_status(request):
+    jwt_token = request.COOKIES.get('jwt_token')
+    payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
+    user_id = payload['user_id']
+
+    action = request.data['action']
+    friend_id = request.data['friend_id']
+
+    if action == 'add':
+        response = requests.post(
+            f'{USER_URL}/manage_friend/{user_id}/{friend_id}/',
+            headers={'Content-Type': request.content_type})
+        
+    elif action == 'remove':
+        response = requests.delete(
+            f'{USER_URL}/manage_friend/{user_id}/{friend_id}/',
+            headers={'Content-Type': request.content_type})
+    
+    return HttpResponse(
+        response.content,
+        status=response.status_code,
+        content_type=request.content_type
+    )

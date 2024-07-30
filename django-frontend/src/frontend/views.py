@@ -53,9 +53,6 @@ def users_list(request: HttpRequest) -> HttpResponse:
 
     users: dict = requests.get(f'{BASE_URL}/users/').json()
 
-    # REMOVE ME
-    ids = [user['id'] for user in users]
-
     me = None
     users_list = []
 
@@ -65,18 +62,13 @@ def users_list(request: HttpRequest) -> HttpResponse:
         else:
             users_list.append(user)
     
-    # REMOVE ME
-    # Ajouter aléatoirement des IDs à 'me['friends']'
-    num_friends = random.randint(0, len(ids) - 1)  # Nombre aléatoire d'amis
-    friends_ids = random.sample(ids, num_friends)  # Sélection aléatoire des IDs
-    me['friends'] = friends_ids
 
     # REMOVE ME
     users_with_status = add_status_to_users(users_list)
 
     context: dict = {
         'users': users_with_status,
-        'friends': me['friends'],
+        'friends': me['friends'] if me else [],
     }
     return render(request, 'users_list.html', context=context)
 
