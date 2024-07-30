@@ -17,6 +17,12 @@ CALLBACK_URL = (f'https://api.intra.42.fr/oauth/authorize'
 def login(request: HttpRequest) -> HttpResponse:
     return render(request, 'login.html', context={'url': CALLBACK_URL})
 
+def set_status(status: str, jwt_token: str) -> HttpResponse:
+    cookies = {
+        'jwt_token': jwt_token
+    }
+    response = requests.patch(f'{API_URL}/users/set_status/', json={'status': status}, cookies=cookies)
+    return response
 
 def callback(request: HttpRequest) -> HttpResponse:
     try:
@@ -43,7 +49,8 @@ def callback(request: HttpRequest) -> HttpResponse:
             request.session['user_id'] = user['id']
             return redirect('verify_2fa')
         
-        response: HttpResponse = generate_jwt_and_redirect(user['id'])
+        response, jwt_token = generate_jwt_and_redirect(user['id'])
+        set_status('online', jwt_token)
         return response
 
     except ValueError as e:
@@ -53,6 +60,7 @@ def callback(request: HttpRequest) -> HttpResponse:
 
 
 def logout(request: HttpRequest) -> HttpResponse:
+    set_status('offline', request.COOKIES.get('jwt_token'))
     request.session.flush()
     response: HttpResponse = redirect(f"/")
     response.delete_cookie('jwt_token')
@@ -68,7 +76,8 @@ def create_password(request):
         
         if user_response.status_code == 201:
             user = user_response.json()
-            return generate_jwt_and_redirect(user['id'])
+            response, _ = generate_jwt_and_redirect(user['id'])
+            return response
         else:
             return render(request, 'create_password.html', {'error': 'Failed to create user'})
     
@@ -86,7 +95,8 @@ def verify_2fa(request):
         auth_response = requests.post(f'{API_URL}/auth/verify_password/', json=data)
         
         if auth_response.status_code == 200:
-            return generate_jwt_and_redirect(user_id)
+            response, _ = generate_jwt_and_redirect(user_id)
+            return response
         else:
             return render(request, 'verify_2fa.html', {'error': 'Failed to verify 2FA'})
     
