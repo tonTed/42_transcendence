@@ -16,7 +16,7 @@ const contentLoaderConfig = {
 	baseurl: 'frontend',
 	routes: {
 		topbar: { endpoint: 'topbar/', containerId: 'topbarContainer' },
-		friendList: { endpoint: 'users_list/', containerId: 'userContainer' },
+		users_list: { endpoint: 'users_list/', containerId: 'userContainer' },
 		history: { endpoint: 'history/', containerId: 'historyContainer' },
 		profile: { endpoint: 'profile/', containerId: 'profileContainer' }
 	}
@@ -63,15 +63,44 @@ window.addEventListener('DOMContentLoaded', async () => {
 	};
 });
 
+
+// TODO: Refactor in other file
+const updateFriendship = async (user_id, friend_status) => {
+	try {
+		const response = await fetch(`/api/users/update_friend_status/`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json',
+				'X-CSRFToken': getCookie('csrftoken')
+			},
+			credentials: 'include',
+			body: JSON.stringify({
+				friend_id: user_id,
+				action: friend_status
+			})
+		});
+
+		if (!response.ok) {
+			const errorData = await response.json();
+			throw new Error(errorData.message || 'Unknown error occurred');
+		}
+	} catch (error) {
+		console.error('Error updating friend status:', error);
+	}
+};
+
 function handleToggleFriendship() {
 	const buttons = document.querySelectorAll('.toggle-friendship');
     buttons.forEach(button => {
-		button.onclick = function() {
+		button.onclick = async function() {
 			const user_id = button.getAttribute('data-user-id');
 			const friend_status = button.getAttribute('data-friend-status');
-			console.log("toggleFriendship");
-			console.log(user_id);
-			console.log(friend_status);
+
+			try {
+				await updateFriendship(user_id, friend_status);
+			} catch (error) {
+				console.error('Error updating friend status:', error);
+			}
 		};
 	});
 }

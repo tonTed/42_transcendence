@@ -4,6 +4,7 @@ from .models import User
 from .serializers import UserSerializer
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from rest_framework.views import APIView
 from django.contrib.auth.hashers import check_password
 
 
@@ -16,6 +17,24 @@ class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     parser_classes = (MultiPartParser, FormParser, JSONParser)
+
+
+class ManageFriendView(APIView):
+    def post(self, request, user_id, friend_id):
+        user = User.objects.get(id=user_id)
+        response = user.add_friend(friend_id)
+        print(response)
+        if response:
+            return Response({'message': 'Friend added'}, status=200)
+        else:
+            return Response({'message': 'Friend already added'}, status=400)
+    
+    def delete(self, request, user_id, friend_id):
+        user = User.objects.get(id=user_id)
+        if user.remove_friend(friend_id):
+            return Response({'message': 'Friend removed'}, status=200)
+        else:
+            return Response({'message': 'Friend not found'}, status=400)
 
 
 @api_view(['GET'])
