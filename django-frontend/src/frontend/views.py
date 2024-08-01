@@ -3,7 +3,6 @@ from django.http import HttpRequest, HttpResponse
 import requests
 from helpers.jwt_utils import extract_info_from_jwt, get_user_id_from_token
 import os
-import jwt
 import random
 from pprint import pprint
 
@@ -49,10 +48,22 @@ def form_game(request: HttpRequest) -> HttpResponse:
 
     user_id = request.user_id
 
-    user: dict = requests.get(f'{BASE_URL}/users/{user_id}')
+    users: dict = requests.get(f'{BASE_URL}/users/').json()
+
+    me = None
+    users_list = []
+
+    for user in users:
+        if user['id'] == user_id:
+            me = user
+        else:
+            users_list.append(user)
+
+    pprint(users_list[0])
 
     context: dict = {
-        'user': user.json(),
+        'users': users_list,
+        'me': me,
     }
     return render(request, 'form_game.html', context=context)
 
