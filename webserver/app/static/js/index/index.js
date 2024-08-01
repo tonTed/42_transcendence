@@ -9,6 +9,8 @@ import {
 	toggle2FA,
 } from './profile.js';
 
+import { init_game_form } from './game_form.js';
+
 import { ContentLoader } from '../ContentLoader.js';
 import { getCookie } from '../utils.js';
 
@@ -18,7 +20,8 @@ const contentLoaderConfig = {
 		topbar: { endpoint: 'topbar/', containerId: 'topbarContainer' },
 		users_list: { endpoint: 'users_list/', containerId: 'userContainer' },
 		history: { endpoint: 'history/', containerId: 'historyContainer' },
-		profile: { endpoint: 'profile/', containerId: 'profileContainer' }
+		profile: { endpoint: 'profile/', containerId: 'profileContainer' },
+		form_game: { endpoint: 'form_game/', containerId: 'gameContainer' }
 	}
 };
 
@@ -114,4 +117,5 @@ function initializeEventListeners() {
     profileExitButtonListener();
     toggle2FA();
     toggleProfile();
+	init_game_form();
 }

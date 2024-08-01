@@ -44,6 +44,18 @@ def profile(request: HttpRequest) -> HttpResponse:
     }
     return render(request, 'profile.html', context=context)
 
+@get_user_id_from_token
+def form_game(request: HttpRequest) -> HttpResponse:
+
+    user_id = request.user_id
+
+    user: dict = requests.get(f'{BASE_URL}/users/{user_id}')
+
+    context: dict = {
+        'user': user.json(),
+    }
+    return render(request, 'form_game.html', context=context)
+
 
 # TODO: Implement friend list create a schema for the friend list and refactor name to user-list
 @get_user_id_from_token
