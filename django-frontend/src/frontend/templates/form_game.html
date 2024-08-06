@@ -1,52 +1,17 @@
 <div class="container w-75 h-50 p-2 rounded-0 bg-danger">
   <div class="row m-2">
-    <button type="button" class="col me-1 btn btn-primary btn-lg" id="1v1">1 vs 1</button>
-    <button type="button" class="col ms-1 btn btn-primary btn-lg" id="tournament">Tournament</button>
+    <button type="button" class="col me-2 btn btn-primary btn-lg" id="1v1">
+      1 vs 1
+    </button>
+    <button
+      type="button"
+      class="col ms-2 btn btn-primary btn-lg"
+      id="tournament"
+    >
+      Tournament
+    </button>
   </div>
-  <div class="row mx-2 my-0">
-    <div id="1v1-container" class="container rounded-0 m-0 p-2 text-center d-none bg-info-subtle">
-      <h1>1v1</h1>
-      <p>Select players</p>
-      {% for i in "01"|make_list %}
-        <div class="row m-2">
-          <select class="form-select col mb-2 me-2" aria-label="Select player {{ i }}">
-            <option selected>Select a player</option>
-            {% for user in users %}
-            <option value="{{ user.id }}" id="player-select-{{ i }}">{{ user.username }}</option>
-            {% endfor %}
-          </select>
-          <input
-          type="text"
-          class="form-control col mb-2 ms-2"
-          id="player-input-{{ i }}"
-          placeholder="Enter player name"
-          disabled
-          >
-        </div>
-      {% endfor %}
-    </div>
-  </div>
-  <div class="row mx-2 my-0">
-    <div id="tournament-container" class="container rounded-0 m-0 p-2 text-center d-none bg-info-subtle">
-      <h1>Tournament</h1>
-      <p>Select players</p>
-      {% for i in "2345"|make_list %}
-        <div class="row m-2">
-          <select class="form-select col mb-2 me-2" aria-label="Select player {{ i }}">
-            <option selected>Select a player</option>
-            {% for user in users %}
-              <option value="{{ user.id }}" id="player-select-{{ i }}">{{ user.username }}</option>
-            {% endfor %}
-          </select>
-          <input
-            type="text"
-            class="form-control col mb-2 ms-2"
-            id="player-input-{{ i }}"
-            placeholder="Enter player name"
-            disabled
-          >
-        </div>
-      {% endfor %}
-    </div>
+  <div class="row m-2">
+    <div class="col text-center" id="select-players-container"></div>
   </div>
 </div>

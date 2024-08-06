@@ -11,7 +11,7 @@ import {
 
 import { handleToggleFriendship } from "./user-list.js";
 
-import { init_game_form } from "./game_form.js";
+import { initGameForm } from "./game_form.js";
 
 import { ContentLoader } from "../ContentLoader.js";
 import { getCookie } from "../utils.js";
@@ -76,5 +76,5 @@ function initializeEventListeners() {
   profileExitButtonListener();
   toggle2FA();
   toggleProfile();
-  init_game_form();
+  initGameForm();
 }
