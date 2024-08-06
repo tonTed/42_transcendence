@@ -22,12 +22,57 @@ function createSelectElement(users) {
 
   const input = document.createElement("input");
   input.type = "text";
-  input.className = "form-control col mb-2 ms-2 p-2";
+  input.className = "form-control col mb-2 ms-2 p-2 required";
   input.placeholder = "Enter a player name";
   div.appendChild(select);
   div.appendChild(input);
 
   return div;
+}
+
+async function handleSubmit(selectedMode) {
+  const selectPlayersContainer = document.getElementById(
+    "select-players-container"
+  );
+  const selectElements = selectPlayersContainer.querySelectorAll("select");
+  const inputElements = selectPlayersContainer.querySelectorAll("input");
+
+  const players = Array.from(selectElements).map((select, index) => {
+    return {
+      id: select.value,
+      name: inputElements[index].value,
+    };
+  });
+
+  const data = {
+    mode: selectedMode,
+    players: players,
+  };
+
+  console.log(data);
+}
+
+function createSubmitButton(container, selectedMode) {
+  const div = document.createElement("div");
+  div.className = "row";
+
+  const submitButton = document.createElement("button");
+  submitButton.type = "button";
+  submitButton.className = "btn btn-light btn-lg mt-4";
+  submitButton.textContent = "Submit";
+  div.appendChild(submitButton);
+  container.appendChild(div);
+
+  submitButton.addEventListener("click", function () {
+    handleSubmit(selectedMode);
+  });
+}
+
+// Create and add multiple player select elements
+function createMultipleSelectElements(container, users, count) {
+  for (let i = 0; i < count; i++) {
+    container.appendChild(createSelectElement(users));
+  }
 }
 
 // Update the player select container based on the selected mode
@@ -40,20 +85,15 @@ function updateSelectPlayersContainer(users, selectedMode) {
   switch (selectedMode) {
     case "1v1":
       createMultipleSelectElements(selectPlayersContainer, users, 2);
+      createSubmitButton(selectPlayersContainer, selectedMode);
       break;
     case "tournament":
       createMultipleSelectElements(selectPlayersContainer, users, 4);
+      createSubmitButton(selectPlayersContainer, selectedMode);
       break;
     default:
       selectPlayersContainer.innerHTML = "<h1>No mode selected</h1>";
       break;
-  }
-}
-
-// Create and add multiple player select elements
-function createMultipleSelectElements(container, users, count) {
-  for (let i = 0; i < count; i++) {
-    container.appendChild(createSelectElement(users));
   }
 }
 
