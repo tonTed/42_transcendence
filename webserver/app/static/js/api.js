@@ -1,5 +1,38 @@
 import { getCookie } from "./utils.js";
 
+const GAMES = [
+  {
+    id: 1,
+    player1: {
+      id: 1,
+      name: "hlander",
+    },
+    player2: {
+      id: 2,
+      name: "helene",
+    },
+    status: "not_started",
+    winner: null,
+    player1_score: 0,
+    player2_score: 0,
+  },
+  {
+    id: 2,
+    player1: {
+      id: 3,
+      name: "naberri",
+    },
+    player2: {
+      id: 4,
+      name: "byaqine",
+    },
+    status: "not_started",
+    winner: null,
+    player1_score: 0,
+    player2_score: 0,
+  },
+];
+
 const makeApiRequest = async (endpoint, method, data) => {
   const url = `${endpoint}`;
   const csrfToken = getCookie("csrftoken");
@@ -85,4 +118,19 @@ const getUsers = async () => {
   }
 };
 
-export { updateUsername, updateAvatar, updateFriendship, getUsers };
+const createGame = async (data) => {
+  return GAMES;
+};
+
+const createTournament = async (data) => {
+  return GAMES;
+};
+
+export {
+  updateUsername,
+  updateAvatar,
+  updateFriendship,
+  getUsers,
+  createGame,
+  createTournament,
+};

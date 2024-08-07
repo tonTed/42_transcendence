@@ -1,4 +1,5 @@
-import { getUsers } from "../api.js";
+import { createGame, createTournament, getUsers } from "../api.js";
+import { displayGames } from "./tournament.js";
 
 // Create the select element with user options
 function createSelectElement(users) {
@@ -103,6 +104,15 @@ async function handleSubmit(event, selectedMode) {
   console.log(data);
 
   // Send data to API
+  if (selectedMode === "1v1") {
+    const game = await createGame(data);
+    displayGames(game);
+    console.log(game);
+  } else if (selectedMode === "tournament") {
+    const tournament = await createTournament(data);
+    console.log(tournament);
+    displayGames(tournament);
+  }
 }
 
 // Create and add the submit button dynamically
@@ -178,4 +188,7 @@ export async function initGameForm() {
   });
 
   updateSelectPlayersContainer(users, selectedMode);
+
+  //dev
+  // displayGames(await createGame(null));
 }
