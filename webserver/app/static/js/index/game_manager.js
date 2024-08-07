@@ -1,4 +1,5 @@
 import { createGame, createTournament } from "../api.js";
+import { loadCanvasGame } from "../pong/main.js";
 
 /**
  * @typedef {import("../types.js").Player} Player
@@ -61,7 +62,9 @@ function displayGames(games) {
  * @param {Game} game
  */
 async function launchGame(game) {
-  console.log("launchGame", game);
+  const gameContainer = document.getElementById("gameContainer");
+  gameContainer.innerHTML = `<canvas id="pongCanvas" width="800" height="600" style="background: #000; display: block; margin: 0 auto"></canvas>`;
+  loadCanvasGame();
 }
 
 /**

@@ -1,4 +1,3 @@
-import { loadCanvasGame } from "../pong/main.js";
 import { toggleProfile } from "./topbar.js";
 import {
   fileInputListener,
@@ -43,8 +42,6 @@ window.addEventListener("DOMContentLoaded", async () => {
   const indexLoader = new ContentLoader(contentLoaderConfig);
   indexLoader.setJwtToken(jwtToken);
   await indexLoader.loadAll();
-
-  await loadCanvasGame();
 
   initializeEventListeners();
 
