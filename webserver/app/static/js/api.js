@@ -11,10 +11,10 @@ const GAMES = [
       id: 2,
       name: "helene",
     },
-    status: "not_started",
-    winner: null,
-    player1_score: 0,
-    player2_score: 0,
+    status: "finished",
+    winner: 1,
+    player1_score: 3,
+    player2_score: 2,
   },
   {
     id: 2,
@@ -25,6 +25,36 @@ const GAMES = [
     player2: {
       id: 4,
       name: "byaqine",
+    },
+    status: "in_progress",
+    winner: null,
+    player1_score: 0,
+    player2_score: 0,
+  },
+  {
+    id: 3,
+    player1: {
+      id: 1,
+      name: "hlander",
+    },
+    player2: {
+      id: null,
+      name: null,
+    },
+    status: "not_started",
+    winner: null,
+    player1_score: 0,
+    player2_score: 0,
+  },
+  {
+    id: 2,
+    player1: {
+      id: 2,
+      name: "helene",
+    },
+    player2: {
+      id: null,
+      name: null,
     },
     status: "not_started",
     winner: null,

@@ -1,5 +1,5 @@
 import { createGame, createTournament, getUsers } from "../api.js";
-import { displayGames } from "./tournament.js";
+import { displayGames } from "./game_manager.js";
 
 // Create the select element with user options
 function createSelectElement(users) {
@@ -190,5 +190,5 @@ export async function initGameForm() {
   updateSelectPlayersContainer(users, selectedMode);
 
   //dev
-  // displayGames(await createGame(null));
+  displayGames(await createGame(null));
 }
