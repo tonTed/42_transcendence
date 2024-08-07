@@ -7,6 +7,7 @@ function createSelectElement(users) {
 
   const select = document.createElement("select");
   select.className = "form-select col mb-2 me-2 p-2";
+  select.required = true;
 
   const defaultOption = document.createElement("option");
   defaultOption.selected = true;
@@ -22,15 +23,59 @@ function createSelectElement(users) {
 
   const input = document.createElement("input");
   input.type = "text";
-  input.className = "form-control col mb-2 ms-2 p-2 required";
+  input.className = "form-control col mb-2 ms-2 p-2";
   input.placeholder = "Enter a player name";
+  input.required = true;
+
   div.appendChild(select);
   div.appendChild(input);
+
+  // Add the selected option's text content to the input field
+  select.addEventListener("change", function () {
+    input.value = select.options[select.selectedIndex].textContent;
+  });
 
   return div;
 }
 
-async function handleSubmit(selectedMode) {
+// Validate the form inputs
+function validateForm() {
+  const selectPlayersContainer = document.getElementById(
+    "select-players-container"
+  );
+  const selectElements = selectPlayersContainer.querySelectorAll("select");
+  const inputElements = selectPlayersContainer.querySelectorAll("input");
+
+  // Check if all select elements have a numeric value
+  for (const select of selectElements) {
+    if (isNaN(select.value)) {
+      return "An input element is not selected";
+    }
+  }
+
+  // Check if all select values are unique
+  const selectUniqueValues = new Set(
+    Object.values(selectElements).map((select) => select.value)
+  );
+  if (selectUniqueValues.size !== selectElements.length) {
+    return "All select values must be unique";
+  }
+
+  // Check if all input values are unique
+  const inputUniqueValues = new Set(
+    Object.values(inputElements).map((input) => input.value)
+  );
+  if (inputUniqueValues.size !== inputElements.length) {
+    return "All input values must be unique";
+  }
+
+  return null;
+}
+
+// Handle form submission and send data to API
+async function handleSubmit(event, selectedMode) {
+  event.preventDefault();
+
   const selectPlayersContainer = document.getElementById(
     "select-players-container"
   );
@@ -49,23 +94,28 @@ async function handleSubmit(selectedMode) {
     players: players,
   };
 
+  const validationResult = validateForm();
+  if (validationResult) {
+    console.log(validationResult);
+    return;
+  }
+
   console.log(data);
+
+  // Send data to API
 }
 
+// Create and add the submit button dynamically
 function createSubmitButton(container, selectedMode) {
   const div = document.createElement("div");
   div.className = "row";
 
   const submitButton = document.createElement("button");
-  submitButton.type = "button";
+  submitButton.type = "submit";
   submitButton.className = "btn btn-light btn-lg mt-4";
   submitButton.textContent = "Submit";
   div.appendChild(submitButton);
   container.appendChild(div);
-
-  submitButton.addEventListener("click", function () {
-    handleSubmit(selectedMode);
-  });
 }
 
 // Create and add multiple player select elements
@@ -111,13 +161,20 @@ export async function initGameForm() {
 
   const btn1v1 = document.getElementById("1v1");
   const btnTournament = document.getElementById("tournament");
+  const form = document.getElementById("game-form");
 
   btn1v1.addEventListener("click", function () {
+    selectedMode = "1v1";
     updateModeSelection(btn1v1, btnTournament, "1v1", users);
   });
 
   btnTournament.addEventListener("click", function () {
+    selectedMode = "tournament";
     updateModeSelection(btnTournament, btn1v1, "tournament", users);
+  });
+
+  form.addEventListener("submit", function (event) {
+    handleSubmit(event, selectedMode);
   });
 
   updateSelectPlayersContainer(users, selectedMode);

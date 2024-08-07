@@ -12,6 +12,9 @@
     </button>
   </div>
   <div class="row m-2">
-    <div class="col text-center" id="select-players-container"></div>
+    <form id="game-form" method="post">
+      {% csrf_token %}
+      <div class="col text-center" id="select-players-container"></div>
+    </form>
   </div>
 </div>
