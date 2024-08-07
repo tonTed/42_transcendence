@@ -1,3 +1,11 @@
+import { createGame, createTournament } from "../api.js";
+
+/**
+ * @typedef {import("../types.js").Player} Player
+ * @typedef {import("../types.js").Game} Game
+ * @typedef {import("../types.js").Tournament} Tournament
+ */
+
 function displayGames(games) {
   console.log("displayGames");
   const container = document.getElementById("gameContainer");
@@ -49,4 +57,42 @@ function displayGames(games) {
   container.appendChild(table);
 }
 
-export { displayGames };
+/**
+ * @param {Game} game
+ */
+async function launchGame(game) {
+  console.log("launchGame", game);
+}
+
+/**
+ * @param {Player[]} players
+ */
+async function manage1v1(players) {
+  const response = await createGame(players);
+  const games = response;
+  launchGame(games[0]);
+}
+
+/**
+ * @param {Player[]} players
+ */
+async function manageTournament(players) {
+  const response = await createTournament(players);
+  const games = response.games;
+  displayGames(games);
+}
+
+/**
+ * @param {Object} data
+ * @param {string} data.mode - "1v1" | "tournament"
+ * @param {Player[]} data.players - array of players
+ */
+async function gameManager(data) {
+  if (data.mode === "1v1") {
+    manage1v1(data.players);
+  } else {
+    manageTournament(data.players);
+  }
+}
+
+export { gameManager };

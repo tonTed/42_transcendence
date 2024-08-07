@@ -1,5 +1,29 @@
 import { getCookie } from "./utils.js";
 
+/**
+ * @typedef {import("./types.js").Player} Player
+ * @typedef {import("./types.js").Game} Game
+ * @typedef {import("./types.js").Tournament} Tournament
+ */
+
+const GAME = [
+  {
+    id: 1,
+    player1: {
+      id: 1,
+      name: "hlander",
+    },
+    player2: {
+      id: 2,
+      name: "helene",
+    },
+    status: "not_started",
+    winner: null,
+    player1_score: 0,
+    player2_score: 0,
+  },
+];
+
 const GAMES = [
   {
     id: 1,
@@ -62,6 +86,12 @@ const GAMES = [
     player2_score: 0,
   },
 ];
+
+const TOURNAMENTS = {
+  id: 1,
+  status: "in_progress",
+  games: GAMES,
+};
 
 const makeApiRequest = async (endpoint, method, data) => {
   const url = `${endpoint}`;
@@ -141,19 +171,31 @@ const updateFriendship = async (user_id, friend_status) => {
 const getUsers = async () => {
   try {
     const users = await makeApiRequest("api/users/", "GET");
-    console.debug("Users fetched successfully:", users);
+    console.debug("Users fetched successfully");
     return users;
   } catch (error) {
     console.error("Failed to fetch users:", error);
   }
 };
 
-const createGame = async (data) => {
-  return GAMES;
+/**
+ * @param {Player[]} players - array of players
+ *
+ * @returns {Game[]} games - array of game objects
+ */
+const createGame = async (players) => {
+  console.log("players", players);
+  return GAME;
 };
 
-const createTournament = async (data) => {
-  return GAMES;
+/**
+ * @param {Player[]} players - array of players
+ *
+ * @returns {Tournament} tournament - tournament object
+ */
+const createTournament = (players) => {
+  console.log("players", players);
+  return TOURNAMENTS;
 };
 
 export {
