@@ -1,4 +1,4 @@
-import { createGame, createTournament } from "../api.js";
+import { createGame, createTournament, getGamesFromGamesIds } from "../api.js";
 import { loadCanvasGame } from "../pong/main.js";
 
 /**
@@ -38,16 +38,20 @@ function displayGames(games) {
         break;
     }
     const gameItem = document.createElement("tr");
-    const player1 = game.player1.name ? game.player1.name : "TBD";
-    const player2 = game.player2.name ? game.player2.name : "TBD";
+    const player1 = game.player1_name ? game.player1_name : "TBD";
+    const player2 = game.player2_name ? game.player2_name : "TBD";
     gameItem.innerHTML = `
       <th scope='row'>${index + 1}</th>
       <td><span class='${colorByStatus}'>${game.status}</span></td>
       <td class='text-center ${
-        game.winner && game.winner === game.player1.id ? "text-bg-success" : ""
+        game.winner_id && game.winner_id === game.player1_id
+          ? "text-bg-success"
+          : ""
       }'>${player1}</td>
       <td class='text-center ${
-        game.winner && game.winner === game.player2.id ? "text-bg-success" : ""
+        game.winner_id && game.winner_id === game.player2_id
+          ? "text-bg-success"
+          : ""
       }'>${player2}</td>
     `;
     tbody.appendChild(gameItem);
@@ -81,7 +85,7 @@ async function manage1v1(players) {
  */
 async function manageTournament(players) {
   const response = await createTournament(players);
-  const games = response.games;
+  const games = await getGamesFromGamesIds(response.games);
   displayGames(games);
 }
 

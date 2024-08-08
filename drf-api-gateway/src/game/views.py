@@ -5,9 +5,7 @@ from drf_yasg.utils import swagger_auto_schema
 from .swagger_schemas import game_creation_schema, tournament_creation_schema
 from .serializer import (
     GameSerializer,
-    GameUpdateSerializer,
     TournamentSerializer,
-    TournamentUpdateSerializer
 )
 
 # Create your views here.
@@ -27,7 +25,7 @@ class GamesView(generics.ListCreateAPIView):
         return Response(response.json())
       
 class GameView(generics.RetrieveUpdateAPIView):
-    serializer_class = GameUpdateSerializer
+    serializer_class = GameSerializer
     
     def get(self, request, game_id):
         response = requests.get(f'{GAMES_URL}/games/{game_id}/')
@@ -53,7 +51,7 @@ class TournamentsView(generics.ListCreateAPIView):
         return Response(response.json())
       
 class TournamentView(generics.RetrieveUpdateAPIView):
-    serializer_class = TournamentUpdateSerializer
+    serializer_class = TournamentSerializer
     
     def get(self, request, tournament_id):
         response = requests.get(f'{GAMES_URL}/tournaments/{tournament_id}/')

@@ -3,9 +3,7 @@ from rest_framework.response import Response
 from .models import Game, Tournament
 from .serializer import (
     GameSerializer,
-    TournamentSerializer,
-    GameUpdateSerializer,
-    TournamentUpdateSerializer
+    TournamentSerializer
 )
 import random
 from .swagger_schemas import game_creation_schema, tournament_creation_schema
@@ -45,7 +43,7 @@ class GameListCreate(generics.ListCreateAPIView):
 
 class GameRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Game.objects.all()
-    serializer_class = GameUpdateSerializer
+    serializer_class = GameSerializer
 
 class TournamentListCreate(generics.ListCreateAPIView):
     queryset = Tournament.objects.all()
@@ -81,4 +79,4 @@ class TournamentListCreate(generics.ListCreateAPIView):
 
 class TournamentRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Tournament.objects.all()
-    serializer_class = TournamentUpdateSerializer
+    serializer_class = TournamentSerializer
