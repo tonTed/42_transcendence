@@ -4,6 +4,7 @@ from .models import Game, Tournament
 from .serializer import GameSerializer, TournamentSerializer, GameUpdateSerializer
 import random
 from .swager_schema import game_creation_schema, tournament_creation_schema
+
 class GameListCreate(generics.ListCreateAPIView):
 
     queryset = Game.objects.all()
@@ -52,15 +53,26 @@ class TournamentListCreate(generics.ListCreateAPIView):
 
         if not players or len(players) != 4:
             return Response({"error": "A list of exactly four players is required."}, status=status.HTTP_400_BAD_REQUEST)
-        # randomize the players
+        
         random.shuffle(players)
-        # create a tournament with the players
-        game1 = Game.objects.create(player1_id=players[0], player2_id=players[1])
-        game2 = Game.objects.create(player1_id=players[2], player2_id=players[3])
+       
+        game1 = Game.objects.create(
+            player1_id=players[0].get('id'), 
+            player1_name=players[0].get('name'), 
+            player2_id=players[1].get('id'), 
+            player2_name=players[1].get('name')
+        )
+        game2 = Game.objects.create(
+            player1_id=players[2].get('id'), 
+            player1_name=players[2].get('name'), 
+            player2_id=players[3].get('id'), 
+            player2_name=players[3].get('name')
+        )
         game3 = Game.objects.create()
         game4 = Game.objects.create()
 
-        tournament = Tournament.objects.create(games=[game1.id, game2.id, game3.id, game4.id])
+        tournament = Tournament.objects.create()
+        tournament.games.set([game1, game2, game3, game4])  
         return Response(TournamentSerializer(tournament).data, status=status.HTTP_201_CREATED)
 
 class TournamentRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
