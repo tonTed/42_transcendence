@@ -6,8 +6,10 @@ class Game(models.Model):
         ('in_progress', 'In Progress'),
         ('finished', 'Finished'),
     ]
-    player1_id = models.IntegerField()
-    player2_id = models.IntegerField()
+    player1_id = models.IntegerField(null=True, blank=True)
+    player2_id = models.IntegerField(null=True, blank=True)
+    player1_name = models.CharField(max_length=20, null=True, blank=True)
+    player2_name = models.CharField(max_length=20, null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='not_started')
     winner_id = models.IntegerField(null=True, blank=True)
     player1_score = models.IntegerField(default=0)
