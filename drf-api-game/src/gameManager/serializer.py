@@ -15,3 +15,8 @@ class TournamentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tournament
         fields = '__all__'
+        
+class TournamentUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tournament
+        fields = ['status']

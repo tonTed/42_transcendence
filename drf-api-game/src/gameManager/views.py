@@ -1,7 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .models import Game, Tournament
-from .serializer import GameSerializer, TournamentSerializer, GameUpdateSerializer
+from .serializer import GameSerializer, TournamentSerializer, GameUpdateSerializer, TournamentUpdateSerializer
 import random
 from .swager_schema import game_creation_schema, tournament_creation_schema
 
@@ -77,4 +77,4 @@ class TournamentListCreate(generics.ListCreateAPIView):
 
 class TournamentRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Tournament.objects.all()
-    serializer_class = TournamentSerializer
+    serializer_class = TournamentUpdateSerializer
