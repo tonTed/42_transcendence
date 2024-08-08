@@ -34,3 +34,4 @@ typing_extensions==4.12.2
 urllib3==2.2.1
 wheel==0.43.0
 zope.interface==6.4.post2
+drf-yasg==1.21.7
