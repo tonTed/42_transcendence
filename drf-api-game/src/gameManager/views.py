@@ -18,7 +18,6 @@ class GameListCreate(generics.ListCreateAPIView):
     @game_creation_schema
     def post(self, request, *args, **kwargs):
         players = request.data.get('players')
-        print(players)
 
         if not players or len(players) != 2:
             return Response({"error": "A list of exactly two players is required."}, status=status.HTTP_400_BAD_REQUEST)
@@ -26,8 +25,8 @@ class GameListCreate(generics.ListCreateAPIView):
         player1 = players[0]
         player2 = players[1]
 
-        player1_id = player1.get('id')
-        player2_id = player2.get('id')
+        player1_id = int(player1.get('id'))
+        player2_id = int(player2.get('id'))
         player1_name = player1.get('name')
         player2_name = player2.get('name')
 
