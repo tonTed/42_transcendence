@@ -1,9 +1,14 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .models import Game, Tournament
-from .serializer import GameSerializer, TournamentSerializer, GameUpdateSerializer, TournamentUpdateSerializer
+from .serializer import (
+    GameSerializer,
+    TournamentSerializer,
+    GameUpdateSerializer,
+    TournamentUpdateSerializer
+)
 import random
-from .swager_schema import game_creation_schema, tournament_creation_schema
+from .swagger_schemas import game_creation_schema, tournament_creation_schema
 
 class GameListCreate(generics.ListCreateAPIView):
 
