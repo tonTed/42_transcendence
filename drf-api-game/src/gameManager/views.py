@@ -1,7 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .models import Game, Tournament
-from .serializer import GameSerializer, TournamentSerializer
+from .serializer import GameSerializer, TournamentSerializer, GameUpdateSerializer
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 
@@ -38,7 +38,7 @@ class GameListCreate(generics.ListCreateAPIView):
 
 class GameRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Game.objects.all()
-    serializer_class = GameSerializer
+    serializer_class = GameUpdateSerializer
 
 class TournamentListCreate(generics.ListCreateAPIView):
     queryset = Tournament.objects.all()

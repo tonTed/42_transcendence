@@ -6,6 +6,11 @@ class GameSerializer(serializers.ModelSerializer):
         model = Game
         fields = '__all__'
 
+class GameUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Game
+        fields = ['status', 'winner_id', 'player1_score', 'player2_score']
+
 class TournamentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tournament
