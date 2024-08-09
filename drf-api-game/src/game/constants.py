@@ -2,8 +2,8 @@ class BALL_CONSTS:
     RADIUS = 9
     INITIAL_X = 400
     INITIAL_Y = 0
-    INITIAL_DX = 3
-    INITIAL_DY = 3
+    INITIAL_DX = 10
+    INITIAL_DY = 10
     HIT_DX = 8
     COLLISION_COEFF = 0.3
 
@@ -26,7 +26,7 @@ class CANVAS_CONSTS:
 
 class GAME_CONSTS:
     FPS = 64
-    WINNING_SCORE = 4
+    WINNING_SCORE = 1
     PLAYER1 = 1
     PLAYER2 = 2
     INTERVAL_TIME = 1.5

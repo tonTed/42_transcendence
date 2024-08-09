@@ -45,5 +45,6 @@ export const FINAL_SCORE = Object.freeze({
 });
 
 export const INTERVAL_DURATION = 1000 / 60;
+export const FINAL_SCORES_DURATION = 2000;
 export const BALL_COLOR = 'white';
 export const PADDLES_COLOR = 'white';
