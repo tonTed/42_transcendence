@@ -1,5 +1,10 @@
 from django.urls import path
-from .views import GameListCreate, GameRetrieveUpdateDestroy, TournamentListCreate, TournamentRetrieveUpdateDestroy
+from .views import (
+    GameListCreate,
+    GameRetrieveUpdateDestroy,
+    TournamentListCreate,
+    TournamentRetrieveUpdateDestroy
+)
 
 urlpatterns = [
     path('games/', GameListCreate.as_view(), name='game-list-create'),

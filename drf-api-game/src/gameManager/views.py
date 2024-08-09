@@ -1,9 +1,12 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .models import Game, Tournament
-from .serializer import GameSerializer, TournamentSerializer, GameUpdateSerializer, TournamentUpdateSerializer
+from .serializer import (
+    GameSerializer,
+    TournamentSerializer
+)
 import random
-from .swager_schema import game_creation_schema, tournament_creation_schema
+from .swagger_schemas import game_creation_schema, tournament_creation_schema
 
 class GameListCreate(generics.ListCreateAPIView):
 
@@ -13,7 +16,6 @@ class GameListCreate(generics.ListCreateAPIView):
     @game_creation_schema
     def post(self, request, *args, **kwargs):
         players = request.data.get('players')
-        print(players)
 
         if not players or len(players) != 2:
             return Response({"error": "A list of exactly two players is required."}, status=status.HTTP_400_BAD_REQUEST)
@@ -21,8 +23,8 @@ class GameListCreate(generics.ListCreateAPIView):
         player1 = players[0]
         player2 = players[1]
 
-        player1_id = player1.get('id')
-        player2_id = player2.get('id')
+        player1_id = int(player1.get('id'))
+        player2_id = int(player2.get('id'))
         player1_name = player1.get('name')
         player2_name = player2.get('name')
 
@@ -41,7 +43,7 @@ class GameListCreate(generics.ListCreateAPIView):
 
 class GameRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Game.objects.all()
-    serializer_class = GameUpdateSerializer
+    serializer_class = GameSerializer
 
 class TournamentListCreate(generics.ListCreateAPIView):
     queryset = Tournament.objects.all()
@@ -77,4 +79,4 @@ class TournamentListCreate(generics.ListCreateAPIView):
 
 class TournamentRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Tournament.objects.all()
-    serializer_class = TournamentUpdateSerializer
+    serializer_class = TournamentSerializer

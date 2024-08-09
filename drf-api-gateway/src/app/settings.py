@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'user',
     'liveUpdate',
+    'drf_yasg',
+    'game',
 ]
 
 MIDDLEWARE = [
