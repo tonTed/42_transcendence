@@ -6,15 +6,19 @@ from game.constants import GAME_CONSTS
 from gameManager.views import update_game
 from asgiref.sync import sync_to_async
 import urllib.parse
-# TODO: Create an init method that initializes the game and starts the game loop
-# TODO: Check JWT token and user_id to start the game
+
 class GameConnection(AsyncWebsocketConsumer):
     async def connect(self):
+        # TODO: check jwt (api/auth/verify) || voir index.js dans webserver (TEDDY)
       
         query_string = self.scope['query_string'].decode()
         params = urllib.parse.parse_qs(query_string)
         self.game_id = int(params.get('game_id', [None])[0])
-        
+        jwt = params.get('jwt', [None])[0]
+        # TODO: get host's id || voir drf-api-gateway/user/views.py line 51 (request)
+        # TODO: update status of host (request)
+        # TODO: fetch data game (with game id)
+        # TODO: update game status to "started" (request)
         self.game = Game()
         await self.accept()
         self.game_loop_task = asyncio.create_task(self.game_loop())
@@ -32,6 +36,8 @@ class GameConnection(AsyncWebsocketConsumer):
         await self.update_game()
         await self.send_final()
         self.game_loop_task.cancel()
+        # TODO: update game status
+        # TODO: update host status
         await self.close()
 
     async def game_loop(self):

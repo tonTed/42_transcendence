@@ -3,6 +3,7 @@ import { gameState } from "./game_handler.js";
 import { updateData, drawWinner } from "./game_display.js";
 import { contentLoader } from "../index/index.js";
 import { initGameForm } from "../index/game_form.js";
+import { getCookie } from "../utils.js";
 
 let socket;
 
@@ -29,8 +30,9 @@ async function displayGameEnded(context, canvas, data) {
 
 export function handlerNetwork(canvas, context, game_id) {
 	let timer;
+	const jwtToken = getCookie("jwt_token");
 	const ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-	const ws_path = `${ws_scheme}://${window.location.hostname}:3002/ws/game/?game_id=${game_id}`;
+	const ws_path = `${ws_scheme}://${window.location.hostname}:3002/ws/game/?game_id=${game_id}&jwt=${jwtToken}`;
 	window.startGame = function startGame() {
 		socket = new WebSocket(ws_path);
 
