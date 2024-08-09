@@ -24,9 +24,9 @@ async function displayGameEnded() {
   initGameForm();
 }
 
-export function handlerNetwork(canvas, context) {
+export function handlerNetwork(canvas, context, game_id) {
   const ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-  const ws_path = `${ws_scheme}://${window.location.hostname}:3002/ws/game/`;
+  const ws_path = `${ws_scheme}://${window.location.hostname}:3002/ws/game/?game_id=${game_id}`;
 
   window.startGame = function startGame() {
     socket = new WebSocket(ws_path);

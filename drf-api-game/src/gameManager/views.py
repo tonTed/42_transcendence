@@ -80,3 +80,20 @@ class TournamentListCreate(generics.ListCreateAPIView):
 class TournamentRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Tournament.objects.all()
     serializer_class = TournamentSerializer
+    
+#   "status": "not_started",
+#   "winner_id": 2147483647,
+#   "player1_score": 2147483647,
+#   "player2_score": 2147483647
+def update_game(game_id, game_data):
+    try:
+        game = Game.objects.get(id=game_id)
+        game.status = game_data.get('status')
+        game.winner_id = game_data.get('winner_id')
+        game.player1_score = game_data.get('player1_score')
+        game.player2_score = game_data.get('player2_score')
+        game.save()
+    except Exception as e:
+        print(f"Error updating game: {e}")
+        return False
+    return True

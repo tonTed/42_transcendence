@@ -68,7 +68,7 @@ function displayGames(games) {
 async function launchGame(game) {
   const gameContainer = document.getElementById("gameContainer");
   gameContainer.innerHTML = `<canvas id="pongCanvas" width="800" height="600" style="background: #000; display: block; margin: 0 auto"></canvas>`;
-  loadCanvasGame();
+  loadCanvasGame(game.id);
 }
 
 /**
@@ -76,8 +76,8 @@ async function launchGame(game) {
  */
 async function manage1v1(players) {
   const response = await createGame(players);
-  const games = response;
-  launchGame(games[0]);
+  const game = response;
+  launchGame(game);
 }
 
 /**

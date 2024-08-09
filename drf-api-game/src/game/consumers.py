@@ -3,17 +3,33 @@ import asyncio
 from channels.generic.websocket import AsyncWebsocketConsumer
 from game.game import Game
 from game.constants import GAME_CONSTS
-
-
+from gameManager.views import update_game
+from asgiref.sync import sync_to_async
+import urllib.parse
 # TODO: Create an init method that initializes the game and starts the game loop
 # TODO: Check JWT token and user_id to start the game
 class GameConnection(AsyncWebsocketConsumer):
     async def connect(self):
+      
+        query_string = self.scope['query_string'].decode()
+        params = urllib.parse.parse_qs(query_string)
+        self.game_id = int(params.get('game_id', [None])[0])
+        
         self.game = Game()
         await self.accept()
         self.game_loop_task = asyncio.create_task(self.game_loop())
-    
+        
+    async def update_game(self):
+        game_data = {
+            "status": "finished",
+            "winner_id": self.game.winner,
+            "player1_score": self.game.player1.score,
+            "player2_score": self.game.player2.score
+        }
+        await sync_to_async(update_game)(self.game_id, game_data)
+
     async def game_ended(self):
+        await self.update_game()
         self.game_loop_task.cancel()
         await self.close()
 
