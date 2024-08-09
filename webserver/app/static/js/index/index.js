@@ -26,6 +26,8 @@ const contentLoaderConfig = {
   },
 };
 
+export const contentLoader = new ContentLoader(contentLoaderConfig);
+
 window.addEventListener("DOMContentLoaded", async () => {
   const jwtToken = getCookie("jwt_token");
   const isValid = await fetch("/api/auth/verify/", {
@@ -39,9 +41,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "/login";
   }
 
-  const indexLoader = new ContentLoader(contentLoaderConfig);
-  indexLoader.setJwtToken(jwtToken);
-  await indexLoader.loadAll();
+  contentLoader.setJwtToken(jwtToken);
+  await contentLoader.loadAll();
 
   initializeEventListeners();
 
@@ -54,7 +55,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   liveUpdateSocket.onmessage = async (event) => {
     const eventData = JSON.parse(event.data);
     for (const event of eventData.data.split(",")) {
-      await indexLoader.load(event);
+      await contentLoader.load(event);
     }
     initializeEventListeners();
   };

@@ -12,15 +12,18 @@ class GameConnection(AsyncWebsocketConsumer):
         self.game = Game()
         await self.accept()
         self.game_loop_task = asyncio.create_task(self.game_loop())
-
-    async def disconnect(self, close_code):
+    
+    async def game_ended(self):
         self.game_loop_task.cancel()
+        await self.close()
 
     async def game_loop(self):
         while True:
             await asyncio.sleep(1 / GAME_CONSTS.FPS)
             if self.game.winner is None:
                 self.game.update()
+            else:
+                await self.game_ended()
             await self.send_state()
 
     async def send_state(self):
