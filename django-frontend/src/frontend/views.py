@@ -1,15 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 import requests
-from helpers.jwt_utils import extract_info_from_jwt, get_user_id_from_token
+from helpers.jwt_utils import get_user_id_from_token
 import os
 import random
 from pprint import pprint
 
-# TODO: Manage errors and redirects for unauthorized access creatin a function that checks if the user is authorized
-# TODO: Merge topbar and profil ?
 
-BASE_URL = os.getenv('API_URL')
+API_URL = os.getenv('API_URL')
 
 
 def add_status_to_users(users: list) -> list:
@@ -23,7 +21,7 @@ def topbar(request: HttpRequest) -> HttpResponse:
 
     user_id = request.user_id
 
-    user: dict = requests.get(f'{BASE_URL}/users/{user_id}')
+    user: dict = requests.get(f'{API_URL}/users/{user_id}')
 
     context: dict = {
         'user': user.json(),
@@ -36,7 +34,7 @@ def profile(request: HttpRequest) -> HttpResponse:
 
     user_id = request.user_id
 
-    user: dict = requests.get(f'{BASE_URL}/users/{user_id}')
+    user: dict = requests.get(f'{API_URL}/users/{user_id}')
 
     context: dict = {
         'user': user.json(),
@@ -48,7 +46,7 @@ def form_game(request: HttpRequest) -> HttpResponse:
 
     user_id = request.user_id
 
-    users: dict = requests.get(f'{BASE_URL}/users/').json()
+    users: dict = requests.get(f'{API_URL}/users/').json()
 
     me = None
     users_list = []
@@ -67,14 +65,13 @@ def form_game(request: HttpRequest) -> HttpResponse:
     }
     return render(request, 'form_game.html', context=context)
 
-
-# TODO: Implement friend list create a schema for the friend list and refactor name to user-list
+# TODO: Split users and friends in two different lists sorted by status change the template to display them
 @get_user_id_from_token
 def users_list(request: HttpRequest) -> HttpResponse:
 
     user_id = request.user_id
 
-    users: dict = requests.get(f'{BASE_URL}/users/').json()
+    users: dict = requests.get(f'{API_URL}/users/').json()
 
     me = None
     users_list = []
@@ -86,7 +83,7 @@ def users_list(request: HttpRequest) -> HttpResponse:
             users_list.append(user)
     
 
-    # REMOVE ME
+    # TODO: REMOVE ME
     users_with_status = add_status_to_users(users_list)
 
     context: dict = {

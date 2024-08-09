@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.hashers import make_password
 
 
+# TODO: Remove the avatar_url and add an default avatar
 class User(models.Model):
     username = models.CharField(max_length=100, unique=True)
     avatar_url = models.CharField(max_length=255, blank=True, null=True)
