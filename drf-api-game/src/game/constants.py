@@ -2,8 +2,8 @@ class BALL_CONSTS:
     RADIUS = 9
     INITIAL_X = 400
     INITIAL_Y = 0
-    INITIAL_DX = 3
-    INITIAL_DY = 3
+    INITIAL_DX = 10
+    INITIAL_DY = 10
     HIT_DX = 8
     COLLISION_COEFF = 0.3
 

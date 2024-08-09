@@ -1,51 +1,58 @@
-import { INTERVAL_DURATION } from "./constants.js";
+import { FINAL_SCORES_DURATION, INTERVAL_DURATION,  } from "./constants.js";
 import { gameState } from "./game_handler.js";
-import { drawGame } from "./game_display.js";
+import { updateData, drawWinner } from "./game_display.js";
 import { contentLoader } from "../index/index.js";
 import { initGameForm } from "../index/game_form.js";
 
 let socket;
 
 function sendActions() {
-  if (socket.readyState === WebSocket.OPEN) {
-    socket.send(
-      JSON.stringify({
-        command: "actions",
-        actions: gameState.actions,
-      })
-    );
-  }
+	if (socket.readyState === WebSocket.OPEN) {
+		socket.send(
+		JSON.stringify({
+			command: "actions",
+			actions: gameState.actions,
+		})
+		);
+	}
 }
 
-async function displayGameEnded() {
-  const canvas = document.getElementById("pongCanvas");
-  canvas.remove();
-  await contentLoader.load("form_game");
-  initGameForm();
+async function displayGameEnded(context, canvas, data) {
+	drawWinner(context, canvas, data.winner, data.scores);
+	// TODO: clear interval
+	await new Promise ((r)=> setInterval(r, FINAL_SCORES_DURATION))
+	canvas.remove();
+	// TODO: TOURNEY OR 1v1
+	await contentLoader.load("form_game");
+	initGameForm();
 }
 
 export function handlerNetwork(canvas, context, game_id) {
-  const ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-  const ws_path = `${ws_scheme}://${window.location.hostname}:3002/ws/game/?game_id=${game_id}`;
+	let timer;
+	const ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+	const ws_path = `${ws_scheme}://${window.location.hostname}:3002/ws/game/?game_id=${game_id}`;
+	window.startGame = function startGame() {
+		socket = new WebSocket(ws_path);
 
-  window.startGame = function startGame() {
-    socket = new WebSocket(ws_path);
+		socket.onopen = function (e) {
+			console.debug("WebSocket connection established");
+			timer = setInterval(sendActions, INTERVAL_DURATION);
+		};
 
-    socket.onopen = function (e) {
-      console.debug("WebSocket connection established");
-      setInterval(sendActions, INTERVAL_DURATION);
-    };
+		socket.onmessage = function (e) {
+			const data = JSON.parse(e.data);
+			if (data.state){
+				updateData(canvas, context, data.state);
+			} else if (data.final) {
+				clearInterval(timer);
+				displayGameEnded(context, canvas, data.final);
+			}
+		};
 
-    socket.onmessage = function (e) {
-      const data = JSON.parse(e.data);
-      drawGame(canvas, context, data);
-    };
+		socket.onclose = async function (e) {
+			console.debug("WebSocket connection closed");
+		};
 
-    socket.onclose = async function (e) {
-      console.debug("WebSocket connection closed");
-      await displayGameEnded();
-    };
-
-    gameState.gameStarted = true;
-  };
+		gameState.gameStarted = true;
+	};
 }

@@ -30,6 +30,7 @@ class GameConnection(AsyncWebsocketConsumer):
 
     async def game_ended(self):
         await self.update_game()
+        await self.send_final()
         self.game_loop_task.cancel()
         await self.close()
 
@@ -44,17 +45,27 @@ class GameConnection(AsyncWebsocketConsumer):
 
     async def send_state(self):
         await self.send(text_data=json.dumps({
-            'ball_position': {'x': self.game.ball.x, 'y': self.game.ball.y},
-            'ball_radius': self.game.ball.radius,
-            'paddle1_position': {'x': self.game.player1.paddle.x - self.game.player1.paddle.width / 2,
-                                 'y': self.game.player1.paddle.y - self.game.player1.paddle.height / 2},
-            'paddle2_position': {'x': self.game.player2.paddle.x - self.game.player2.paddle.width / 2,
-                                 'y': self.game.player2.paddle.y - self.game.player2.paddle.height / 2},
-            'paddle_height': self.game.player1.paddle.height,
-            'paddle_width': self.game.player1.paddle.width,
-            'scores': {'player1': self.game.player1.score, 'player2': self.game.player2.score},
-            'resetting': self.game.resetting,
-            'winner': self.game.winner
+            'state': {
+                'ball_position': {'x': self.game.ball.x, 'y': self.game.ball.y},
+                'ball_radius': self.game.ball.radius,
+                'paddle1_position': {'x': self.game.player1.paddle.x - self.game.player1.paddle.width / 2,
+                                    'y': self.game.player1.paddle.y - self.game.player1.paddle.height / 2},
+                'paddle2_position': {'x': self.game.player2.paddle.x - self.game.player2.paddle.width / 2,
+                                    'y': self.game.player2.paddle.y - self.game.player2.paddle.height / 2},
+                'paddle_height': self.game.player1.paddle.height,
+                'paddle_width': self.game.player1.paddle.width,
+                'scores': {'player1': self.game.player1.score, 'player2': self.game.player2.score},
+                'resetting': self.game.resetting,
+                'winner': self.game.winner
+            }
+        }))
+
+    async def send_final(self):
+        await self.send(text_data=json.dumps({
+            'final': {
+                'scores': {'player1': self.game.player1.score, 'player2': self.game.player2.score},
+                'winner': self.game.winner
+            }
         }))
 
     async def receive(self, text_data):
