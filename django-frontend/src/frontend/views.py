@@ -65,30 +65,34 @@ def form_game(request: HttpRequest) -> HttpResponse:
     }
     return render(request, 'form_game.html', context=context)
 
-# TODO: Split users and friends in two different lists sorted by status change the template to display them
+
 @get_user_id_from_token
 def users_list(request: HttpRequest) -> HttpResponse:
 
     user_id = request.user_id
 
     users: dict = requests.get(f'{API_URL}/users/').json()
+    me = requests.get(f'{API_URL}/users/{user_id}').json()
 
-    me = None
     users_list = []
+    friends_list = []
 
     for user in users:
         if user['id'] == user_id:
-            me = user
+            continue
+        elif user['id'] in me['friends']:
+            friends_list.append(user)
         else:
             users_list.append(user)
     
 
     # TODO: REMOVE ME
     users_with_status = add_status_to_users(users_list)
+    friends_with_status = add_status_to_users(friends_list)
 
     context: dict = {
         'users': users_with_status,
-        'friends': me['friends'] if me else [],
+        'friends': friends_with_status,
     }
     return render(request, 'users_list.html', context=context)
 
