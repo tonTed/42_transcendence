@@ -35,6 +35,8 @@ def profile(request: HttpRequest) -> HttpResponse:
     user_id = request.user_id
 
     user: dict = requests.get(f'{API_URL}/users/{user_id}')
+    
+    pprint(user.json())
 
     context: dict = {
         'user': user.json(),
@@ -56,8 +58,6 @@ def form_game(request: HttpRequest) -> HttpResponse:
             me = user
         else:
             users_list.append(user)
-
-    pprint(users_list[0])
 
     context: dict = {
         'users': users_list,

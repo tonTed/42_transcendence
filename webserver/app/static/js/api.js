@@ -112,6 +112,14 @@ const getGamesFromGamesIds = async (games_ids) => {
   return games;
 };
 
+const activate2fa = async () => {
+  return await makeApiRequest("api/users/activate_2fa/", "POST");
+};
+
+const deactivate2fa = async () => {
+  return await makeApiRequest("api/users/deactivate_2fa/", "POST");
+};
+
 export {
   updateUsername,
   updateAvatar,
@@ -120,4 +128,6 @@ export {
   createGame,
   createTournament,
   getGamesFromGamesIds,
+  activate2fa,
+  deactivate2fa,
 };

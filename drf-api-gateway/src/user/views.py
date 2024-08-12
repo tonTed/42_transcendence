@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_protect
 import requests
 from liveUpdate.decorators import refresh_live_update
 import jwt
+import json
 
 USER_URL = os.getenv('USER_URL')
 
@@ -123,6 +124,37 @@ def update_friend_status(request):
             f'{USER_URL}/manage_friend/{user_id}/{friend_id}/',
             headers={'Content-Type': request.content_type})
     
+    return HttpResponse(
+        response.content,
+        status=response.status_code,
+        content_type=request.content_type
+    )
+
+@refresh_live_update(['profile'])
+def activate_2fa(request):
+    jwt_token = request.COOKIES.get('jwt_token')
+    payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
+    user_id = payload['user_id']
+    response = requests.patch(
+        f'{USER_URL}/{user_id}', data=json.dumps({'is_2fa_enabled': True}),
+        headers={'Content-Type': request.content_type}
+    )
+    return HttpResponse(
+        response.content,
+        status=response.status_code,
+        content_type=request.content_type
+    )
+
+@refresh_live_update(['profile'])
+def deactivate_2fa(request):
+    jwt_token = request.COOKIES.get('jwt_token')
+    payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
+    user_id = payload['user_id']
+    
+    response = requests.patch(
+        f'{USER_URL}/{user_id}', data=json.dumps({'is_2fa_enabled': False}),
+        headers={'Content-Type': request.content_type}
+    )
     return HttpResponse(
         response.content,
         status=response.status_code,

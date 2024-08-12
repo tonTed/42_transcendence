@@ -1,4 +1,9 @@
-import { updateUsername, updateAvatar } from "../api.js";
+import {
+  updateUsername,
+  updateAvatar,
+  activate2fa,
+  deactivate2fa,
+} from "../api.js";
 
 function fileInputListener() {
   const fileInput = document.getElementById("imageInput");
@@ -91,15 +96,10 @@ function confirmAvatarButtonListener() {
 function toggle2FA() {
   const toggleSwitch = document.getElementById("toggle2fa");
   toggleSwitch.addEventListener("change", function (event) {
-    const infoType = document.getElementById("activate_deactivate_2fa");
-    const password2fa = document.getElementById("password2fa");
-
     if (event.target.checked) {
-      infoType.innerText = "deactivate 2fa";
-      password2fa.style.display = "flex";
+      activate2fa();
     } else {
-      password2fa.style.display = "none";
-      infoType.innerText = "activate 2fa";
+      deactivate2fa();
     }
   });
 }
