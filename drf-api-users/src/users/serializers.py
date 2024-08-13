@@ -13,5 +13,6 @@ class UserSerializer(serializers.ModelSerializer):
             'is_2fa_enabled',
             'id_42',
             'friends',
-            'status'
+            'status',
+            'password'
         ]
