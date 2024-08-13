@@ -145,4 +145,12 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+MEDIA_ROOT = os.path.join('/usr/share/nginx/html/static')
+MEDIA_URL = '/avatar/'
+
 DATA_UPLOAD_MAX_MEMORY_SIZE = 500 * 1024 * 1024
+
+ALLOWED_IMAGE_TYPES = [
+    'image/jpeg',
+    'image/png',
+]

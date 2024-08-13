@@ -4,7 +4,6 @@ import requests
 from helpers.jwt_utils import get_user_id_from_token
 import os
 import random
-from pprint import pprint
 
 
 API_URL = os.getenv('API_URL')
@@ -35,8 +34,6 @@ def profile(request: HttpRequest) -> HttpResponse:
     user_id = request.user_id
 
     user: dict = requests.get(f'{API_URL}/users/{user_id}')
-    
-    pprint(user.json())
 
     context: dict = {
         'user': user.json(),
@@ -80,7 +77,7 @@ def users_list(request: HttpRequest) -> HttpResponse:
     for user in users:
         if user['id'] == user_id:
             continue
-        elif user['id'] in me['friends']:
+        elif me.get('friends') and user['id'] in me['friends']:
             friends_list.append(user)
         else:
             users_list.append(user)

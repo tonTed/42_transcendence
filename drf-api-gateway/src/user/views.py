@@ -7,6 +7,9 @@ import requests
 from liveUpdate.decorators import refresh_live_update
 import jwt
 import json
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.conf import settings
+
 
 USER_URL = os.getenv('USER_URL')
 
@@ -30,7 +33,6 @@ def user_info(request, user_id):
     return HttpResponse(
         response.content,
         status=response.status_code,
-        content_type=request.content_type
     )
 
 
@@ -40,7 +42,6 @@ def create_user(request):
     return HttpResponse(
         response.content,
         status=response.status_code,
-        content_type=request.content_type
     )
 
 
@@ -58,7 +59,6 @@ def update_username(request):
     return HttpResponse(
         response.content,
         status=response.status_code,
-        content_type=request.content_type
     )
 
 
@@ -75,24 +75,38 @@ def set_status(request):
     return HttpResponse(
         response.content,
         status=response.status_code,
-        content_type=request.content_type
     )
-
 
 @csrf_protect
 @api_view(['PATCH'])
-@refresh_live_update(['profile'])
+@refresh_live_update(['profile', 'topbar'])
 def update_avatar(request):
     jwt_token = request.COOKIES.get('jwt_token')
     payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
     user_id = payload['user_id']
+    
+    if 'avatar' not in request.FILES:
+        return HttpResponse(status=400)
+    avatar_file: InMemoryUploadedFile = request.FILES['avatar']
+    if avatar_file.size > settings.DATA_UPLOAD_MAX_MEMORY_SIZE:
+        return HttpResponse(status=413)
+    if avatar_file.content_type not in settings.ALLOWED_IMAGE_TYPES:
+        return HttpResponse(status=415)
+    image_extension = avatar_file.content_type.split("/")[1]
+    file_name = f'avatar_{user_id}.{image_extension}'
+    file_path = f'{settings.MEDIA_ROOT}/{file_name}'
+    with open(file_path, 'wb+') as destination:
+        for chunk in avatar_file.chunks():
+            destination.write(chunk)
+    host = request.get_host()
+    file_url = f'http://{host}/avatar/{file_name}'
+    
     response = requests.patch(
-        f'{USER_URL}/{user_id}', data=request.body,
-        headers={'Content-Type': request.content_type})
+        f'{USER_URL}/{user_id}', data=json.dumps({'avatar_url': file_url}),
+        headers={'Content-Type': 'application/json'})
     return HttpResponse(
         response.content,
         status=response.status_code,
-        content_type=request.content_type
     )
 
 

@@ -17,5 +17,3 @@ urlpatterns = [
     path('users/verify_password/', verify_password, name='verify-password'),
     path('users/manage_friend/<int:user_id>/<int:friend_id>/', ManageFriendView.as_view(), name='manage_friend')
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

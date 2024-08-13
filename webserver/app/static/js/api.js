@@ -6,11 +6,12 @@ import { getCookie } from "./utils.js";
  * @typedef {import("./types.js").Tournament} Tournament
  */
 
-const makeApiRequest = async (endpoint, method, data, contentType) => {
+const makeApiRequest = async (endpoint, method, data) => {
   const url = `${endpoint}`;
   const csrfToken = getCookie("csrftoken");
   const headers = {
     "X-CSRFToken": csrfToken,
+    "Content-Type": "application/json",
   };
 
   const fetchOptions = {
@@ -44,14 +45,17 @@ const updateUsername = async (newUsername) => {
 // TODO: try to use makeApiRequest instead of fetch
 const updateAvatar = async (avatar) => {
   const formData = new FormData();
+  formData.append("avatar", avatar);
+
   try {
-    const updatedUser = await fetch("api/users/updateAvatar/", {
+    const response = await fetch("api/users/updateAvatar/", {
       method: "PATCH",
       body: formData,
       headers: {
         "X-CSRFToken": getCookie("csrftoken"),
       },
     });
+    const updatedUser = await response.json();
     console.debug("Avatar updated successfully:", updatedUser);
     return updatedUser.avatar;
   } catch (error) {

@@ -8,7 +8,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'username',
-            'avatar',
             'avatar_url',
             'email',
             'is_2fa_enabled',
