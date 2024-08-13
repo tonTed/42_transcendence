@@ -80,12 +80,13 @@ def set_status(request):
 
 
 @csrf_protect
-@api_view(['PUT'])
+@api_view(['PATCH'])
+@refresh_live_update(['profile'])
 def update_avatar(request):
     jwt_token = request.COOKIES.get('jwt_token')
     payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
     user_id = payload['user_id']
-    response = requests.put(
+    response = requests.patch(
         f'{USER_URL}/{user_id}', data=request.body,
         headers={'Content-Type': request.content_type})
     return HttpResponse(
