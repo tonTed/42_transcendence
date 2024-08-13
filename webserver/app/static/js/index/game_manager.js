@@ -8,7 +8,6 @@ import { loadCanvasGame } from "../pong/main.js";
  */
 
 function displayGames(games) {
-  console.log("displayGames");
   const container = document.getElementById("gameContainer");
   container.innerHTML = "";
 

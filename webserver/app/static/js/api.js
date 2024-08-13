@@ -37,7 +37,7 @@ const updateUsername = async (newUsername) => {
       "PATCH",
       { username: newUsername }
     );
-    console.debug("Username updated successfully:", updatedUser);
+    console.debug("Username updated successfully:", updatedUser.username);
     return updatedUser;
   } catch (error) {
     console.error("Failed to update username:", error);
@@ -58,7 +58,7 @@ const updateAvatar = async (avatar) => {
       },
     });
     const updatedUser = await response.json();
-    console.debug("Avatar updated successfully:", updatedUser);
+    console.debug("Avatar updated successfully:", updatedUser.username);
     return updatedUser.avatar;
   } catch (error) {
     console.error("Failed to update avatar:", error);
@@ -76,7 +76,7 @@ const updateFriendship = async (user_id, friend_status) => {
         action: friend_status,
       }
     );
-    console.debug("Friendship updated successfully:", updatedFriendship);
+    console.debug("Friendship updated successfully:");
     return updatedFriendship;
   } catch (error) {
     console.error("Error updating friend status:", error);
@@ -86,7 +86,7 @@ const updateFriendship = async (user_id, friend_status) => {
 const getUsers = async () => {
   try {
     const users = await makeApiRequest("api/users/", "GET");
-    console.debug("Users fetched successfully");
+    console.debug(`Users fetched successfully (${users.length} users)`);
     return users;
   } catch (error) {
     console.error("Failed to fetch users:", error);
