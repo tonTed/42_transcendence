@@ -20,8 +20,8 @@ function sendActions() {
 
 async function displayGameEnded(context, canvas, data) {
   drawWinner(context, canvas, data.winner, data.scores);
-  // TODO: clear interval
-  await new Promise((r) => setInterval(r, FINAL_SCORES_DURATION));
+
+  await new Promise((r) => setTimeout(r, FINAL_SCORES_DURATION));
   canvas.remove();
   // TODO: TOURNEY OR 1v1
   await contentLoader.load("form_game");
