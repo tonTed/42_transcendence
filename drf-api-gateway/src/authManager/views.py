@@ -33,7 +33,6 @@ def verify_token(request):
 
 @api_view(['POST'])
 def verify_password(request):
-    print(request.data)
     response = requests.post(
         f'{USER_URL}/verify_password/',
         json=request.data
