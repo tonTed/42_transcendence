@@ -9,9 +9,11 @@ import { getCookie } from "./utils.js";
 const makeApiRequest = async (endpoint, method, data) => {
   const url = `${endpoint}`;
   const csrfToken = getCookie("csrftoken");
+  const jwtToken = getCookie("jwt_token");
   const headers = {
     "X-CSRFToken": csrfToken,
     "Content-Type": "application/json",
+    Authorization: jwtToken,
   };
 
   const fetchOptions = {

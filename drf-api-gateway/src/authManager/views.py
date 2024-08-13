@@ -6,9 +6,6 @@ import requests
 AUTH_URL = os.getenv('AUTH_URL')
 USER_URL = os.getenv('USER_URL')
 
-# TODO: Manage refresh token if needed and redirect to login page if token is expired
-# TODO: Create middleware to check if user is authorized and ignore some routes (like login)
-
 
 @api_view(['POST'])
 def generate_token(request):

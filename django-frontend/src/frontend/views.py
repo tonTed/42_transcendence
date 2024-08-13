@@ -4,6 +4,7 @@ import requests
 from helpers.jwt_utils import get_user_id_from_token
 import os
 import random
+from pprint import pprint
 
 
 API_URL = os.getenv('API_URL')
@@ -17,13 +18,21 @@ def add_status_to_users(users: list) -> list:
 
 @get_user_id_from_token
 def topbar(request: HttpRequest) -> HttpResponse:
-
+    
+    authorization = request.headers.get('Authorization')
     user_id = request.user_id
 
-    user: dict = requests.get(f'{API_URL}/users/{user_id}')
-
+    response: dict = requests.get(
+        f'{API_URL}/users/{user_id}',
+        headers={'Authorization': authorization}
+    )
+    if response.status_code != 200:
+        return HttpResponse(status=response.status_code, content=response.reason)
+    
+    user: dict = response.json()
+    
     context: dict = {
-        'user': user.json(),
+        'user': user,
     }
     return render(request, 'topbar.html', context=context)
 
@@ -31,21 +40,37 @@ def topbar(request: HttpRequest) -> HttpResponse:
 @get_user_id_from_token
 def profile(request: HttpRequest) -> HttpResponse:
 
+    authorization = request.headers.get('Authorization')
     user_id = request.user_id
 
-    user: dict = requests.get(f'{API_URL}/users/{user_id}')
+    response: dict = requests.get(
+        f'{API_URL}/users/{user_id}',
+        headers={'Authorization': authorization}
+    )
+    if response.status_code != 200:
+        return HttpResponse(status=response.status_code, content=response.reason)
+    
+    user: dict = response.json()
 
     context: dict = {
-        'user': user.json(),
+        'user': user,
     }
     return render(request, 'profile.html', context=context)
 
 @get_user_id_from_token
 def form_game(request: HttpRequest) -> HttpResponse:
 
+    authorization = request.headers.get('Authorization')
     user_id = request.user_id
 
-    users: dict = requests.get(f'{API_URL}/users/').json()
+    response: dict = requests.get(
+        f'{API_URL}/users/',
+        headers={'Authorization': authorization}
+    )
+    if response.status_code != 200:
+        return HttpResponse(status=response.status_code, content=response.reason)
+    
+    users: dict = response.json()
 
     me = None
     users_list = []
@@ -66,10 +91,25 @@ def form_game(request: HttpRequest) -> HttpResponse:
 @get_user_id_from_token
 def users_list(request: HttpRequest) -> HttpResponse:
 
+    authorization = request.headers.get('Authorization')
     user_id = request.user_id
 
-    users: dict = requests.get(f'{API_URL}/users/').json()
-    me = requests.get(f'{API_URL}/users/{user_id}').json()
+    response: dict = requests.get(
+        f'{API_URL}/users/',
+        headers={'Authorization': authorization}
+    )
+    if response.status_code != 200:
+        return HttpResponse(status=response.status_code, content=response.reason)
+    
+    users: dict = response.json()
+    response: dict = requests.get(
+        f'{API_URL}/users/{user_id}',
+        headers={'Authorization': authorization}
+    )
+    if response.status_code != 200:
+        return HttpResponse(status=response.status_code, content=response.reason)
+    
+    me: dict = response.json()
 
     users_list = []
     friends_list = []
@@ -95,4 +135,6 @@ def users_list(request: HttpRequest) -> HttpResponse:
 
 
 def history(request: HttpRequest) -> HttpResponse:
+    authorization = request.headers.get('Authorization')
+
     return render(request, 'history.html')

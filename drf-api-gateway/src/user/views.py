@@ -13,9 +13,6 @@ from django.conf import settings
 
 USER_URL = os.getenv('USER_URL')
 
-# TODO: Create middleware to check if user is authorized and ignore some routes (like login)
-# TODO: Manage if error occurs in requests
-
 
 @api_view(['GET'])
 def users(request):
