@@ -5,7 +5,6 @@ from django.contrib.auth.hashers import make_password
 class User(models.Model):
     username = models.CharField(max_length=100, unique=True)
     avatar_url = models.CharField(max_length=255, blank=True, null=True)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     email = models.EmailField()
     password = models.CharField(max_length=128)
     is_2fa_enabled = models.BooleanField(default=False)

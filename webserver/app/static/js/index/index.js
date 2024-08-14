@@ -14,6 +14,7 @@ import { initGameForm } from "./game_form.js";
 
 import { ContentLoader } from "../ContentLoader.js";
 import { getCookie } from "../utils.js";
+import liveUpdateManager from "./live_update_manager.js";
 
 const contentLoaderConfig = {
   baseurl: "frontend",
@@ -45,24 +46,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   await contentLoader.loadAll();
 
   initializeEventListeners();
-
-  // TODO: Refactor in other functions
-  const liveUpdateSocket = new WebSocket("ws://localhost:3000/ws/live-update/");
-  liveUpdateSocket.onopen = () => {
-    console.debug("live-update socket opened");
-  };
-
-  liveUpdateSocket.onmessage = async (event) => {
-    const eventData = JSON.parse(event.data);
-    for (const event of eventData.data.split(",")) {
-      await contentLoader.load(event);
-    }
-    initializeEventListeners();
-  };
-
-  liveUpdateSocket.onclose = () => {
-    console.debug("live-update socket closed");
-  };
+  liveUpdateManager(contentLoader, initializeEventListeners);
 });
 
 function initializeEventListeners() {

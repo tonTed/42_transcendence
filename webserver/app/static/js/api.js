@@ -9,9 +9,11 @@ import { getCookie } from "./utils.js";
 const makeApiRequest = async (endpoint, method, data) => {
   const url = `${endpoint}`;
   const csrfToken = getCookie("csrftoken");
+  const jwtToken = getCookie("jwt_token");
   const headers = {
     "X-CSRFToken": csrfToken,
     "Content-Type": "application/json",
+    Authorization: jwtToken,
   };
 
   const fetchOptions = {
@@ -35,21 +37,28 @@ const updateUsername = async (newUsername) => {
       "PATCH",
       { username: newUsername }
     );
-    console.debug("Username updated successfully:", updatedUser);
+    console.debug("Username updated successfully:", updatedUser.username);
     return updatedUser;
   } catch (error) {
     console.error("Failed to update username:", error);
   }
 };
 
+// TODO: try to use makeApiRequest instead of fetch
 const updateAvatar = async (avatar) => {
+  const formData = new FormData();
+  formData.append("avatar", avatar);
+
   try {
-    const updatedUser = await makeApiRequest(
-      "api/users/updateAvatar/",
-      "PATCH",
-      { avatar }
-    );
-    console.debug("Avatar updated successfully:", updatedUser);
+    const response = await fetch("api/users/updateAvatar/", {
+      method: "PATCH",
+      body: formData,
+      headers: {
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+    });
+    const updatedUser = await response.json();
+    console.debug("Avatar updated successfully:", updatedUser.username);
     return updatedUser.avatar;
   } catch (error) {
     console.error("Failed to update avatar:", error);
@@ -67,7 +76,7 @@ const updateFriendship = async (user_id, friend_status) => {
         action: friend_status,
       }
     );
-    console.debug("Friendship updated successfully:", updatedFriendship);
+    console.debug("Friendship updated successfully:");
     return updatedFriendship;
   } catch (error) {
     console.error("Error updating friend status:", error);
@@ -77,7 +86,7 @@ const updateFriendship = async (user_id, friend_status) => {
 const getUsers = async () => {
   try {
     const users = await makeApiRequest("api/users/", "GET");
-    console.debug("Users fetched successfully");
+    console.debug(`Users fetched successfully (${users.length} users)`);
     return users;
   } catch (error) {
     console.error("Failed to fetch users:", error);
@@ -112,6 +121,14 @@ const getGamesFromGamesIds = async (games_ids) => {
   return games;
 };
 
+const activate2fa = async () => {
+  return await makeApiRequest("api/users/activate_2fa/", "POST");
+};
+
+const deactivate2fa = async () => {
+  return await makeApiRequest("api/users/deactivate_2fa/", "POST");
+};
+
 export {
   updateUsername,
   updateAvatar,
@@ -120,4 +137,6 @@ export {
   createGame,
   createTournament,
   getGamesFromGamesIds,
+  activate2fa,
+  deactivate2fa,
 };

@@ -23,7 +23,6 @@ class ManageFriendView(APIView):
     def post(self, request, user_id, friend_id):
         user = User.objects.get(id=user_id)
         response = user.add_friend(friend_id)
-        print(response)
         if response:
             return Response({'message': 'Friend added'}, status=200)
         else:
