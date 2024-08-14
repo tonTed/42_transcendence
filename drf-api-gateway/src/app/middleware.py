@@ -11,6 +11,7 @@ ignore_paths = [
   re.compile(r'^/api/users/get_user_info_with_id_42/.+$'),
   re.compile(r'^/api/users/create_user/$'),
   re.compile(r'^/api/auth/generate/$'),
+  re.compile(r'^/api/auth/verify_password/$'),
 ]
 
 

@@ -64,6 +64,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 # CSRF settings
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',
+    'https://localhost',
 ]
 
 ROOT_URLCONF = 'app.urls'
