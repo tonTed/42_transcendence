@@ -1,38 +1,38 @@
 /* User List */
 #userContainer {
-    display: flex;
-    flex-direction: column;
-    height: 50%;
-    border-bottom: 3px solid #232b3f;
-    margin-bottom: 5px;
-    padding-bottom: 5px;
-    overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 65%;
+  border-bottom: 3px solid #232b3f;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  overflow: hidden;
 }
 
 #user-list-title {
-    color: #3b496d;
+  color: #3b496d;
 }
 
 #user-list-content::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .user-name {
-    max-height: 35px;
-    cursor: pointer;
+  max-height: 35px;
+  cursor: pointer;
 }
 
 .user-name:hover {
-    background-color: #232b3f;
+  background-color: #232b3f;
 }
 
 /* History */
 .historyContainer {
-    height: 50%;
+  height: 50%;
 }
 
 .icon-btn:hover {
-    background-color: #232b3f;
-    border-radius: 10px;
-    cursor: pointer;
+  background-color: #232b3f;
+  border-radius: 10px;
+  cursor: pointer;
 }

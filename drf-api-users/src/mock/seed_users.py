@@ -19,7 +19,6 @@ for item in data:
     username = item.get('login')
     email = item.get('email')
     avatar_url = item.get('image', {}).get('link')
-    avatar = None
     status = 'offline'
 
     if not User.objects.filter(id_42=id_42).exists():
@@ -28,7 +27,6 @@ for item in data:
             username=username,
             email=email,
             avatar_url=avatar_url,
-            avatar=avatar,
             status=status
         )
         user.save()
