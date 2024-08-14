@@ -5,7 +5,11 @@
 >
   <!-- account avatar -->
   <div class="account-avatar">
-    <img src="{{ user.avatar_url }}" alt="User Avatar" id="accountAvatar" />
+    <img
+      src="{{ user.avatar_url }}?{% now 'U'%}"
+      alt="User Avatar"
+      id="accountAvatar"
+    />
   </div>
   <!-- account full name -->
   <div class="account-user d-flex align-items-center">

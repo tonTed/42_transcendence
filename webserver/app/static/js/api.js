@@ -55,6 +55,7 @@ const updateAvatar = async (avatar) => {
       body: formData,
       headers: {
         "X-CSRFToken": getCookie("csrftoken"),
+        Authorization: getCookie("jwt_token"),
       },
     });
     const updatedUser = await response.json();
