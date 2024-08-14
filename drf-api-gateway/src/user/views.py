@@ -172,3 +172,5 @@ def deactivate_2fa(request):
         status=response.status_code,
         content_type=request.content_type
     )
+
+# TODO-GV: view to display history of game history from user_id (games wins, games lost, score, etc)

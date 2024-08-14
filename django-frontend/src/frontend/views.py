@@ -123,7 +123,7 @@ def users_list(request: HttpRequest) -> HttpResponse:
             users_list.append(user)
     
 
-    # TODO: REMOVE ME
+    # TODO-TB: REMOVE ME
     users_with_status = add_status_to_users(users_list)
     friends_with_status = add_status_to_users(friends_list)
 

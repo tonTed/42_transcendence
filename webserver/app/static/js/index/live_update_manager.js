@@ -1,3 +1,4 @@
+// TODO-TB: manage wss
 function liveUpdateManager(contentLoader, initializeEventListeners) {
   const liveUpdateSocket = new WebSocket("ws://localhost:3000/ws/live-update/");
   liveUpdateSocket.onopen = () => {
