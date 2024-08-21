@@ -45,6 +45,7 @@ export function drawWinner(context, canvas, winner, scores) {
     context.fillText(`PLAYER ${winner} WINS`, FINAL_SCORE.WINNER_X, FINAL_SCORE.WINNER_Y);
     context.fillText(`${scores.player1} - ${scores.player2}`, FINAL_SCORE.SCORE_X, FINAL_SCORE.SCORE_Y);
     cancelAnimationFrame(RUNNINGID);
+    GAMEDATA = null;
 }
 
 

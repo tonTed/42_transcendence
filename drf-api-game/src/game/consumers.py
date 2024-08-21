@@ -9,13 +9,12 @@ from asgiref.sync import sync_to_async
 import urllib.parse
 
 class GameConnection(AsyncWebsocketConsumer):
+    
     async def connect(self):
         # TODO-AR: check jwt (api/auth/verify) || voir index.js dans webserver (TEDDY)
-      
-        query_string = self.scope['query_string'].decode()
-        params = urllib.parse.parse_qs(query_string)
+
+        params = await self.get_params()
         self.game_id = int(params.get('game_id', [None])[0])
-        self.jwt_token = params.get('jwt', [None])[0]
         await self.update_host_status('in-game')
         self.game = Game()
         await self.update_game('started')
@@ -42,6 +41,8 @@ class GameConnection(AsyncWebsocketConsumer):
         while True:
             await asyncio.sleep(1 / GAME_CONSTS.FPS)
             if self.game.winner is None:
+                if self.game.resetting is True:
+                    await self.update_game('started')
                 self.game.update()
             else:
                 await self.game_ended()
@@ -81,10 +82,17 @@ class GameConnection(AsyncWebsocketConsumer):
             self.game.update_actions(actions)
 
     async def update_host_status(self, status: str):
+        params = await self.get_params()
+        jwt_token = params.get('jwt', [None])[0]
         cookies = {
-            'jwt_token': self.jwt_token
+            'jwt_token': jwt_token
         }
         response = requests.patch(
             'http://api-gateway:3000/api/users/set_status/', 
             json={'status': status},
             cookies=cookies)
+        
+    async def get_params(self):
+        query_string = self.scope['query_string'].decode()
+        params = urllib.parse.parse_qs(query_string)
+        return params
