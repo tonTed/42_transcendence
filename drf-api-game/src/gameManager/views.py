@@ -89,7 +89,10 @@ def update_game(game_id, game_data):
     try:
         game = Game.objects.get(id=game_id)
         game.status = game_data.get('status')
-        game.winner_id = game_data.get('winner_id')
+        if game_data.get('winner_id') == 1:
+            game.winner_id = game.player1_id
+        else:
+            game.winner_id = game.player2_id
         game.player1_score = game_data.get('player1_score')
         game.player2_score = game_data.get('player2_score')
         game.save()

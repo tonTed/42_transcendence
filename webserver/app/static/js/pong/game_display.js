@@ -1,6 +1,6 @@
 import { NET, CANVAS, SCORE, FINAL_SCORE, BALL_COLOR, PADDLES_COLOR } from "./constants.js";
 import { clearCanvas } from './menu_display.js'
-import { gameIsInPlay, winnerIsDecided } from './game_handler.js';
+import { gameIsInPlay, gameState, winnerIsDecided } from './game_handler.js';
 
 let GAMEDATA = null;
 let RUNNINGID = null;
@@ -33,16 +33,20 @@ function drawScores(context, canvas, scores) {
     context.fillStyle = SCORE.COLOR;
     context.font = `${SCORE.FONT_SIZE} "${SCORE.FONT}"`;
     context.textAlign = SCORE.TEXT_ALIGN;
+    
+    context.fillText(gameState.players.p1Name, 200, SCORE.PLAYER1_Y);
+    context.fillText(gameState.players.p2Name, 600, SCORE.PLAYER2_Y);
     context.fillText(scores.player1, SCORE.PLAYER1_X, SCORE.PLAYER1_Y);
     context.fillText(scores.player2, SCORE.PLAYER2_X, SCORE.PLAYER2_Y);
 }
 
 export function drawWinner(context, canvas, winner, scores) {
+    const text = winner == 1 ? gameState.players.p1Name : gameState.players.p2Name
     clearCanvas(context, canvas);
     context.fillStyle = FINAL_SCORE.COLOR;
     context.font = `${SCORE.FONT_SIZE} "${SCORE.FONT}"`;
     context.textAlign = FINAL_SCORE.TEXT_ALIGN;
-    context.fillText(`PLAYER ${winner} WINS`, FINAL_SCORE.WINNER_X, FINAL_SCORE.WINNER_Y);
+    context.fillText(`${text} WINS`, FINAL_SCORE.WINNER_X, FINAL_SCORE.WINNER_Y);
     context.fillText(`${scores.player1} - ${scores.player2}`, FINAL_SCORE.SCORE_X, FINAL_SCORE.SCORE_Y);
     cancelAnimationFrame(RUNNINGID);
     GAMEDATA = null;
