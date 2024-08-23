@@ -5,7 +5,11 @@ export const gameState = {
         p2Up: false,
         p2Down: false
     },
-    gameStarted: false
+    gameStarted: false,
+    players: {
+        p1Name: null,
+        p2Name: null
+    }
 };
 
 const keyToActionMap = {

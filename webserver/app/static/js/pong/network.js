@@ -23,6 +23,7 @@ async function displayGameEnded(context, canvas, data) {
 
   await new Promise((r) => setTimeout(r, FINAL_SCORES_DURATION));
   canvas.remove();
+  gameState.gameStarted = false;
   await contentLoader.load("form_game");
   initGameForm();
   // TODO-GVAR: handle end of game and remove canvas
@@ -50,7 +51,7 @@ export function handlerNetwork(canvas, context, game_id) {
         displayGameEnded(context, canvas, data.final);
       }
     };
-
+    
     socket.onclose = async function (e) {
       console.debug("WebSocket connection closed");
     };

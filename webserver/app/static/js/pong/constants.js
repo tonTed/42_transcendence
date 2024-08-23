@@ -14,20 +14,20 @@ export const CANVAS = Object.freeze({
 
 export const SCORE = Object.freeze({
     PLAYER1_Y: 50,
-    PLAYER1_X: 200,
+    PLAYER1_X: 350,
     PLAYER2_Y: 50,
-    PLAYER2_X: 600,
+    PLAYER2_X: 450,
     FONT: 'Press Start 2P',
-    FONT_SIZE: '30px',
+    FONT_SIZE: '25px',
     COLOR: 'white',
     TEXT_ALIGN: 'center',
 });
 
 export const PLAY_BUTTON = Object.freeze({
     X: 400,
-    Y: 300,
+    Y: 400,
     FONT: 'Press Start 2P',
-    FONT_SIZE: '30px',
+    FONT_SIZE: '25px',
     COLOR: 'white',
     HIGHLIGHT: 'blue',
     TEXT_ALIGN: 'center',
@@ -42,6 +42,17 @@ export const FINAL_SCORE = Object.freeze({
     FONT_SIZE: '30px',
     COLOR: 'white',
     TEXT_ALIGN: 'center',
+});
+
+export const PLAYERS = Object.freeze({
+    PLAYER1_X: 200,
+    PLAYER1_Y: 250,
+    PLAYER2_X: 600,
+    PLAYER2_Y: 250,
+    FONT: 'Press Start 2P',
+    FONT_SIZE: '25px',
+    COLOR: 'white',
+    TEXT_ALIGN: 'center', 
 });
 
 export const INTERVAL_DURATION = 1000 / 60;
