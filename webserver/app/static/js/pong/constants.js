@@ -13,13 +13,20 @@ export const CANVAS = Object.freeze({
 });
 
 export const SCORE = Object.freeze({
-    PLAYER1_Y: 50,
-    PLAYER1_X: 350,
-    PLAYER2_Y: 50,
-    PLAYER2_X: 450,
+    SCORE1_Y: 50,
+    SCORE1_X: 350,
+    SCORE2_Y: 50,
+    SCORE2_X: 450,
+    PLAYER1_X: 25,
+    PLAYER1_Y: 45,
+    PLAYER2_X: 775,
+    PLAYER2_Y: 45,
     FONT: 'Press Start 2P',
     FONT_SIZE: '25px',
+    P_FONT_SIZE: '20px',
     COLOR: 'white',
+    P1_TEXT_ALIGN: 'left',
+    P2_TEXT_ALIGN: 'right',
     TEXT_ALIGN: 'center',
 });
 

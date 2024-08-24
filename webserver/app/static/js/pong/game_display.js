@@ -34,10 +34,14 @@ function drawScores(context, canvas, scores) {
     context.font = `${SCORE.FONT_SIZE} "${SCORE.FONT}"`;
     context.textAlign = SCORE.TEXT_ALIGN;
     
-    context.fillText(gameState.players.p1Name, 200, SCORE.PLAYER1_Y);
-    context.fillText(gameState.players.p2Name, 600, SCORE.PLAYER2_Y);
-    context.fillText(scores.player1, SCORE.PLAYER1_X, SCORE.PLAYER1_Y);
-    context.fillText(scores.player2, SCORE.PLAYER2_X, SCORE.PLAYER2_Y);
+    context.fillText(scores.player1, SCORE.SCORE1_X, SCORE.SCORE1_Y);
+    context.fillText(scores.player2, SCORE.SCORE2_X, SCORE.SCORE2_Y);
+    
+    context.textAlign = SCORE.P1_TEXT_ALIGN;
+    context.font = `${SCORE.P_FONT_SIZE} "${SCORE.FONT}"`;
+    context.fillText(gameState.players.p1Name, SCORE.PLAYER1_X,SCORE.PLAYER1_Y);
+    context.textAlign = SCORE.P2_TEXT_ALIGN;
+    context.fillText(gameState.players.p2Name, SCORE.PLAYER2_X,SCORE.PLAYER2_Y);
 }
 
 export function drawWinner(context, canvas, winner, scores) {
