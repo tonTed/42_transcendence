@@ -9,12 +9,20 @@ let socket;
 
 function sendActions() {
   if (socket.readyState === WebSocket.OPEN) {
-    socket.send(
-      JSON.stringify({
-        command: "actions",
-        actions: gameState.actions,
-      })
-    );
+    if (gameState.paused) {
+      socket.send(
+        JSON.stringify({
+          command: "pause",
+        })
+      );
+    } else {
+      socket.send(
+        JSON.stringify({
+          command: "actions",
+          actions: gameState.actions,
+        })
+      );
+    }
   }
 }
 

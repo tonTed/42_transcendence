@@ -1,4 +1,4 @@
-import { NET, CANVAS, SCORE, FINAL_SCORE, BALL_COLOR, PADDLES_COLOR } from "./constants.js";
+import { NET, CANVAS, SCORE, FINAL_SCORE, BALL_COLOR, PADDLES_COLOR, PAUSE } from "./constants.js";
 import { clearCanvas } from './menu_display.js'
 import { gameIsInPlay, gameState, winnerIsDecided } from './game_handler.js';
 
@@ -44,6 +44,17 @@ function drawScores(context, canvas, scores) {
     context.fillText(gameState.players.p2Name, SCORE.PLAYER2_X,SCORE.PLAYER2_Y);
 }
 
+function drawPause(context, canvas){
+    context.fillStyle = PAUSE.COLOR;
+    context.font = `${PAUSE.FONT_SIZE} "${PAUSE.FONT}"`;
+    context.textAlign = PAUSE.TEXT_ALIGN;
+    
+    context.fillText(PAUSE.TEXT, PAUSE.X, PAUSE.Y);
+    
+    context.font = `${PAUSE.FONT_SIZE_BOTTOM_TEXT} "${PAUSE.FONT}"`;
+    context.fillText(PAUSE.BOTTOM_TEXT, PAUSE.X, PAUSE.Y + PAUSE.BOTTOM_TEXT_OFFSET);
+}
+
 export function drawWinner(context, canvas, winner, scores) {
     const text = winner == 1 ? gameState.players.p1Name : gameState.players.p2Name
     clearCanvas(context, canvas);
@@ -55,7 +66,6 @@ export function drawWinner(context, canvas, winner, scores) {
     cancelAnimationFrame(RUNNINGID);
     GAMEDATA = null;
 }
-
 
 export function updateData(canvas, context, gameData){
     if (!GAMEDATA){
@@ -72,7 +82,11 @@ export function drawGame(canvas, context, gameData) {
     if (gameIsInPlay(gameData)) {
         drawBall(context, gameData.ball_position, gameData.ball_radius);
     }
-    drawNet(context, canvas);
+    if (!gameState.paused){
+        drawNet(context, canvas);
+    } else {
+        drawPause(context, canvas);
+    }
     drawScores(context, canvas, gameData.scores);
     
     RUNNINGID = requestAnimationFrame(() => drawGame(canvas, context, GAMEDATA));

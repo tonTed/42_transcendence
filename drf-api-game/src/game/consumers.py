@@ -41,8 +41,6 @@ class GameConnection(AsyncWebsocketConsumer):
         while True:
             await asyncio.sleep(1 / GAME_CONSTS.FPS)
             if self.game.winner is None:
-                if self.game.resetting is True:
-                    await self.update_game('started')
                 self.game.update()
             else:
                 await self.game_ended()
@@ -79,7 +77,10 @@ class GameConnection(AsyncWebsocketConsumer):
         actions = text_data_json.get('actions', {})
 
         if command == "actions":
+            self.game.paused = False
             self.game.update_actions(actions)
+        elif command == "pause":
+            self.game.paused = True
 
     async def update_host_status(self, status: str):
         params = await self.get_params()

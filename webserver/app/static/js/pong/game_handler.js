@@ -3,13 +3,14 @@ export const gameState = {
         p1Up: false,
         p1Down: false,
         p2Up: false,
-        p2Down: false
+        p2Down: false,
     },
     gameStarted: false,
     players: {
         p1Name: null,
         p2Name: null
-    }
+    },
+    paused: false
 };
 
 const keyToActionMap = {
@@ -21,9 +22,15 @@ const keyToActionMap = {
 
 export function handlerGameLoop() {
     document.addEventListener('keydown', function(event) {
-        const action = keyToActionMap[event.key];
-        if (action) {
-            gameState.actions[action] = true;
+        if (event.key == 'Escape'){
+            gameState.paused = !gameState.paused;
+            return;
+        }
+        if (!gameState.paused){
+            const action = keyToActionMap[event.key];
+            if (action) {
+                gameState.actions[action] = true;
+            }
         }
     });
 

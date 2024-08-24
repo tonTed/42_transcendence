@@ -30,6 +30,19 @@ export const SCORE = Object.freeze({
     TEXT_ALIGN: 'center',
 });
 
+export const PAUSE = Object.freeze({
+    X: 400,
+    Y: 300,
+    FONT: 'Press Start 2P',
+    FONT_SIZE: '30px',
+    FONT_SIZE_BOTTOM_TEXT: '15px',
+    COLOR: 'white',
+    TEXT_ALIGN: 'center',
+    BOTTOM_TEXT: 'press ESC to resume game',
+    BOTTOM_TEXT_OFFSET: 40,
+    TEXT: 'PAUSE',
+});
+
 export const PLAY_BUTTON = Object.freeze({
     X: 400,
     Y: 400,
