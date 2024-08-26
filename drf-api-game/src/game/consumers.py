@@ -16,7 +16,7 @@ class GameConnection(AsyncWebsocketConsumer):
             await self.update_game('cancelled')
     
     async def connect(self):
-        # TODO-AR: check jwt (api/auth/verify) || voir index.js dans webserver (TEDDY)
+        # TODO-TB: check jwt (api/auth/verify) || voir index.js dans webserver (TEDDY)
 
         params = await self.get_params()
         self.game_id = int(params.get('game_id', [None])[0])

@@ -15,8 +15,9 @@ ignore_paths = [
 ]
 
 
-#TODO: use the token_access from 42 to verify the user for ignore_paths
-#TODO: Fix the middleware to work with /avatar
+#TODO-TB: use the token_access from 42 to verify the user for ignore_paths
+#TODO-TB: Fix the middleware to work with /avatar
+
 class JWTAuthenticationMiddleware():
   def __init__(self, get_response):
     self.get_response = get_response

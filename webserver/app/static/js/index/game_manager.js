@@ -68,7 +68,6 @@ async function launchGame(game) {
   const gameContainer = document.getElementById("gameContainer");
   gameContainer.innerHTML = `<canvas id="pongCanvas" width="800" height="600" style="background: #000; display: block; margin: 0 auto"></canvas>`;
   loadCanvasGame(game.id, game.player1_name, game.player2_name);
-  // TODO-GVAR: handle end of game and remove canvas
 }
 
 /**
@@ -89,7 +88,6 @@ async function manageTournament(players) {
   displayGames(games);
   // LOOP
   // TODO-GVAR: add button to play next game
-  // TODO-GVAR: Clear canvas and javascript
   // TODO-GVAR: diplayGames between each game
   // TODO-GVAR: handle end of tournament and display leaderboard
   // TODO-GV: create leaderboard
