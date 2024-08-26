@@ -44,6 +44,7 @@ class Game:
             'p2Up': False,
             'p2Down': False
         }
+        self.scored = False
         self.resetting = True
         self.reset_time = GAME.INTERVAL_TIME
         self.reset_task = asyncio.create_task(self.reset_game())
@@ -84,12 +85,14 @@ class Game:
 
     def player_scored(self) -> bool:
         if self.player1.scored(self.ball.x):
+            self.scored = True
             self.player1.update_score()
             self.last_scorer = self.player1.id
             if self.player_won(self.player1.score):
                 self.winner = self.player1.id
             return True
         elif self.player2.scored(self.ball.x):
+            self.scored = True
             self.player2.update_score()
             self.last_scorer = self.player2.id
             if self.player_won(self.player2.score):

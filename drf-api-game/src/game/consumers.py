@@ -26,7 +26,7 @@ class GameConnection(AsyncWebsocketConsumer):
         await self.accept()
         self.game_loop_task = asyncio.create_task(self.game_loop())
         
-    async def update_game(self, status: str):
+    async def update_game(self, status='started'):
         game_data = {
             "status": status,
             "winner_id": self.game.winner,
@@ -45,6 +45,9 @@ class GameConnection(AsyncWebsocketConsumer):
     async def game_loop(self):
         while True:
             await asyncio.sleep(1 / GAME_CONSTS.FPS)
+            if self.game.scored:
+                self.game.scored = False
+                await self.update_game()
             if self.game.winner is None:
                 self.game.update()
             else:
