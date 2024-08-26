@@ -10,6 +10,11 @@ import urllib.parse
 
 class GameConnection(AsyncWebsocketConsumer):
     
+    async def disconnect(self, code):
+        if code != 1000:
+            self.game_loop_task.cancel()
+            await self.update_game('cancelled')
+    
     async def connect(self):
         # TODO-AR: check jwt (api/auth/verify) || voir index.js dans webserver (TEDDY)
 
@@ -35,14 +40,12 @@ class GameConnection(AsyncWebsocketConsumer):
         await self.send_final()
         self.game_loop_task.cancel()
         await self.update_host_status('online')
-        await self.close()
+        await self.close(code=1000, reason="Game ended")
 
     async def game_loop(self):
         while True:
             await asyncio.sleep(1 / GAME_CONSTS.FPS)
             if self.game.winner is None:
-                if self.game.resetting is True:
-                    await self.update_game('started')
                 self.game.update()
             else:
                 await self.game_ended()

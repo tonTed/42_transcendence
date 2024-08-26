@@ -91,7 +91,7 @@ def update_game(game_id, game_data):
         game.status = game_data.get('status')
         if game_data.get('winner_id') == 1:
             game.winner_id = game.player1_id
-        else:
+        elif game_data.get('winner_id') == 2:
             game.winner_id = game.player2_id
         game.player1_score = game_data.get('player1_score')
         game.player2_score = game_data.get('player2_score')
