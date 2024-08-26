@@ -45,6 +45,7 @@ class Game:
             'p2Down': False
         }
         self.scored = False
+        self.paused = False
         self.resetting = True
         self.reset_time = GAME.INTERVAL_TIME
         self.reset_task = asyncio.create_task(self.reset_game())
@@ -62,6 +63,8 @@ class Game:
         self.actions = actions
 
     def update(self) -> None:
+        if self.paused:
+            return
         self.ball.update_position()
         self.player1.paddle.update_position(
             self.actions['p1Up'],
@@ -102,7 +105,14 @@ class Game:
 
     async def reset_game(self) -> None:
         self.resetting = True
-        await asyncio.sleep(self.reset_time)
+        remaining_time = self.reset_time
+        check_interval = 0.1
+
+        while remaining_time > 0:
+            if not self.paused:
+                remaining_time -= check_interval
+            await asyncio.sleep(check_interval)
+
         self.serve()
         self.resetting = False
 

@@ -85,7 +85,10 @@ class GameConnection(AsyncWebsocketConsumer):
         actions = text_data_json.get('actions', {})
 
         if command == "actions":
+            self.game.paused = False
             self.game.update_actions(actions)
+        elif command == "pause":
+            self.game.paused = True
 
     async def update_host_status(self, status: str):
         params = await self.get_params()

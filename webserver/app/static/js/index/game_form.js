@@ -27,6 +27,7 @@ function createSelectElement(users) {
   input.className = "form-control col mb-2 ms-2 p-2";
   input.placeholder = "Enter a player name";
   input.required = true;
+  input.maxLength = 12;
 
   div.appendChild(select);
   div.appendChild(input);

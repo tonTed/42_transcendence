@@ -9,12 +9,20 @@ let socket;
 
 function sendActions() {
   if (socket.readyState === WebSocket.OPEN) {
-    socket.send(
-      JSON.stringify({
-        command: "actions",
-        actions: gameState.actions,
-      })
-    );
+    if (gameState.paused) {
+      socket.send(
+        JSON.stringify({
+          command: "pause",
+        })
+      );
+    } else {
+      socket.send(
+        JSON.stringify({
+          command: "actions",
+          actions: gameState.actions,
+        })
+      );
+    }
   }
 }
 
@@ -26,7 +34,6 @@ async function displayGameEnded(context, canvas, data) {
   gameState.gameStarted = false;
   await contentLoader.load("form_game");
   initGameForm();
-  // TODO-GVAR: handle end of game and remove canvas
 }
 
 export function handlerNetwork(canvas, context, game_id) {

@@ -1,4 +1,4 @@
-import { NET, CANVAS, SCORE, FINAL_SCORE, BALL_COLOR, PADDLES_COLOR } from "./constants.js";
+import { NET, CANVAS, SCORE, FINAL_SCORE, BALL_COLOR, PADDLES_COLOR, PAUSE } from "./constants.js";
 import { clearCanvas } from './menu_display.js'
 import { gameIsInPlay, gameState, winnerIsDecided } from './game_handler.js';
 
@@ -34,10 +34,25 @@ function drawScores(context, canvas, scores) {
     context.font = `${SCORE.FONT_SIZE} "${SCORE.FONT}"`;
     context.textAlign = SCORE.TEXT_ALIGN;
     
-    context.fillText(gameState.players.p1Name, 200, SCORE.PLAYER1_Y);
-    context.fillText(gameState.players.p2Name, 600, SCORE.PLAYER2_Y);
-    context.fillText(scores.player1, SCORE.PLAYER1_X, SCORE.PLAYER1_Y);
-    context.fillText(scores.player2, SCORE.PLAYER2_X, SCORE.PLAYER2_Y);
+    context.fillText(scores.player1, SCORE.SCORE1_X, SCORE.SCORE1_Y);
+    context.fillText(scores.player2, SCORE.SCORE2_X, SCORE.SCORE2_Y);
+    
+    context.textAlign = SCORE.P1_TEXT_ALIGN;
+    context.font = `${SCORE.P_FONT_SIZE} "${SCORE.FONT}"`;
+    context.fillText(gameState.players.p1Name, SCORE.PLAYER1_X,SCORE.PLAYER1_Y);
+    context.textAlign = SCORE.P2_TEXT_ALIGN;
+    context.fillText(gameState.players.p2Name, SCORE.PLAYER2_X,SCORE.PLAYER2_Y);
+}
+
+function drawPause(context, canvas){
+    context.fillStyle = PAUSE.COLOR;
+    context.font = `${PAUSE.FONT_SIZE} "${PAUSE.FONT}"`;
+    context.textAlign = PAUSE.TEXT_ALIGN;
+    
+    context.fillText(PAUSE.TEXT, PAUSE.X, PAUSE.Y);
+    
+    context.font = `${PAUSE.FONT_SIZE_BOTTOM_TEXT} "${PAUSE.FONT}"`;
+    context.fillText(PAUSE.BOTTOM_TEXT, PAUSE.X, PAUSE.Y + PAUSE.BOTTOM_TEXT_OFFSET);
 }
 
 export function drawWinner(context, canvas, winner, scores) {
@@ -51,7 +66,6 @@ export function drawWinner(context, canvas, winner, scores) {
     cancelAnimationFrame(RUNNINGID);
     GAMEDATA = null;
 }
-
 
 export function updateData(canvas, context, gameData){
     if (!GAMEDATA){
@@ -68,7 +82,11 @@ export function drawGame(canvas, context, gameData) {
     if (gameIsInPlay(gameData)) {
         drawBall(context, gameData.ball_position, gameData.ball_radius);
     }
-    drawNet(context, canvas);
+    if (!gameState.paused){
+        drawNet(context, canvas);
+    } else {
+        drawPause(context, canvas);
+    }
     drawScores(context, canvas, gameData.scores);
     
     RUNNINGID = requestAnimationFrame(() => drawGame(canvas, context, GAMEDATA));
