@@ -111,15 +111,6 @@ def update_avatar(request):
     )
 
 
-@api_view(['GET'])
-def get_user_info_with_id_42(request, id_42):
-    response = requests.get(f'{USER_URL}/get_user_info_with_id_42/{id_42}')
-    if response.status_code == 200:
-        return JsonResponse(response.json(), status=200)
-    else:
-        return JsonResponse({'message': 'User not found'}, status=404)
-
-
 @api_view(['PATCH'])
 @refresh_live_update(['users_list'])
 def update_friend_status(request):

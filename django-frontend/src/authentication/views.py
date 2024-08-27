@@ -6,6 +6,8 @@ from authentication.helpers import get_access_token, get_me, get_user_info, gene
 
 
 API_URL = os.getenv('API_URL')
+AUTH_URL = os.getenv('AUTH_URL')
+USER_URL = os.getenv('USER_URL')
 
 CALLBACK_URL = (f'https://api.intra.42.fr/oauth/authorize'
                 f'?client_id={os.getenv("42_UID")}'
@@ -72,7 +74,7 @@ def create_password(request):
         password = request.POST.get('password')
         me = request.session.get('me')
         me['password'] = password
-        user_response = requests.post(f'{API_URL}/users/create_user/', json=me)
+        user_response = requests.post(f'{USER_URL}/users/', json=me)
         
         if user_response.status_code == 201:
             user = user_response.json()
@@ -92,7 +94,7 @@ def verify_2fa(request):
             'user_id': user_id,
             'password': password
         }
-        auth_response = requests.post(f'{API_URL}/auth/verify_password/', json=data)
+        auth_response = requests.post(f'{AUTH_URL}/auth/verify_password/', json=data)
         
         if auth_response.status_code == 200:
             response, _ = generate_jwt_and_redirect(user_id)
