@@ -34,15 +34,6 @@ def user_info(request, user_id):
     )
 
 
-@api_view(['POST'])
-def create_user(request):
-    response = requests.post(f'{USER_URL}/', json=request.data)
-    return HttpResponse(
-        response.content,
-        status=response.status_code,
-    )
-
-
 @csrf_protect
 @api_view(['PATCH'])
 @refresh_live_update(['topbar', 'users_list', 'profile'])
