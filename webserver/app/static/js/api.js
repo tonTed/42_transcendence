@@ -44,7 +44,6 @@ const updateUsername = async (newUsername) => {
   }
 };
 
-// TODO-TB: try to use makeApiRequest instead of fetch
 const updateAvatar = async (avatar) => {
   const formData = new FormData();
   formData.append("avatar", avatar);
