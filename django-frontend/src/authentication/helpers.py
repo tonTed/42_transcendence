@@ -4,6 +4,8 @@ import requests
 import api.ft
 
 API_URL = os.getenv('API_URL')
+AUTH_URL = os.getenv('AUTH_URL')
+USER_URL = os.getenv('USER_URL')
 
 def handle_error(request, error_code, error_message):
     return render(request, 'error.html', {'error_code': error_code, 'error_message': error_message})
@@ -28,7 +30,7 @@ def get_me(access_token):
 
 def get_user_info(me_id: str):
     try:
-        user_response = requests.get(f'{API_URL}/users/get_user_info_with_id_42/{me_id}')
+        user_response = requests.get(f'{USER_URL}/users/get_user_info_with_id_42/{me_id}')
         if user_response.status_code == 404:
             return None, 404
         elif user_response.status_code != 200:
@@ -39,7 +41,7 @@ def get_user_info(me_id: str):
 
 def generate_jwt_token(user_id):
     try:
-        jwt_response = requests.post(f'{API_URL}/auth/generate/', json={'user_id': user_id})
+        jwt_response = requests.post(f'{AUTH_URL}/auth/generate/', json={'user_id': user_id})
         if jwt_response.status_code != 200:
             raise ValueError('Failed to generate JWT token')
         jwt_token = jwt_response.json().get('access')

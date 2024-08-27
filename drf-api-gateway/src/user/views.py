@@ -9,6 +9,7 @@ import jwt
 import json
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.conf import settings
+import time
 
 
 USER_URL = os.getenv('USER_URL')
@@ -27,15 +28,6 @@ def users(request):
 @api_view(['GET'])
 def user_info(request, user_id):
     response = requests.get(f'{USER_URL}/{user_id}')
-    return HttpResponse(
-        response.content,
-        status=response.status_code,
-    )
-
-
-@api_view(['POST'])
-def create_user(request):
-    response = requests.post(f'{USER_URL}/', json=request.data)
     return HttpResponse(
         response.content,
         status=response.status_code,
@@ -84,13 +76,16 @@ def update_avatar(request):
     
     if 'avatar' not in request.FILES:
         return HttpResponse(status=400)
+    
     avatar_file: InMemoryUploadedFile = request.FILES['avatar']
+    
     if avatar_file.size > settings.DATA_UPLOAD_MAX_MEMORY_SIZE:
         return HttpResponse(status=413)
     if avatar_file.content_type not in settings.ALLOWED_IMAGE_TYPES:
         return HttpResponse(status=415)
+    
     image_extension = avatar_file.content_type.split("/")[1]
-    file_name = f'avatar_{user_id}.{image_extension}'
+    file_name = f'avatar_{user_id}_{time.time()}.{image_extension}'
     file_path = f'{settings.MEDIA_ROOT}/{file_name}'
     with open(file_path, 'wb+') as destination:
         for chunk in avatar_file.chunks():
@@ -105,15 +100,6 @@ def update_avatar(request):
         response.content,
         status=response.status_code,
     )
-
-
-@api_view(['GET'])
-def get_user_info_with_id_42(request, id_42):
-    response = requests.get(f'{USER_URL}/get_user_info_with_id_42/{id_42}')
-    if response.status_code == 200:
-        return JsonResponse(response.json(), status=200)
-    else:
-        return JsonResponse({'message': 'User not found'}, status=404)
 
 
 @api_view(['PATCH'])

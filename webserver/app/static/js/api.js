@@ -44,7 +44,6 @@ const updateUsername = async (newUsername) => {
   }
 };
 
-// TODO-TB: try to use makeApiRequest instead of fetch
 const updateAvatar = async (avatar) => {
   const formData = new FormData();
   formData.append("avatar", avatar);
@@ -55,6 +54,7 @@ const updateAvatar = async (avatar) => {
       body: formData,
       headers: {
         "X-CSRFToken": getCookie("csrftoken"),
+        Authorization: getCookie("jwt_token"),
       },
     });
     const updatedUser = await response.json();

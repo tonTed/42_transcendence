@@ -78,14 +78,7 @@ function confirmAvatarButtonListener() {
 
     (async () => {
       try {
-        const newAvatarUrl = await updateAvatar(avatar);
-        const updatedUrl = newAvatarUrl.replace(
-          "http://api-users:3001",
-          "http://localhost:3001"
-        );
-
-        // change avatar in topbar
-        topbar_avatar.src = updatedUrl;
+        await updateAvatar(avatar);
       } catch (error) {
         console.error("Failed to update avatar in topbar:", error);
       }

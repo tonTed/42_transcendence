@@ -12,16 +12,25 @@ class GameConnection(AsyncWebsocketConsumer):
     
     async def disconnect(self, code):
         if code != 1000:
-            self.game_loop_task.cancel()
+            if self.game_loop_task:
+                self.game_loop_task.cancel()
             await self.update_game('cancelled')
     
     async def connect(self):
-        # TODO-TB: check jwt (api/auth/verify) || voir index.js dans webserver (TEDDY)
 
         params = await self.get_params()
-        self.game_id = int(params.get('game_id', [None])[0])
-        await self.update_host_status('in-game')
+
+        self.game_loop_task = None
         self.game = Game()
+        self.game_id = int(params.get('game_id', [None])[0])
+        
+        is_authorized = await self.is_authorized(params.get('jwt', [None])[0])
+        
+        if not is_authorized:
+            await self.close(code=1401, reason="Unauthorized")
+            return
+        
+        await self.update_host_status('in-game')
         await self.update_game('started')
         await self.accept()
         self.game_loop_task = asyncio.create_task(self.game_loop())
@@ -105,3 +114,10 @@ class GameConnection(AsyncWebsocketConsumer):
         query_string = self.scope['query_string'].decode()
         params = urllib.parse.parse_qs(query_string)
         return params
+    
+    async def is_authorized(self, jwt_token):
+        response = requests.post(
+            'http://api-gateway:3000/api/auth/verify/',
+            headers={'Authorization': jwt_token}
+        )
+        return response.status_code == 200
