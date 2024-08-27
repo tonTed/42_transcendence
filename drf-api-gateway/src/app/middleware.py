@@ -23,7 +23,6 @@ class JWTAuthenticationMiddleware():
     self.get_response = get_response
 
   def __call__(self, request):
-    return self.get_response(request)
     if any(pattern.match(request.path) for pattern in ignore_paths):
       return self.get_response(request)
     authorization = request.headers.get('Authorization')

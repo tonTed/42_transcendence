@@ -9,6 +9,7 @@ import jwt
 import json
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.conf import settings
+import time
 
 
 USER_URL = os.getenv('USER_URL')
@@ -84,13 +85,16 @@ def update_avatar(request):
     
     if 'avatar' not in request.FILES:
         return HttpResponse(status=400)
+    
     avatar_file: InMemoryUploadedFile = request.FILES['avatar']
+    
     if avatar_file.size > settings.DATA_UPLOAD_MAX_MEMORY_SIZE:
         return HttpResponse(status=413)
     if avatar_file.content_type not in settings.ALLOWED_IMAGE_TYPES:
         return HttpResponse(status=415)
+    
     image_extension = avatar_file.content_type.split("/")[1]
-    file_name = f'avatar_{user_id}.{image_extension}'
+    file_name = f'avatar_{user_id}_{time.time()}.{image_extension}'
     file_path = f'{settings.MEDIA_ROOT}/{file_name}'
     with open(file_path, 'wb+') as destination:
         for chunk in avatar_file.chunks():
