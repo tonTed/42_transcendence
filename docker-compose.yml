@@ -125,7 +125,7 @@ services:
       context: ./postgres
     image: database:latest
     volumes:
-      - ./postgres/postgres_data:/var/lib/postgresql/data
+      - database_volume:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
@@ -142,3 +142,4 @@ networks:
 
 volumes:
   static_volume:
+  database_volume:
