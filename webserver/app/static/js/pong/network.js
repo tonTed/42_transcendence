@@ -1,8 +1,6 @@
-import { FINAL_SCORES_DURATION, INTERVAL_DURATION } from "./constants.js";
+import { INTERVAL_DURATION } from "./constants.js";
 import { gameState } from "./game_handler.js";
-import { updateData, drawWinner } from "./game_display.js";
-import { contentLoader } from "../index/index.js";
-import { initGameForm } from "../index/game_form.js";
+import { updateData } from "./game_display.js";
 import { getCookie } from "../utils.js";
 
 let socket;
@@ -24,14 +22,6 @@ function sendActions() {
       );
     }
   }
-}
-
-async function displayGameEnded(context, canvas, data) {
-  drawWinner(context, canvas, data.winner, data.scores);
-
-  await new Promise((r) => setTimeout(r, FINAL_SCORES_DURATION));
-  canvas.remove();
-  gameState.gameStarted = false;
 }
 
 export async function startGame(canvas, context, game_id) {
@@ -56,7 +46,6 @@ export async function startGame(canvas, context, game_id) {
     } else if (data.final) {
       clearInterval(timer);
       finalData = data.final;
-      // displayGameEnded(context, canvas, data.final);
     }
   };
 
