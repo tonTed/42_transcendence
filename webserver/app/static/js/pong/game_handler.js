@@ -20,26 +20,35 @@ const keyToActionMap = {
     'ArrowDown': 'p2Down'
 };
 
-export function handlerGameLoop() {
-    document.addEventListener('keydown', function(event) {
-        if (event.key == 'Escape'){
-            gameState.paused = !gameState.paused;
-            return;
-        }
-        if (!gameState.paused){
-            const action = keyToActionMap[event.key];
-            if (action) {
-                gameState.actions[action] = true;
-            }
-        }
-    });
-
-    document.addEventListener('keyup', function(event) {
+function handleKeyDown(event) {
+    if (event.key == 'Escape'){
+        gameState.paused = !gameState.paused;
+        console.log('PAUSE XD');
+        return;
+    }
+    if (!gameState.paused){
+        console.log('controls xd');
         const action = keyToActionMap[event.key];
         if (action) {
-            gameState.actions[action] = false;
+            gameState.actions[action] = true;
         }
-    });
+    }
+}
+
+function handleKeyUp(event) {
+    const action = keyToActionMap[event.key];
+    if (action) {
+        gameState.actions[action] = false;
+    }
+}
+
+export function handlerGameLoop() {
+
+    document.removeEventListener('keydown', handleKeyDown);
+    document.removeEventListener('keyup', handleKeyUp);
+
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
 }
 
 export function gameIsInPlay(gameData){

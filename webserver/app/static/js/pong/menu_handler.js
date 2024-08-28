@@ -13,6 +13,7 @@ export async function handlerStartMenu(
 ) {
   gameState.players.p1Name = player1_name;
   gameState.players.p2Name = player2_name;
+  gameState.paused = false;
 
   function mouseMoveHandler(event) {
     const rect = canvas.getBoundingClientRect();
