@@ -1,4 +1,5 @@
 import { contentLoader } from "./index.js";
+import { initGameForm } from "./game_form.js";
 
 function getLeaderboard(tournament_id) {
   return ["Teddy", "Asael", "Guillaume", "Gael"];
@@ -27,7 +28,8 @@ async function displayLeaderboard(tournament_id) {
   // TODO: Add button to go back to the form_game page
   await new Promise((resolve) => setTimeout(resolve, 5000));
 
-  contentLoader.load("form_game");
+  await contentLoader.load("form_game");
+  initGameForm();
 }
 
 export { displayLeaderboard };
