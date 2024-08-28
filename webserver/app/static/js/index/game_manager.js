@@ -1,6 +1,7 @@
 import { createGame, createTournament, getGamesFromGamesIds } from "../api.js";
 import { loadCanvasGame } from "../pong/main.js";
-
+import { contentLoader } from "../index/index.js";
+import { initGameForm } from "../index/game_form.js";
 /**
  * @typedef {import("../types.js").Player} Player
  * @typedef {import("../types.js").Game} Game
@@ -67,7 +68,7 @@ function displayGames(games) {
 async function launchGame(game) {
   const gameContainer = document.getElementById("gameContainer");
   gameContainer.innerHTML = `<canvas id="pongCanvas" width="800" height="600" style="background: #000; display: block; margin: 0 auto"></canvas>`;
-  loadCanvasGame(game.id, game.player1_name, game.player2_name);
+  await loadCanvasGame(game.id, game.player1_name, game.player2_name);
 }
 
 /**
@@ -76,7 +77,7 @@ async function launchGame(game) {
 async function manage1v1(players) {
   const response = await createGame(players);
   const game = response;
-  launchGame(game);
+  await launchGame(game);
 }
 
 /**
@@ -100,10 +101,12 @@ async function manageTournament(players) {
  */
 async function gameManager(data) {
   if (data.mode === "1v1") {
-    manage1v1(data.players);
+    await manage1v1(data.players);
   } else {
-    manageTournament(data.players);
+    await manageTournament(data.players);
   }
+  await contentLoader.load("form_game");
+  initGameForm();
 }
 
 export { gameManager };

@@ -1,10 +1,16 @@
 import { PLAY_BUTTON } from "./constants.js";
 import { gameState } from "./game_handler.js";
 import { drawMenu } from "./menu_display.js";
-
+import { startGame } from "./network.js";
 let mouseX, mouseY;
 
-export function handlerStartMenu(canvas, context, player1_name, player2_name) {
+export async function handlerStartMenu(
+  canvas,
+  context,
+  player1_name,
+  player2_name,
+  game_id
+) {
   gameState.players.p1Name = player1_name;
   gameState.players.p2Name = player2_name;
 
@@ -17,18 +23,23 @@ export function handlerStartMenu(canvas, context, player1_name, player2_name) {
     }
   }
 
-  function clickHandler(event) {
-    if (isMouseOverPlayButton(canvas, context)) {
-      document.removeEventListener("mousemove", mouseMoveHandler);
-      canvas.removeEventListener("click", clickHandler);
-      startGame();
+  const clickHandlerPromise = new Promise((resolve) => {
+    async function clickHandler(event) {
+      if (isMouseOverPlayButton(canvas, context)) {
+        document.removeEventListener("mousemove", mouseMoveHandler);
+        canvas.removeEventListener("click", clickHandler);
+        await startGame(canvas, context, game_id);
+        resolve();
+      }
     }
-  }
+    canvas.addEventListener("click", clickHandler);
+  });
 
   document.addEventListener("mousemove", mouseMoveHandler);
-  canvas.addEventListener("click", clickHandler);
 
   document.fonts.ready.then(() => drawMenu(canvas, context));
+
+  return await clickHandlerPromise;
 }
 
 export function isMouseOverPlayButton(canvas, context) {

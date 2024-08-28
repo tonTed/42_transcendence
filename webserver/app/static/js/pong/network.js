@@ -32,37 +32,39 @@ async function displayGameEnded(context, canvas, data) {
   await new Promise((r) => setTimeout(r, FINAL_SCORES_DURATION));
   canvas.remove();
   gameState.gameStarted = false;
-  await contentLoader.load("form_game");
-  initGameForm();
 }
 
-export function handlerNetwork(canvas, context, game_id) {
-  let timer;
+export async function startGame(canvas, context, game_id) {
   const jwtToken = getCookie("jwt_token");
   const ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
   const ws_path = `${ws_scheme}://${window.location.hostname}/ws/game/?game_id=${game_id}&jwt=${jwtToken}`;
-  window.startGame = function startGame() {
-    socket = new WebSocket(ws_path);
 
-    socket.onopen = function (e) {
-      console.debug("WebSocket connection established");
-      timer = setInterval(sendActions, INTERVAL_DURATION);
-    };
+  let timer;
+  socket = new WebSocket(ws_path);
 
-    socket.onmessage = function (e) {
-      const data = JSON.parse(e.data);
-      if (data.state) {
-        updateData(canvas, context, data.state);
-      } else if (data.final) {
-        clearInterval(timer);
-        displayGameEnded(context, canvas, data.final);
-      }
-    };
-    
-    socket.onclose = async function (e) {
-      console.debug("WebSocket connection closed");
-    };
-
-    gameState.gameStarted = true;
+  socket.onopen = function (e) {
+    console.debug("WebSocket connection established");
+    timer = setInterval(sendActions, INTERVAL_DURATION);
   };
+
+  socket.onmessage = function (e) {
+    const data = JSON.parse(e.data);
+    if (data.state) {
+      updateData(canvas, context, data.state);
+    } else if (data.final) {
+      clearInterval(timer);
+      displayGameEnded(context, canvas, data.final);
+    }
+  };
+
+  const socketClosePromise = new Promise((resolve) => {
+    socket.onclose = function (e) {
+      console.debug("WebSocket connection closed");
+      resolve("WebSocket connection closed");
+    };
+  });
+
+  gameState.gameStarted = true;
+
+  return await socketClosePromise;
 }
