@@ -22,6 +22,10 @@ export class ContentLoader {
           Authorization: `${this.jwt_token}`,
         },
       });
+      if (response.status === 401) {
+        alert("You are not authorized to access this page");
+        window.location.href = "/login";
+      }
       document.getElementById(route.containerId).innerHTML =
         await response.text();
     }

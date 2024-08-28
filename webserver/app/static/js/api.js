@@ -25,6 +25,10 @@ const makeApiRequest = async (endpoint, method, data) => {
 
   const response = await fetch(url, fetchOptions);
   if (!response.ok) {
+    alert(response.statusText);
+    if (response.status === 401) {
+      window.location.href = "/login";
+    }
     throw new Error(response.statusText);
   }
   return await response.json();
@@ -47,9 +51,10 @@ const updateUsername = async (newUsername) => {
 const updateAvatar = async (avatar) => {
   const formData = new FormData();
   formData.append("avatar", avatar);
+  let response;
 
   try {
-    const response = await fetch("api/users/updateAvatar/", {
+    response = await fetch("api/users/updateAvatar/", {
       method: "PATCH",
       body: formData,
       headers: {
@@ -61,6 +66,10 @@ const updateAvatar = async (avatar) => {
     console.debug("Avatar updated successfully:", updatedUser.username);
     return updatedUser.avatar;
   } catch (error) {
+    alert(error.message);
+    if (response.status === 401) {
+      window.location.href = "/login";
+    }
     console.error("Failed to update avatar:", error);
     return null;
   }
