@@ -66,7 +66,7 @@ const updateAvatar = async (avatar) => {
     console.debug("Avatar updated successfully:", updatedUser.username);
     return updatedUser.avatar;
   } catch (error) {
-    alert(error.message);
+    alert(response.statusText);
     if (response.status === 401) {
       window.location.href = "/login";
     }
