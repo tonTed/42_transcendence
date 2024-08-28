@@ -84,14 +84,18 @@ async function manage1v1(players) {
  * @param {Player[]} players
  */
 async function manageTournament(players) {
-  const response = await createTournament(players);
+  let response = await createTournament(players);
+  // TODO-AR: handle id tourney get from response
+  // LOOP
   const games = await getGamesFromGamesIds(response.games);
   displayGames(games);
-  // LOOP
-  // TODO-GVAR: add button to play next game
-  // TODO-GVAR: diplayGames between each game
-  // TODO-GVAR: handle end of tournament and display leaderboard
-  // TODO-GV: create leaderboard
+  // TODO-AR: add button to play next game
+  // TODO-AR: start THE NEXT game
+  // TODO-AR: handle end of game
+  // TODO-AR: update tourney frontend or backend?
+  // TODO-AR: handle end of tournament
+  // TODO-AR: create leaderboard and display it
+  // TODO-AR: await tournament end
 }
 
 /**
