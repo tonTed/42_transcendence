@@ -39,6 +39,8 @@ export async function startGame(canvas, context, game_id) {
   const ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
   const ws_path = `${ws_scheme}://${window.location.hostname}/ws/game/?game_id=${game_id}&jwt=${jwtToken}`;
 
+  let finalData;
+
   let timer;
   socket = new WebSocket(ws_path);
 
@@ -53,18 +55,20 @@ export async function startGame(canvas, context, game_id) {
       updateData(canvas, context, data.state);
     } else if (data.final) {
       clearInterval(timer);
-      displayGameEnded(context, canvas, data.final);
+      finalData = data.final;
+      // displayGameEnded(context, canvas, data.final);
     }
   };
 
   const socketClosePromise = new Promise((resolve) => {
     socket.onclose = function (e) {
       console.debug("WebSocket connection closed");
-      resolve("WebSocket connection closed");
+      resolve(finalData);
     };
   });
 
   gameState.gameStarted = true;
 
-  return await socketClosePromise;
+  const data = await socketClosePromise;
+  return data;
 }

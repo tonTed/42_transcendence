@@ -28,8 +28,8 @@ export async function handlerStartMenu(
       if (isMouseOverPlayButton(canvas, context)) {
         document.removeEventListener("mousemove", mouseMoveHandler);
         canvas.removeEventListener("click", clickHandler);
-        await startGame(canvas, context, game_id);
-        resolve();
+        const data = await startGame(canvas, context, game_id);
+        resolve(data);
       }
     }
     canvas.addEventListener("click", clickHandler);
