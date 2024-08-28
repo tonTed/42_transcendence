@@ -14,6 +14,7 @@ class Game(models.Model):
     winner_id = models.IntegerField(null=True, blank=True)
     player1_score = models.IntegerField(default=0)
     player2_score = models.IntegerField(default=0)
+    tournament_id = models.ForeignKey('Tournament', on_delete=models.CASCADE, null=True, blank=True) 
 
 class Tournament(models.Model):
     STATUS_CHOICES = [

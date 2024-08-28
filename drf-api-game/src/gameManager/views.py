@@ -58,22 +58,29 @@ class TournamentListCreate(generics.ListCreateAPIView):
         
         random.shuffle(players)
        
+        tournament = Tournament.objects.create()
+        
         game1 = Game.objects.create(
             player1_id=players[0].get('id'), 
             player1_name=players[0].get('name'), 
             player2_id=players[1].get('id'), 
-            player2_name=players[1].get('name')
+            player2_name=players[1].get('name'),
+            tournament_id=tournament
         )
         game2 = Game.objects.create(
             player1_id=players[2].get('id'), 
             player1_name=players[2].get('name'), 
             player2_id=players[3].get('id'), 
-            player2_name=players[3].get('name')
+            player2_name=players[3].get('name'),
+            tournament_id=tournament
         )
-        game3 = Game.objects.create()
-        game4 = Game.objects.create()
+        game3 = Game.objects.create(
+            tournament_id=tournament
+        )
+        game4 = Game.objects.create(
+            tournament_id=tournament
+        )
 
-        tournament = Tournament.objects.create()
         tournament.games.set([game1, game2, game3, game4])  
         return Response(TournamentSerializer(tournament).data, status=status.HTTP_201_CREATED)
 
