@@ -116,6 +116,8 @@ services:
       - "6379:6379"
     networks:
       - transcendence-network
+    volumes:
+      - redis_volume:/data
 
   database:
     env_file:
@@ -143,3 +145,4 @@ networks:
 volumes:
   static_volume:
   database_volume:
+  redis_volume:
