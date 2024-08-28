@@ -23,11 +23,9 @@ const keyToActionMap = {
 function handleKeyDown(event) {
     if (event.key == 'Escape'){
         gameState.paused = !gameState.paused;
-        console.log('PAUSE XD');
         return;
     }
     if (!gameState.paused){
-        console.log('controls xd');
         const action = keyToActionMap[event.key];
         if (action) {
             gameState.actions[action] = true;
