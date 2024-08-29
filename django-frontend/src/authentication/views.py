@@ -94,7 +94,7 @@ def verify_2fa(request):
             'user_id': user_id,
             'password': password
         }
-        auth_response = requests.post(f'{AUTH_URL}/auth/verify_password/', json=data)
+        auth_response = requests.post(f'{USER_URL}/users/verify_password/', json=data)
         
         if auth_response.status_code == 200:
             response, _ = generate_jwt_and_redirect(user_id)
