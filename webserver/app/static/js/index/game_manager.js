@@ -13,6 +13,8 @@ import { displayLeaderboard } from "./leaderboard.js";
 function displayGames(games) {
   const container = document.getElementById("gameContainer");
   container.innerHTML = "";
+  container.style.display = "flex";
+  container.style.flexDirection = "column";
 
   const table = document.createElement("table");
   table.classList.add("table");
@@ -107,7 +109,7 @@ async function manageTournament(players) {
     await launchGame(games[i]);
     games = await getGamesFromGamesIds(response.games);
   }
-  await displayLeaderboard(games)
+  await displayLeaderboard(games);
   // TODO-AR: await tournament end
 }
 
