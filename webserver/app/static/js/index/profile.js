@@ -15,7 +15,7 @@ function fileInputListener() {
       fileNameDisplay.textContent = fileName;
     });
   } else {
-    console.error("File input not found!");
+    alert("File input not found!");
   }
 }
 
@@ -80,7 +80,7 @@ function confirmAvatarButtonListener() {
       try {
         await updateAvatar(avatar);
       } catch (error) {
-        console.error("Failed to update avatar in topbar:", error);
+        alert("Failed to update avatar in topbar:", error);
       }
     })();
   });
