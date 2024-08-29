@@ -1,0 +1,123 @@
+version: "3.8"
+
+services:
+  django-frontend:
+    env_file:
+      - django-frontend/.env
+    container_name: django-frontend
+    build:
+      context: ./django-frontend
+    image: django-frontend:latest
+    networks:
+      - transcendence-network
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  api-gateway:
+    env_file:
+      - drf-api-gateway/.env
+    container_name: api-gateway
+    build:
+      context: ./drf-api-gateway
+    image: drf-api-gateway:latest
+    volumes:
+      - static_volume:/usr/share/nginx/html/static
+    networks:
+      - transcendence-network
+    depends_on:
+      database:
+        condition: service_healthy
+
+  api-users:
+    env_file:
+      - drf-api-users/.env
+    container_name: api-users
+    build:
+      context: ./drf-api-users
+    image: drf-api-users:latest
+    networks:
+      - transcendence-network
+    depends_on:
+      database:
+        condition: service_healthy
+
+  api-game:
+    env_file:
+      - drf-api-game/.env
+    container_name: api-game
+    build:
+      context: ./drf-api-game
+    image: drf-api-game:latest
+    networks:
+      - transcendence-network
+    depends_on:
+      database:
+        condition: service_healthy
+
+  api-auth:
+    env_file:
+      - drf-api-auth/.env
+    container_name: api-auth
+    build:
+      context: ./drf-api-auth
+    image: drf-api-auth:latest
+    networks:
+      - transcendence-network
+    depends_on:
+      database:
+        condition: service_healthy
+
+  webserver:
+    container_name: webserver
+    build:
+      context: ./webserver
+    image: webserver:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - static_volume:/usr/share/nginx/html/static
+    networks:
+      - transcendence-network
+    depends_on:
+      - django-frontend
+      - api-gateway
+
+  redis:
+    container_name: redis
+    build:
+      context: ./redis
+    image: redis:latest
+    networks:
+      - transcendence-network
+    volumes:
+      - redis_volume:/data
+
+  database:
+    env_file:
+      - postgres/.env
+    container_name: database
+    build:
+      context: ./postgres
+    image: database:latest
+    volumes:
+      - database_volume:/var/lib/postgresql/data
+    networks:
+      - transcendence-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres --dbname=api_users_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  transcendence-network:
+    driver: bridge
+
+volumes:
+  static_volume:
+  database_volume:
+  redis_volume:
