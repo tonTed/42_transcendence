@@ -110,7 +110,6 @@ async function manageTournament(players) {
     games = await getGamesFromGamesIds(response.games);
   }
   await displayLeaderboard(games);
-  // TODO-AR: await tournament end
 }
 
 /**
