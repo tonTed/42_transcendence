@@ -98,7 +98,7 @@ async function handleSubmit(event, selectedMode) {
 
   const validationResult = validateForm();
   if (validationResult) {
-    console.error(validationResult);
+    alert(validationResult);
     return;
   }
 
