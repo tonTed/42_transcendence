@@ -60,6 +60,15 @@ function displayGames(games) {
   table.appendChild(thead);
   table.appendChild(tbody);
   container.appendChild(table);
+
+  const button = document.createElement("button");
+  button.textContent = "Play Next Game";
+  button.classList.add("btn", "btn-primary", "mt-3");
+  button.style.display = "block";
+  button.style.margin = "0 auto";
+  container.appendChild(button);
+
+  return button;
 }
 
 /**
@@ -85,15 +94,18 @@ async function manage1v1(players) {
  */
 async function manageTournament(players) {
   let response = await createTournament(players);
-  // TODO-AR: handle id tourney get from response
-  // LOOP
-  const games = await getGamesFromGamesIds(response.games);
-  displayGames(games);
-  // TODO-AR: add button to play next game
-  // TODO-AR: start THE NEXT game
-  // TODO-AR: handle end of game
-  // TODO-AR: update tourney frontend or backend?
-  // TODO-AR: handle end of tournament
+  let games = await getGamesFromGamesIds(response.games);
+  
+  for (let i = 0; i < games.length; i++) {
+    const playNextButton = displayGames(games);
+    await new Promise((resolve) => {
+      playNextButton.addEventListener("click", () => {
+        resolve();
+      });
+    });
+    await launchGame(games[i]);
+    games = await getGamesFromGamesIds(response.games);
+  }
   // TODO-AR: create leaderboard and display it
   // TODO-AR: await tournament end
 }
