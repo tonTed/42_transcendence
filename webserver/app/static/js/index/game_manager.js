@@ -2,6 +2,8 @@ import { createGame, createTournament, getGamesFromGamesIds } from "../api.js";
 import { loadCanvasGame } from "../pong/main.js";
 import { contentLoader } from "../index/index.js";
 import { initGameForm } from "../index/game_form.js";
+import { displayLeaderboard } from "./leaderboard.js";
+
 /**
  * @typedef {import("../types.js").Player} Player
  * @typedef {import("../types.js").Game} Game
@@ -95,7 +97,6 @@ async function manage1v1(players) {
 async function manageTournament(players) {
   let response = await createTournament(players);
   let games = await getGamesFromGamesIds(response.games);
-  
   for (let i = 0; i < games.length; i++) {
     const playNextButton = displayGames(games);
     await new Promise((resolve) => {
@@ -106,7 +107,7 @@ async function manageTournament(players) {
     await launchGame(games[i]);
     games = await getGamesFromGamesIds(response.games);
   }
-  // TODO-AR: create leaderboard and display it
+  await displayLeaderboard(games)
   // TODO-AR: await tournament end
 }
 
