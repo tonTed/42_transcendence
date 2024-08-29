@@ -13,6 +13,7 @@ export async function handlerStartMenu(
 ) {
   gameState.players.p1Name = player1_name;
   gameState.players.p2Name = player2_name;
+  gameState.paused = false;
 
   function mouseMoveHandler(event) {
     const rect = canvas.getBoundingClientRect();
@@ -28,8 +29,8 @@ export async function handlerStartMenu(
       if (isMouseOverPlayButton(canvas, context)) {
         document.removeEventListener("mousemove", mouseMoveHandler);
         canvas.removeEventListener("click", clickHandler);
-        await startGame(canvas, context, game_id);
-        resolve();
+        const data = await startGame(canvas, context, game_id);
+        resolve(data);
       }
     }
     canvas.addEventListener("click", clickHandler);

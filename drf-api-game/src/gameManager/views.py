@@ -98,12 +98,54 @@ def update_game(game_id, game_data):
         game.status = game_data.get('status')
         if game_data.get('winner_id') == 1:
             game.winner_id = game.player1_id
+            game.loser_id = game.player2_id
         elif game_data.get('winner_id') == 2:
             game.winner_id = game.player2_id
+            game.loser_id = game.player1_id
         game.player1_score = game_data.get('player1_score')
         game.player2_score = game_data.get('player2_score')
         game.save()
+        if (game.tournament_id):
+            update_tournament(game.tournament_id.id)
     except Exception as e:
         print(f"Error updating game: {e}")
+        return False
+    return True
+
+def update_tournament(tournament_id):
+    try:
+        tournament = Tournament.objects.get(id=tournament_id)
+        games = list(tournament.games.order_by('id'))
+        game1, game2, game3, game4 = games[0], games[1], games[2], games[3]
+
+        if (game1.status == 'in_progress'):
+            tournament.status = 'in_progress'
+
+        elif game1.status == 'finished' and game3.player1_id is None and game4.player1_id is None:
+            game3.player1_id = game1.loser_id
+            game3.player1_name = game1.player1_name if game1.loser_id == game1.player1_id else game1.player2_name
+            game4.player1_id = game1.winner_id
+            game4.player1_name = game1.player1_name if game1.winner_id == game1.player1_id else game1.player2_name
+            game3.save()
+            game4.save()
+
+        elif game2.status == 'finished' and game3.player2_id is None and game4.player2_id is None:
+            game3.player2_id = game2.loser_id
+            game3.player2_name = game2.player1_name if game2.loser_id == game2.player1_id else game2.player2_name
+            game4.player2_id = game2.winner_id
+            game4.player2_name = game2.player1_name if game2.winner_id == game2.player1_id else game2.player2_name
+            game3.save()
+            game4.save()
+
+        elif game4.status == 'finished':
+            tournament.status = 'finished'
+        
+        elif any(game.status == 'cancelled' for game in [game1, game2, game3, game4]):
+            tournament.status = 'cancelled'
+            
+        tournament.save()
+
+    except Exception as e:
+        print(f"Error updating tournament: {e}")
         return False
     return True

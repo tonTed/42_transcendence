@@ -31,11 +31,11 @@ class GameConnection(AsyncWebsocketConsumer):
             return
         
         await self.update_host_status('in-game')
-        await self.update_game('started')
+        await self.update_game('in_progress')
         await self.accept()
         self.game_loop_task = asyncio.create_task(self.game_loop())
         
-    async def update_game(self, status='started'):
+    async def update_game(self, status='in_progress'):
         game_data = {
             "status": status,
             "winner_id": self.game.winner,

@@ -10,7 +10,7 @@ function handleToggleFriendship() {
       try {
         await updateFriendship(user_id, friend_status);
       } catch (error) {
-        console.error("Error updating friend status:", error);
+        alert("Error updating friend status:", error);
       }
     };
   });

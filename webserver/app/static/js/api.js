@@ -44,7 +44,7 @@ const updateUsername = async (newUsername) => {
     console.debug("Username updated successfully:", updatedUser.username);
     return updatedUser;
   } catch (error) {
-    console.error("Failed to update username:", error);
+    alert("Failed to update username:", error);
   }
 };
 
@@ -70,7 +70,7 @@ const updateAvatar = async (avatar) => {
     if (response.status === 401) {
       window.location.href = "/login";
     }
-    console.error("Failed to update avatar:", error);
+    alert("Failed to update avatar:", error);
     return null;
   }
 };
@@ -88,7 +88,7 @@ const updateFriendship = async (user_id, friend_status) => {
     console.debug("Friendship updated successfully:");
     return updatedFriendship;
   } catch (error) {
-    console.error("Error updating friend status:", error);
+    alert("Error updating friend status:", error);
   }
 };
 
@@ -98,7 +98,7 @@ const getUsers = async () => {
     console.debug(`Users fetched successfully (${users.length} users)`);
     return users;
   } catch (error) {
-    console.error("Failed to fetch users:", error);
+    alert("Failed to fetch users:", error);
   }
 };
 

@@ -1,15 +1,35 @@
 import { contentLoader } from "./index.js";
 import { initGameForm } from "./game_form.js";
 
-function getLeaderboard(tournament_id) {
-  return ["Teddy", "Asael", "Guillaume", "Gael"];
+function getLeaderboard(games) {
+  let winnerGame4, loserGame4, winnerGame3, loserGame3;
+
+  if (games[3].winner_id === games[3].player1_id) {
+    winnerGame4 = games[3].player1_name;
+    loserGame4 = games[3].player2_name;
+  } else {
+    winnerGame4 = games[3].player2_name;
+    loserGame4 = games[3].player1_name;
+  }
+
+  if (games[2].winner_id === games[2].player1_id) {
+    winnerGame3 = games[2].player1_name;
+    loserGame3 = games[2].player2_name;
+  } else {
+    winnerGame3 = games[2].player2_name;
+    loserGame3 = games[2].player1_name;
+  }
+
+  return [winnerGame4, loserGame4, winnerGame3, loserGame3];
 }
 
-async function displayLeaderboard(tournament_id) {
+async function displayLeaderboard(games) {
   const container = document.getElementById("gameContainer");
   container.innerHTML = "";
+  container.style.display = "flex";
+  container.style.flexDirection = "column";
 
-  const leaderboard = getLeaderboard(tournament_id);
+  const leaderboard = getLeaderboard(games);
 
   const list = document.createElement("ol");
   list.classList.add("list-group");
@@ -23,10 +43,21 @@ async function displayLeaderboard(tournament_id) {
     list.appendChild(listItem);
   });
 
-  container.appendChild(list);
+  const button = document.createElement("button");
+  button.textContent = "Back to website";
+  button.classList.add("btn", "btn-primary", "mt-3");
+  button.style.display = "block";
+  button.style.margin = "0 auto";
+  container.appendChild(button);
 
-  // TODO: Add button to go back to the form_game page
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+  container.appendChild(list);
+  container.appendChild(button);
+
+  await new Promise((resolve) => {
+    button.addEventListener("click", () => {
+      resolve();
+    });
+  });
 
   await contentLoader.load("form_game");
   initGameForm();
