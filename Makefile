@@ -1,6 +1,9 @@
 up:
 	docker compose up -d --build
 
+prod:
+	docker compose -f docker-compose_prod.yml up -d --build
+
 down:
 	docker compose down
 
@@ -50,7 +53,7 @@ setup-venvs:
 fclean: down
 	rm -rf ./postgres/postgres_data/*
 	docker system prune -a -f
-	@echo "run: docker volume rm $(docker volume ls -q)"
+	docker volume prune -a -f
 
 # help: List all available commands
 help:
