@@ -40,8 +40,9 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   if (isValid.status !== 200) {
     window.location.href = "/login";
+    return;
   }
-
+  
   contentLoader.setJwtToken(jwtToken);
   await contentLoader.loadAll();
 
