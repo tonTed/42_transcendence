@@ -26,6 +26,8 @@ function getLeaderboard(games) {
 async function displayLeaderboard(games) {
   const container = document.getElementById("gameContainer");
   container.innerHTML = "";
+  container.style.display = "flex";
+  container.style.flexDirection = "column";
 
   const leaderboard = getLeaderboard(games);
 
@@ -41,10 +43,21 @@ async function displayLeaderboard(games) {
     list.appendChild(listItem);
   });
 
-  container.appendChild(list);
+  const button = document.createElement("button");
+  button.textContent = "Back to website";
+  button.classList.add("btn", "btn-primary", "mt-3");
+  button.style.display = "block";
+  button.style.margin = "0 auto";
+  container.appendChild(button);
 
-  // TODO: Add button to go back to the form_game page
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+  container.appendChild(list);
+  container.appendChild(button);
+
+  await new Promise((resolve) => {
+    button.addEventListener("click", () => {
+      resolve();
+    });
+  });
 
   await contentLoader.load("form_game");
   initGameForm();
