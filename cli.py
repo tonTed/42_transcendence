@@ -1,5 +1,6 @@
 import requests
 import argparse
+import ssl
 import asyncio
 import websockets
 import json
@@ -19,22 +20,22 @@ def create_game(player1_name, player2_name, jwt_token):
     }
     
     print("Sending POST request to:", url)
-    # response = requests.post(url, headers=headers, json=data, verify=False)
-    response = requests.post(url, headers=headers, json=json.dumps(data), verify=False)
+    response = requests.post(url, headers=headers, json=data, verify=False)
     print(response.status_code)
     if response.status_code == 200:
         game_info = response.json()
         print('GAME INFO:')
         print(game_info)
-        return game_info["id"]  # Retourne l'ID du jeu créé
+        return game_info["id"]
     else:
         print("Erreur lors de la création du jeu:", response.status_code, response.text)
         return None
 
 # Fonction pour se connecter au jeu via WebSocket
 async def connect_to_game(game_id, jwt_token):
-    ws_url = f"ws://localhost:8000/ws/game/?game_id={game_id}&jwt={jwt_token}"
-    async with websockets.connect(ws_url) as websocket:
+    ws_url = f"wss://localhost/ws/game/?game_id={game_id}&jwt={jwt_token}"
+    ssl_context = ssl._create_unverified_context()
+    async with websockets.connect(ws_url, ssl=ssl_context) as websocket:
         await game_loop(websocket)
 
 async def game_loop(websocket):

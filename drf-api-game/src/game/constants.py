@@ -26,7 +26,7 @@ class CANVAS_CONSTS:
 
 class GAME_CONSTS:
     FPS = 63
-    WINNING_SCORE = 1
+    WINNING_SCORE = 5
     PLAYER1 = 1
     PLAYER2 = 2
     INTERVAL_TIME = 1.5
