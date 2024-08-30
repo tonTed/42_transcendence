@@ -23,13 +23,13 @@ class GameListCreate(generics.ListCreateAPIView):
         player1 = players[0]
         player2 = players[1]
 
-        player1_id = int(player1.get('id'))
-        player2_id = int(player2.get('id'))
+        player1_id = player1.get('id')
+        player2_id = player2.get('id')
         player1_name = player1.get('name')
         player2_name = player2.get('name')
 
         # Check if any of the required fields are None
-        if player1_id is None or player2_id is None or not player1_name or not player2_name:
+        if not player1_name or not player2_name:
             return Response({"error": "Each player must have an id and a name."}, status=status.HTTP_400_BAD_REQUEST)
 
         game = Game.objects.create(

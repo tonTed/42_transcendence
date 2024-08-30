@@ -14,8 +14,8 @@ def create_game(player1_name, player2_name, jwt_token):
     }
     data = {
         "players": [
-            {"id": 12, "name": player1_name},
-            {"id": 11, "name": player2_name}
+            {"id": None, "name": player1_name},
+            {"id": None, "name": player2_name}
         ]
     }
     
