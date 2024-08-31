@@ -11,7 +11,7 @@ class PongGameClient:
         self.state = {}
         self.ended = False
 
-    def create_game(self, player1_name, player2_name):
+    def create_game(self):
         url = "http://localhost/api/games/"
         headers = {
             "Content-Type": "application/json",
@@ -19,8 +19,8 @@ class PongGameClient:
         }
         data = {
             "players": [
-                {"id": None, "name": player1_name},
-                {"id": None, "name": player2_name}
+                {"id": None, "name": 'cli1'},
+                {"id": None, "name": 'cli2'}
             ]
         }
         
@@ -65,7 +65,8 @@ class PongGameClient:
             
             except websockets.ConnectionClosed:
                 print("Connection closed unexpectedly")
-                break
+                print("Exiting program...")
+                exit()
 
     async def get_user_input(self, websocket):
         await asyncio.sleep(0.5)
@@ -77,11 +78,14 @@ class PongGameClient:
             "p2Down": False,
         }
 
-        while self.ended is False:
-            user_input = input("\nEnter command ('w', 's', 'u', 'd', or 'state'): ").strip().lower()
+        while True:
+            user_input = input("\nEnter command ('w', 's', 'u', 'd', 'state', or 'quit'): ").strip().lower()
             await asyncio.sleep(0.1)
-
             
+            if user_input == 'quit':
+                print("Quitting game and exiting program")
+                exit()
+
             if user_input == 'state':
                 self.print_state()
 
@@ -104,7 +108,6 @@ class PongGameClient:
             else:
                 print('Unknown command')
 
-            # Send the actions to the server
             action_message = json.dumps({
                 "command": "actions",
                 "actions": actions
@@ -112,7 +115,6 @@ class PongGameClient:
             try:
                 await websocket.send(action_message)
 
-                # Reset actions to prevent continuous movement until the next keypress
                 actions = {
                     "p1Up": False,
                     "p1Down": False,
@@ -127,8 +129,10 @@ class PongGameClient:
                 await websocket.send(action_message)
 
             except websockets.ConnectionClosed:
+                self.print_state()
                 print('\nConnection Closed')
-                break
+                print("Exiting program...")
+                exit()
 
             await asyncio.sleep(0.1)
 
@@ -156,16 +160,15 @@ def main():
         choice = input("Choose an option: ")
 
         if choice == "1":
-            player1_name = input("Enter player1 name: ")
-            player2_name = input("Enter player2 name: ")
-            # input("Press any key to start the game") TO ADD
-            game_id = client.create_game(player1_name, player2_name)
-            
+            print("'w'/'s' to move player 1 | 'u'/'d' to move player 2 | 'state' to get the game state | 'quit' to quit")
+            input("Press any key to start the game")
+            game_id = client.create_game()
             if game_id:
                 print(f"Game created successfully with ID: {game_id}")
                 asyncio.run(client.connect_to_game())
             else:
                 print("Failed to create game. Please try again.")
+            
         
         elif choice == "2":
             print("Exiting program...")
