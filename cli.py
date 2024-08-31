@@ -3,16 +3,15 @@ import json
 import requests
 import websockets
 import ssl
-import sys
 
 class PongGameClient:
     def __init__(self, jwt_token):
         self.jwt_token = jwt_token
         self.game_id = None
         self.state = {}
-        self.ended = False
 
     def create_game(self):
+        self.ended = False
         url = "http://localhost/api/games/"
         headers = {
             "Content-Type": "application/json",
@@ -73,8 +72,8 @@ class PongGameClient:
 
 
     async def handle_server_messages(self, websocket):
-        while True:
-            try:
+        try:
+            while True:
                 message = await websocket.recv()
                 data = json.loads(message)
                 
@@ -84,11 +83,16 @@ class PongGameClient:
                     self.state = data['final']
                     self.ended = True
                     break
-            
-            except websockets.ConnectionClosed:
-                print("Connection closed")
-                print("Exiting program...")
-                exit()
+                
+        except websockets.ConnectionClosedError as e:
+            print(f"Connection closed")
+        except websockets.ConnectionClosedOK:
+            print("Connection closed normally.")
+        except Exception as e:
+            print(f"An error occurred while receiving a message: {e}")
+        finally:
+            self.ended = True
+            await websocket.close()
 
     async def get_user_input(self, websocket):
         await asyncio.sleep(0.5)
@@ -105,7 +109,8 @@ class PongGameClient:
             await asyncio.sleep(0.1)
             
             if user_input == 'quit':
-                print("Quitting game and exiting program")
+                print("Quitting game")
+                self.ended = True
                 await websocket.close()
                 break
 
@@ -155,13 +160,12 @@ class PongGameClient:
             except websockets.ConnectionClosed:
                 self.print_state()
                 print('\nConnection Closed')
-                print("Exiting program...")
-                exit()
+                break
 
             await asyncio.sleep(0.1)
 
     def print_state(self):
-        if 'ball_position' in self.state:
+        if self.ended is False:
             print("\n--- Game State Update ---")
             print(f"Ball Position: {self.state['ball_position']}")
             print(f"Player 1 Paddle: {self.state['paddle1_position']}")
