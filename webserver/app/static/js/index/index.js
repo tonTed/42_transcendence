@@ -16,6 +16,8 @@ import { ContentLoader } from "../ContentLoader.js";
 import { getCookie } from "../utils.js";
 import liveUpdateManager from "./live_update_manager.js";
 
+import { initializeHistoryTabs } from "./history.js";
+
 const contentLoaderConfig = {
   baseurl: "frontend",
   routes: {
@@ -60,4 +62,5 @@ function initializeEventListeners() {
   toggle2FA();
   toggleProfile();
   initGameForm();
+  initializeHistoryTabs();
 }
