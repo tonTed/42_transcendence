@@ -158,6 +158,7 @@ class PongGameClient:
                 await websocket.send(action_message)
 
             except websockets.ConnectionClosed:
+                self.ended = True
                 self.print_state()
                 print('\nConnection Closed')
                 break
@@ -189,7 +190,7 @@ def main():
 
         if choice == "1":
             print("'w'/'s' to move player 1 | 'u'/'d' to move player 2 | 'state' to get the game state | 'quit' to quit")
-            input("Press any key to start the game")
+            input("Press ENTER to start the game")
             game_id = client.create_game()
             if game_id:
                 print(f"Game created successfully with ID: {game_id}")
