@@ -8,8 +8,8 @@ class PongGameClient:
     def __init__(self, jwt_token):
         self.jwt_token = jwt_token
         self.game_id = None
-        self.current_game_state = {}
-        self.last_received_state = {}
+        self.state = {}
+        self.ended = False
 
     def create_game(self, player1_name, player2_name):
         url = "http://localhost/api/games/"
@@ -47,7 +47,7 @@ class PongGameClient:
         async with websockets.connect(ws_url, ssl=ssl_context) as websocket:
             await asyncio.gather(
                 self.handle_server_messages(websocket),
-                self.get_user_input(websocket)
+                self.get_user_input()
             )
 
     async def handle_server_messages(self, websocket):
@@ -57,40 +57,38 @@ class PongGameClient:
                 data = json.loads(message)
                 
                 if 'state' in data:
-                    self.last_received_state = data['state']
+                    self.state = data['state']
                 elif 'final' in data:
-                    self.last_received_state = data['final']
+                    self.state = data['final']
+                    self.ended = True
                     break
             
             except websockets.ConnectionClosed:
                 print("Connection closed unexpectedly")
                 break
 
-    async def get_user_input(self, websocket):
+    async def get_user_input(self):
         await asyncio.sleep(0.5)
 
-        while True:
+        while self.ended is False:
             user_input = input("\nEnter command (type 'state' to view state): ")
-
+            await asyncio.sleep(0.1)
             if user_input == 'state':
-                if self.last_received_state:
-                    self.print_state()
-                else:
-                    print("No state available yet.")
+                self.print_state()
             
             await asyncio.sleep(0.1)
 
     def print_state(self):
-        if 'ball_position' in self.last_received_state:
+        if 'ball_position' in self.state:
             print("\n--- Game State Update ---")
-            print(f"Ball Position: {self.last_received_state['ball_position']}")
-            print(f"Player 1 Paddle: {self.last_received_state['paddle1_position']}")
-            print(f"Player 2 Paddle: {self.last_received_state['paddle2_position']}")
-            print(f"Scores: {self.last_received_state['scores']}")
+            print(f"Ball Position: {self.state['ball_position']}")
+            print(f"Player 1 Paddle: {self.state['paddle1_position']}")
+            print(f"Player 2 Paddle: {self.state['paddle2_position']}")
+            print(f"Scores: {self.state['scores']}")
         else:
             print("\n--- Game Over ---")
-            print(f"Final Scores: {self.last_received_state['scores']}")
-            print(f"Winner: Player {self.last_received_state['winner']}")
+            print(f"Final Scores: {self.state['scores']}")
+            print(f"Winner: Player {self.state['winner']}")
 
 def main():
     jwt_token = input("Enter your JWT token: ")
