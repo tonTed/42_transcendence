@@ -3,6 +3,7 @@ import json
 import requests
 import websockets
 import ssl
+import sys
 
 class PongGameClient:
     def __init__(self, jwt_token):
@@ -24,18 +25,26 @@ class PongGameClient:
             ]
         }
         
-        print("Sending POST request to:", url)
-        response = requests.post(url, headers=headers, json=data, verify=False)
-        print(response.status_code)
-        if response.status_code == 200:
+        try:
+            print("Sending POST request to:", url)
+            response = requests.post(url, headers=headers, json=data, verify=False)
+            response.raise_for_status()
             game_info = response.json()
             print('GAME INFO:')
             print(game_info)
             self.game_id = game_info["id"]
             return self.game_id
-        else:
-            print("Error creating game:", response.status_code, response.text)
-            return None
+
+        except requests.exceptions.HTTPError as http_err:
+            print(f"HTTP error occurred: {http_err}")
+        except requests.exceptions.ConnectionError as conn_err:
+            print(f"Connection error occurred: {conn_err}")
+        except requests.exceptions.Timeout as timeout_err:
+            print(f"Timeout error occurred: {timeout_err}")
+        except requests.exceptions.RequestException as req_err:
+            print(f"An error occurred: {req_err}")
+
+        return None
 
     async def connect_to_game(self):
         if not self.game_id:
@@ -44,11 +53,24 @@ class PongGameClient:
 
         ws_url = f"wss://localhost/ws/game/?game_id={self.game_id}&jwt={self.jwt_token}"
         ssl_context = ssl._create_unverified_context()
-        async with websockets.connect(ws_url, ssl=ssl_context) as websocket:
-            await asyncio.gather(
-                self.handle_server_messages(websocket),
-                self.get_user_input(websocket)
-            )
+        
+        try:
+            async with websockets.connect(ws_url, ssl=ssl_context) as websocket:
+                await asyncio.gather(
+                    self.handle_server_messages(websocket),
+                    self.get_user_input(websocket)
+                )
+        except websockets.InvalidURI:
+            print("Invalid WebSocket URI. Please check the server address.")
+        except websockets.InvalidHandshake:
+            print("Invalid WebSocket handshake. Please verify your JWT token.")
+        except websockets.ConnectionClosedError as e:
+            print(f"WebSocket connection closed with error: {e}")
+        except ssl.SSLError as ssl_err:
+            print(f"SSL error occurred: {ssl_err}")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+
 
     async def handle_server_messages(self, websocket):
         while True:
@@ -64,7 +86,7 @@ class PongGameClient:
                     break
             
             except websockets.ConnectionClosed:
-                print("Connection closed unexpectedly")
+                print("Connection closed")
                 print("Exiting program...")
                 exit()
 
@@ -84,10 +106,12 @@ class PongGameClient:
             
             if user_input == 'quit':
                 print("Quitting game and exiting program")
-                exit()
+                await websocket.close()
+                break
 
             if user_input == 'state':
-                self.print_state()
+                if self.ended == False:
+                    self.print_state()
 
             elif user_input == 'w':
                 actions["p1Up"] = True
