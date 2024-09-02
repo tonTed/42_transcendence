@@ -3,7 +3,9 @@ import json
 import requests
 import websockets
 import ssl
+import urllib3
 
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 class PongGameClient:
     def __init__(self, jwt_token):
@@ -170,10 +172,41 @@ class PongGameClient:
             print(f"Final Scores: {self.state['scores']}")
             print(f"Winner: Player {self.state['winner']}")
 
+def verify_token(jwt_token) -> bool:
+    url = "http://localhost/api/auth/verify/"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": jwt_token,
+    }
+
+    try:
+        response = requests.post(url, headers=headers, verify=False)
+        response.raise_for_status()
+
+        data = response.json()
+        if data.get("valid"):
+            return True
+        else:
+            print(f"Token verification failed: {data}")
+            return False
+    except requests.exceptions.HTTPError as http_err:
+        print(f"HTTP error occurred: {http_err}")
+    except requests.exceptions.ConnectionError as conn_err:
+        print(f"Connection error occurred: {conn_err}")
+    except requests.exceptions.Timeout as timeout_err:
+        print(f"Timeout error occurred: {timeout_err}")
+    except requests.exceptions.RequestException as req_err:
+        print(f"An error occurred: {req_err}")
+    return False
+
 
 def main():
     jwt_token = input("Enter your JWT token: ")
 
+    if verify_token(jwt_token=jwt_token) is False:
+        print("\nToken invalid. Exiting program")
+        exit()
+    
     client = PongGameClient(jwt_token)
 
     while True:
