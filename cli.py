@@ -4,6 +4,7 @@ import requests
 import websockets
 import ssl
 
+
 class PongGameClient:
     def __init__(self, jwt_token):
         self.jwt_token = jwt_token
@@ -17,19 +18,14 @@ class PongGameClient:
             "Content-Type": "application/json",
             "Authorization": self.jwt_token,
         }
-        data = {
-            "players": [
-                {"id": None, "name": 'cli1'},
-                {"id": None, "name": 'cli2'}
-            ]
-        }
-        
+        data = {"players": [{"id": None, "name": "cli1"}, {"id": None, "name": "cli2"}]}
+
         try:
             print("Sending POST request to:", url)
             response = requests.post(url, headers=headers, json=data, verify=False)
             response.raise_for_status()
             game_info = response.json()
-            print('GAME INFO:')
+            print("GAME INFO:")
             print(game_info)
             self.game_id = game_info["id"]
             return self.game_id
@@ -52,12 +48,12 @@ class PongGameClient:
 
         ws_url = f"wss://localhost/ws/game/?game_id={self.game_id}&jwt={self.jwt_token}"
         ssl_context = ssl._create_unverified_context()
-        
+
         try:
             async with websockets.connect(ws_url, ssl=ssl_context) as websocket:
                 await asyncio.gather(
                     self.handle_server_messages(websocket),
-                    self.get_user_input(websocket)
+                    self.get_user_input(websocket),
                 )
         except websockets.InvalidURI:
             print("Invalid WebSocket URI. Please check the server address.")
@@ -70,22 +66,21 @@ class PongGameClient:
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
 
-
     async def handle_server_messages(self, websocket):
         try:
             while True:
                 message = await websocket.recv()
                 data = json.loads(message)
-                
-                if 'state' in data:
-                    self.state = data['state']
-                elif 'final' in data:
-                    self.state = data['final']
+
+                if "state" in data:
+                    self.state = data["state"]
+                elif "final" in data:
+                    self.state = data["final"]
                     self.ended = True
                     break
-                
-        except websockets.ConnectionClosedError as e:
-            print(f"Connection closed")
+
+        except websockets.ConnectionClosedError:
+            print("Connection closed")
         except websockets.ConnectionClosedOK:
             print("Connection closed normally.")
         except Exception as e:
@@ -96,7 +91,7 @@ class PongGameClient:
 
     async def get_user_input(self, websocket):
         await asyncio.sleep(0.5)
-        
+
         actions = {
             "p1Up": False,
             "p1Down": False,
@@ -105,42 +100,43 @@ class PongGameClient:
         }
 
         while True:
-            user_input = input("\nEnter command ('w', 's', 'u', 'd', 'state', or 'quit'): ").strip().lower()
+            user_input = (
+                input("\nEnter command ('w', 's', 'u', 'd', 'state', or 'quit'): ")
+                .strip()
+                .lower()
+            )
             await asyncio.sleep(0.1)
-            
-            if user_input == 'quit':
+
+            if user_input == "quit":
                 print("Quitting game")
                 self.ended = True
                 await websocket.close()
                 break
 
-            if user_input == 'state':
-                if self.ended == False:
+            if user_input == "state":
+                if not self.ended:
                     self.print_state()
 
-            elif user_input == 'w':
+            elif user_input == "w":
                 actions["p1Up"] = True
                 actions["p1Down"] = False
 
-            elif user_input == 's':
+            elif user_input == "s":
                 actions["p1Down"] = True
                 actions["p1Up"] = False
 
-            elif user_input == 'u':
+            elif user_input == "u":
                 actions["p2Up"] = True
                 actions["p2Down"] = False
 
-            elif user_input == 'd':
+            elif user_input == "d":
                 actions["p2Down"] = True
                 actions["p2Up"] = False
-            
-            else:
-                print('Unknown command')
 
-            action_message = json.dumps({
-                "command": "actions",
-                "actions": actions
-            })
+            else:
+                print("Unknown command")
+
+            action_message = json.dumps({"command": "actions", "actions": actions})
             try:
                 await websocket.send(action_message)
 
@@ -151,16 +147,13 @@ class PongGameClient:
                     "p2Down": False,
                 }
 
-                action_message = json.dumps({
-                    "command": "actions",
-                    "actions": actions
-                })
+                action_message = json.dumps({"command": "actions", "actions": actions})
                 await websocket.send(action_message)
 
             except websockets.ConnectionClosed:
                 self.ended = True
                 self.print_state()
-                print('\nConnection Closed')
+                print("\nConnection Closed")
                 break
 
             await asyncio.sleep(0.1)
@@ -177,6 +170,7 @@ class PongGameClient:
             print(f"Final Scores: {self.state['scores']}")
             print(f"Winner: Player {self.state['winner']}")
 
+
 def main():
     jwt_token = input("Enter your JWT token: ")
 
@@ -189,7 +183,10 @@ def main():
         choice = input("Choose an option: ")
 
         if choice == "1":
-            print("'w'/'s' to move player 1 | 'u'/'d' to move player 2 | 'state' to get the game state | 'quit' to quit")
+            print(
+                "'w'/'s' to move player 1 | 'u'/'d' to move player 2 | 'state' to get "
+                "the game state | 'quit' to quit"
+            )
             input("Press ENTER to start the game")
             game_id = client.create_game()
             if game_id:
@@ -197,14 +194,14 @@ def main():
                 asyncio.run(client.connect_to_game())
             else:
                 print("Failed to create game. Please try again.")
-            
-        
+
         elif choice == "2":
             print("Exiting program...")
             break
-        
+
         else:
             print("Invalid choice. Please choose a valid option.")
+
 
 if __name__ == "__main__":
     main()
