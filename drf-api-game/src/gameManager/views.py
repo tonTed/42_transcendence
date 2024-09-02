@@ -1,6 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .models import Game, Tournament
+from django.utils import timezone
 from .serializer import (
     GameSerializer,
     TournamentSerializer
@@ -36,7 +37,8 @@ class GameListCreate(generics.ListCreateAPIView):
             player1_id=player1_id, 
             player2_id=player2_id,
             player1_name=player1_name,
-            player2_name=player2_name
+            player2_name=player2_name,
+            date_time=timezone.now(),
         )
         serializer = GameSerializer(game)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -65,20 +67,24 @@ class TournamentListCreate(generics.ListCreateAPIView):
             player1_name=players[0].get('name'), 
             player2_id=players[1].get('id'), 
             player2_name=players[1].get('name'),
-            tournament_id=tournament
+            tournament_id=tournament,
+            date_time=timezone.now(),
         )
         game2 = Game.objects.create(
             player1_id=players[2].get('id'), 
             player1_name=players[2].get('name'), 
             player2_id=players[3].get('id'), 
             player2_name=players[3].get('name'),
-            tournament_id=tournament
+            tournament_id=tournament,
+            date_time=timezone.now(),
         )
         game3 = Game.objects.create(
-            tournament_id=tournament
+            tournament_id=tournament,
+            date_time=timezone.now(),
         )
         game4 = Game.objects.create(
-            tournament_id=tournament
+            tournament_id=tournament,
+            date_time=timezone.now(),
         )
 
         tournament.games.set([game1, game2, game3, game4])  
@@ -95,6 +101,7 @@ class TournamentRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 def update_game(game_id, game_data):
     try:
         game = Game.objects.get(id=game_id)
+        tmp = game.status
         game.status = game_data.get('status')
         if game_data.get('winner_id') == 1:
             game.winner_id = game.player1_id
@@ -104,6 +111,8 @@ def update_game(game_id, game_data):
             game.loser_id = game.player1_id
         game.player1_score = game_data.get('player1_score')
         game.player2_score = game_data.get('player2_score')
+        if (tmp != game.status):
+            game.date_time = timezone.now()
         game.save()
         if (game.tournament_id):
             update_tournament(game.tournament_id.id)
