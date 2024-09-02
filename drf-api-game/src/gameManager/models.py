@@ -5,6 +5,7 @@ class Game(models.Model):
         ('not_started', 'Not Started'),
         ('in_progress', 'In Progress'),
         ('finished', 'Finished'),
+        ('cancelled', 'Cancelled'),
     ]
     player1_id = models.IntegerField(null=True, blank=True)
     player2_id = models.IntegerField(null=True, blank=True)
@@ -15,7 +16,8 @@ class Game(models.Model):
     loser_id = models.IntegerField(null=True, blank=True)
     player1_score = models.IntegerField(default=0)
     player2_score = models.IntegerField(default=0)
-    tournament_id = models.ForeignKey('Tournament', on_delete=models.CASCADE, null=True, blank=True) 
+    date_time = models.DateTimeField(null=True, blank=True)
+    tournament_id = models.ForeignKey('Tournament', on_delete=models.CASCADE, null=True, blank=True)
 
 class Tournament(models.Model):
     STATUS_CHOICES = [
