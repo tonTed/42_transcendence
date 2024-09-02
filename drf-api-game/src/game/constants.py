@@ -2,10 +2,10 @@ class BALL_CONSTS:
     RADIUS = 9
     INITIAL_X = 400
     INITIAL_Y = 0
-    INITIAL_DX = 8
-    INITIAL_DY = 8
-    HIT_DX = 8
-    COLLISION_COEFF = 0.3
+    INITIAL_DX = 1              # web: 5, cli: 1
+    INITIAL_DY = 1              # web: 5, cli: 1
+    HIT_DX = 1                  # web: 5, cli: 1
+    COLLISION_COEFF = 0         # web: 0.25 cli: 0
 
 
 class PADDLE_CONSTS:
@@ -26,7 +26,7 @@ class CANVAS_CONSTS:
 
 class GAME_CONSTS:
     FPS = 63
-    WINNING_SCORE = 1
+    WINNING_SCORE = 2
     PLAYER1 = 1
     PLAYER2 = 2
     INTERVAL_TIME = 1.5
