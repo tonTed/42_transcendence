@@ -70,7 +70,7 @@ class PongGameClient:
 
     async def handle_server_messages(self, websocket):
         try:
-            while True:
+            while not self.ended:
                 message = await websocket.recv()
                 data = json.loads(message)
 
@@ -101,7 +101,7 @@ class PongGameClient:
             "p2Down": False,
         }
 
-        while True:
+        while not self.ended:
             user_input = (
                 input("\nEnter command ('w', 's', 'u', 'd', 'state', or 'quit'): ")
                 .strip()
@@ -137,28 +137,36 @@ class PongGameClient:
 
             else:
                 print("Unknown command")
+                continue
 
-            action_message = json.dumps({"command": "actions", "actions": actions})
-            try:
-                await websocket.send(action_message)
+            if not self.ended:
+                try:
+                    action_message = json.dumps({"command": "actions", "actions": actions})
+                    await websocket.send(action_message)
 
-                actions = {
-                    "p1Up": False,
-                    "p1Down": False,
-                    "p2Up": False,
-                    "p2Down": False,
-                }
+                    actions = {
+                        "p1Up": False,
+                        "p1Down": False,
+                        "p2Up": False,
+                        "p2Down": False,
+                    }
 
-                action_message = json.dumps({"command": "actions", "actions": actions})
-                await websocket.send(action_message)
+                    action_message = json.dumps({"command": "actions", "actions": actions})
+                    await websocket.send(action_message)
 
-            except websockets.ConnectionClosed:
-                self.ended = True
-                self.print_state()
-                print("\nConnection Closed")
-                break
+                    if user_input == "w" or user_input == "s" or user_input == "u" or user_input == "d":
+                        await asyncio.sleep(0.1)
+                        self.print_state()
 
+                except websockets.ConnectionClosed:
+                    self.ended = True
+                    self.print_state()
+                    print("\nConnection Closed")
+                    break
+                
             await asyncio.sleep(0.1)
+        
+        self.print_state()
 
     def print_state(self):
         if self.ended is False:

@@ -2,10 +2,10 @@ class BALL_CONSTS:
     RADIUS = 9
     INITIAL_X = 400
     INITIAL_Y = 0
-    INITIAL_DX = 1
-    INITIAL_DY = 1
-    HIT_DX = 1
-    COLLISION_COEFF = 0.3
+    INITIAL_DX = 1              # web: 5, cli: 1
+    INITIAL_DY = 1              # web: 5, cli: 1
+    HIT_DX = 1                  # web: 5, cli: 1
+    COLLISION_COEFF = 0         # web: 0.25 cli: 0
 
 
 class PADDLE_CONSTS:
