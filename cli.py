@@ -160,7 +160,6 @@ class PongGameClient:
 
                 except websockets.ConnectionClosed:
                     self.ended = True
-                    self.print_state()
                     print("\nConnection Closed")
                     break
                 
