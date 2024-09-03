@@ -60,7 +60,7 @@ def callback(request: HttpRequest) -> HttpResponse:
     except Exception as e:
         return render(request, 'error.html', {'error_code': 500, 'error_message': str(e)})
 
-
+# TODO-TB: set status ingame to false when logging out and gaming at the same time
 def logout(request: HttpRequest) -> HttpResponse:
     set_status('offline', request.COOKIES.get('jwt_token'))
     request.session.flush()
