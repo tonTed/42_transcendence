@@ -16,6 +16,7 @@ class GameConnection(AsyncWebsocketConsumer):
             if self.game_loop_task:
                 self.game_loop_task.cancel()
             await self.update_game("cancelled")
+            await self.update_host_status(False)
 
     async def connect(self):
 
@@ -31,7 +32,7 @@ class GameConnection(AsyncWebsocketConsumer):
             await self.close(code=1401, reason="Unauthorized")
             return
 
-        await self.update_host_status("ingame")
+        await self.update_host_status(True)
         await self.update_game("in_progress")
         await self.accept()
         self.game_loop_task = asyncio.create_task(self.game_loop())
@@ -49,7 +50,7 @@ class GameConnection(AsyncWebsocketConsumer):
         await self.update_game("finished")
         await self.send_final()
         self.game_loop_task.cancel()
-        await self.update_host_status("online")
+        await self.update_host_status(False)
         await self.close(code=1000, reason="Game ended")
 
     async def game_loop(self):
@@ -123,13 +124,13 @@ class GameConnection(AsyncWebsocketConsumer):
         elif command == "pause":
             self.game.paused = True
 
-    async def update_host_status(self, status: str):
+    async def update_host_status(self, status: bool):
         params = await self.get_params()
         jwt_token = params.get("jwt", [None])[0]
         headers = {"Authorization": jwt_token}
         response = requests.patch(
             "http://api-gateway:3000/api/users/set_status/",
-            json={"status": status},
+            json={"in_game": status},
             headers=headers,
         )
 

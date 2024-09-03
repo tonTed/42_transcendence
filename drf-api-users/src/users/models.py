@@ -11,6 +11,7 @@ class User(models.Model):
     id_42 = models.CharField(max_length=42)
     friends = models.ManyToManyField('self', blank=True)
     status = models.CharField(max_length=10, default='offline')
+    in_game = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         if not self.pk or 'password' in kwargs.get('update_fields', []):

@@ -66,6 +66,21 @@ def set_status(request):
         status=response.status_code,
     )
 
+@api_view(['PATCH'])
+@refresh_live_update(['users_list'])
+def set_ingame_status(request):
+    jwt_token = request.headers.get('Authorization')
+    payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
+    user_id = payload['user_id']
+    response = requests.patch(
+        f'{USER_URL}/{user_id}', data=request.body,
+        headers={'Content-Type': request.content_type}
+    )
+    return HttpResponse(
+        response.content,
+        status=response.status_code,
+    )
+
 @csrf_protect
 @api_view(['PATCH'])
 @refresh_live_update(['profile', 'topbar'])

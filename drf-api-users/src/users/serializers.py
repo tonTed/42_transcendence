@@ -14,5 +14,6 @@ class UserSerializer(serializers.ModelSerializer):
             'id_42',
             'friends',
             'status',
-            'password'
+            'password',
+            'in_game'
         ]
