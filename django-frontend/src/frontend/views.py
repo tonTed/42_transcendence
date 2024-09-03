@@ -146,10 +146,31 @@ def history(request: HttpRequest) -> HttpResponse:
     if response.status_code != 200:
         return HttpResponse(status=response.status_code, content=response.reason)
     
-    games = response.json()
+    all_games = response.json()
+    current_user_games = [
+        game for game in all_games
+        if game['player1_id'] == user_id or game['player2_id'] == user_id
+    ]
+    games_played = len(current_user_games)
+    wins = sum(1 for game in current_user_games if game['winner_id'] == user_id)
+    losses = sum(1 for game in current_user_games if game['loser_id'] == user_id)
+    goals_scored = sum(
+        game['player1_score'] if game['player1_id'] == user_id else game['player2_score']
+        for game in current_user_games
+    )
+    goals_conceded = sum(
+        game['player2_score'] if game['player1_id'] == user_id else game['player1_score']
+        for game in current_user_games
+    )
 
     context = {
         'user_id': user_id,
-        'games': games,
+        'all_games': all_games,
+        'current_user_games': current_user_games,
+        'games_played': games_played,
+        'wins': wins,
+        'losses': losses,
+        'goals_scored': goals_scored,
+        'goals_conceded': goals_conceded,
     }
     return render(request, 'history.html', context=context)
