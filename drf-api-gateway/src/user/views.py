@@ -54,7 +54,7 @@ def update_username(request):
 @api_view(['PATCH'])
 @refresh_live_update(['users_list'])
 def set_status(request):
-    jwt_token = request.COOKIES.get('jwt_token')
+    jwt_token = request.headers.get('Authorization')
     payload = jwt.decode(jwt_token, options={"verify_signature": False}, algorithms=["none"])
     user_id = payload['user_id']
     response = requests.patch(

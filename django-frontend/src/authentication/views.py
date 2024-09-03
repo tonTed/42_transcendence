@@ -20,10 +20,10 @@ def login(request: HttpRequest) -> HttpResponse:
     return render(request, 'login.html', context={'url': CALLBACK_URL})
 
 def set_status(status: str, jwt_token: str) -> HttpResponse:
-    cookies = {
-        'jwt_token': jwt_token
+    headers = {
+        'Authorization': jwt_token
     }
-    response = requests.patch(f'{API_URL}/users/set_status/', json={'status': status}, cookies=cookies)
+    response = requests.patch(f'{API_URL}/users/set_status/', json={'status': status}, headers=headers)
     return response
 
 def callback(request: HttpRequest) -> HttpResponse:

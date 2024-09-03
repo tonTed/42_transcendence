@@ -31,7 +31,7 @@ class GameConnection(AsyncWebsocketConsumer):
             await self.close(code=1401, reason="Unauthorized")
             return
 
-        await self.update_host_status("in-game")
+        await self.update_host_status("ingame")
         await self.update_game("in_progress")
         await self.accept()
         self.game_loop_task = asyncio.create_task(self.game_loop())
@@ -126,11 +126,11 @@ class GameConnection(AsyncWebsocketConsumer):
     async def update_host_status(self, status: str):
         params = await self.get_params()
         jwt_token = params.get("jwt", [None])[0]
-        cookies = {"jwt_token": jwt_token}
+        headers = {"Authorization": jwt_token}
         response = requests.patch(
             "http://api-gateway:3000/api/users/set_status/",
             json={"status": status},
-            cookies=cookies,
+            headers=headers,
         )
 
     async def get_params(self):

@@ -124,12 +124,12 @@ def users_list(request: HttpRequest) -> HttpResponse:
     
 
     # TODO-TB: REMOVE ME
-    users_with_status = add_status_to_users(users_list)
-    friends_with_status = add_status_to_users(friends_list)
+    # users_with_status = add_status_to_users(users_list)
+    # friends_with_status = add_status_to_users(friends_list)
 
     context: dict = {
-        'users': users_with_status,
-        'friends': friends_with_status,
+        'users': users_list,
+        'friends': friends_list,
     }
     return render(request, 'users_list.html', context=context)
 
