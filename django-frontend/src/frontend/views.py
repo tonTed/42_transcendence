@@ -134,7 +134,22 @@ def users_list(request: HttpRequest) -> HttpResponse:
     return render(request, 'users_list.html', context=context)
 
 
+@get_user_id_from_token
 def history(request: HttpRequest) -> HttpResponse:
     authorization = request.headers.get('Authorization')
+    user_id = request.user_id
 
-    return render(request, 'history.html')
+    response = requests.get(
+        f'{API_URL}/games/',
+        headers={'Authorization': authorization}
+    )
+    if response.status_code != 200:
+        return HttpResponse(status=response.status_code, content=response.reason)
+    
+    games = response.json()
+
+    context = {
+        'user_id': user_id,
+        'games': games,
+    }
+    return render(request, 'history.html', context=context)

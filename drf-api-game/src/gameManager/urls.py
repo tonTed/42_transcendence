@@ -3,7 +3,7 @@ from .views import (
     GameListCreate,
     GameRetrieveUpdateDestroy,
     TournamentListCreate,
-    TournamentRetrieveUpdateDestroy
+    TournamentRetrieveUpdateDestroy,
 )
 
 urlpatterns = [
