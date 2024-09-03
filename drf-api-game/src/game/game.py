@@ -14,21 +14,10 @@ from game.collision_handler import CollisionHandler
 class Game:
     def __init__(self) -> None:
         self.table = PlayArea(
-            CANVAS.WIDTH / 2,
-            CANVAS.HEIGHT / 2,
-            CANVAS.WIDTH,
-            CANVAS.HEIGHT
+            CANVAS.WIDTH / 2, CANVAS.HEIGHT / 2, CANVAS.WIDTH, CANVAS.HEIGHT
         )
-        self.player1 = Player(
-            GAME.PLAYER1,
-            PADDLE.PADDLE1_X,
-            self.table.right_goal
-        )
-        self.player2 = Player(
-            GAME.PLAYER2,
-            PADDLE.PADDLE2_X,
-            self.table.left_goal
-        )
+        self.player1 = Player(GAME.PLAYER1, PADDLE.PADDLE1_X, self.table.right_goal)
+        self.player2 = Player(GAME.PLAYER2, PADDLE.PADDLE2_X, self.table.left_goal)
         self.ball = Ball(
             BALL.INITIAL_X,
             BALL.INITIAL_Y,
@@ -36,14 +25,9 @@ class Game:
             BALL.INITIAL_DX,
             BALL.INITIAL_DY,
             BALL.HIT_DX,
-            BALL.COLLISION_COEFF
+            BALL.COLLISION_COEFF,
         )
-        self.actions = {
-            'p1Up': False,
-            'p1Down': False,
-            'p2Up': False,
-            'p2Down': False
-        }
+        self.actions = {"p1Up": False, "p1Down": False, "p2Up": False, "p2Down": False}
         self.scored = False
         self.paused = False
         self.resetting = True
@@ -53,10 +37,7 @@ class Game:
         self.winning_score = GAME.WINNING_SCORE
         self.last_scorer = self.player2.id
         self.collision_handler = CollisionHandler(
-            self.ball,
-            self.player1.paddle,
-            self.player2.paddle,
-            self.table
+            self.ball, self.player1.paddle, self.player2.paddle, self.table
         )
 
     def update_actions(self, actions: dict) -> None:
@@ -67,16 +48,15 @@ class Game:
             return
         self.ball.update_position()
         self.player1.paddle.update_position(
-            self.actions['p1Up'],
-            self.actions['p1Down']
+            self.actions["p1Up"], self.actions["p1Down"]
         )
         self.player2.paddle.update_position(
-            self.actions['p2Up'],
-            self.actions['p2Down']
+            self.actions["p2Up"], self.actions["p2Down"]
         )
         self.check_collisions()
         if self.resetting is False and self.player_scored():
             self.reset_task = asyncio.create_task(self.reset_game())
+        self.actions = {"p1Up": False, "p1Down": False, "p2Up": False, "p2Down": False}
 
     def check_collisions(self) -> None:
         self.collision_handler.ball_and_paddles()
@@ -124,10 +104,7 @@ class Game:
             dx, dy = self.get_serve_speed(self.player2, reverse=True)
             y = self.get_serve_y_position(self.player2)
         self.ball.reset(
-            self.table.x,
-            y + self.ball.radius * 2 * (1 if dy > 0 else -1),
-            dx,
-            dy
+            self.table.x, y + self.ball.radius * 2 * (1 if dy > 0 else -1), dx, dy
         )
 
     def get_serve_speed(self, player: Player, reverse: bool = False) -> tuple:
@@ -139,6 +116,6 @@ class Game:
 
     def get_serve_y_position(self, player: Player) -> int:
         if player.score % 2:
-            return self.table.lower_bound['top']
+            return self.table.lower_bound["top"]
         else:
-            return self.table.upper_bound['bottom']
+            return self.table.upper_bound["bottom"]

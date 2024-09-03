@@ -7,6 +7,7 @@ import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+
 class PongGameClient:
     def __init__(self, jwt_token):
         self.jwt_token = jwt_token
@@ -141,20 +142,17 @@ class PongGameClient:
 
             if not self.ended:
                 try:
-                    action_message = json.dumps({"command": "actions", "actions": actions})
+                    action_message = json.dumps(
+                        {"command": "actions", "actions": actions}
+                    )
                     await websocket.send(action_message)
 
-                    actions = {
-                        "p1Up": False,
-                        "p1Down": False,
-                        "p2Up": False,
-                        "p2Down": False,
-                    }
-
-                    action_message = json.dumps({"command": "actions", "actions": actions})
-                    await websocket.send(action_message)
-
-                    if user_input == "w" or user_input == "s" or user_input == "u" or user_input == "d":
+                    if (
+                        user_input == "w"
+                        or user_input == "s"
+                        or user_input == "u"
+                        or user_input == "d"
+                    ):
                         await asyncio.sleep(0.1)
                         self.print_state()
 
@@ -162,9 +160,9 @@ class PongGameClient:
                     self.ended = True
                     print("\nConnection Closed")
                     break
-                
+
             await asyncio.sleep(0.1)
-        
+
         self.print_state()
 
     def print_state(self):
@@ -178,6 +176,7 @@ class PongGameClient:
             print("\n--- Game Over ---")
             print(f"Final Scores: {self.state['scores']}")
             print(f"Winner: Player {self.state['winner']}")
+
 
 def verify_token(jwt_token) -> bool:
     url = "http://localhost/api/auth/verify/"
@@ -213,7 +212,7 @@ def main():
     if verify_token(jwt_token=jwt_token) is False:
         print("\nToken invalid. Exiting program")
         exit()
-    
+
     client = PongGameClient(jwt_token)
 
     while True:

@@ -1,11 +1,25 @@
-class BALL_CONSTS:
+class BALL_CONSTS_WEB:
     RADIUS = 9
     INITIAL_X = 400
     INITIAL_Y = 0
-    INITIAL_DX = 1              # web: 5, cli: 1
-    INITIAL_DY = 1              # web: 5, cli: 1
-    HIT_DX = 1                  # web: 5, cli: 1
-    COLLISION_COEFF = 0         # web: 0.25 cli: 0
+    INITIAL_DX = 5
+    INITIAL_DY = 5
+    HIT_DX = 5
+    COLLISION_COEFF = 0.25
+
+
+class BALL_CONSTS_CLI:
+    RADIUS = 9
+    INITIAL_X = 400
+    INITIAL_Y = 0
+    INITIAL_DX = 1
+    INITIAL_DY = 1
+    HIT_DX = 1
+    COLLISION_COEFF = 0
+
+
+class BALL_CONSTS(BALL_CONSTS_CLI):
+    pass
 
 
 class PADDLE_CONSTS:
