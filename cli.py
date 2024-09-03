@@ -95,20 +95,23 @@ class PongGameClient:
     async def get_user_input(self, websocket):
         await asyncio.sleep(0.5)
 
-        actions = {
-            "p1Up": False,
-            "p1Down": False,
-            "p2Up": False,
-            "p2Down": False,
-        }
-
         while not self.ended:
+            actions = {
+                "p1Up": False,
+                "p1Down": False,
+                "p2Up": False,
+                "p2Down": False,
+            }
+
             user_input = (
                 input("\nEnter command ('w', 's', 'u', 'd', 'state', or 'quit'): ")
                 .strip()
                 .lower()
             )
             await asyncio.sleep(0.1)
+
+            if self.ended:
+                break
 
             if user_input == "quit":
                 print("Quitting game")
