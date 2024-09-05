@@ -118,7 +118,6 @@ class GameConnection(AsyncWebsocketConsumer):
         actions = text_data_json.get("actions", {})
 
         if command == "actions":
-            print(f"Received actions: {actions}")
             self.game.paused = False
             self.game.update_actions(actions)
         elif command == "pause":
@@ -128,7 +127,7 @@ class GameConnection(AsyncWebsocketConsumer):
         params = await self.get_params()
         jwt_token = params.get("jwt", [None])[0]
         headers = {"Authorization": jwt_token}
-        response = requests.patch(
+        requests.patch(
             "http://api-gateway:3000/api/users/set_status/",
             json={"in_game": status},
             headers=headers,
