@@ -1,41 +1,42 @@
 <!-- TODO-GV: display history of games -->
 <!-- TODO-GV: display history of games -->
 <div class="history text-center d-flex flex-column justify-content-center">
-	<div class="tabs-container d-flex justify-content-center">
-		<div class="history-tab tab">
-			history
-		</div>
-		<div class="stats-tab tab">
-			statistics
-		</div>
-	</div>
-	<div class="content-container">
-		<div class="history-content overflow-auto">
-			<div class="game-list">
-				<div class="game-entry d-flex justify-content-between align-items-center p-2 mb-2">
-					<span class="result win">Win</span>
-					<span class="opponent">against JohnDoe</span>
-					<span class="score">3-1</span>
-				</div>
-				<div class="game-entry d-flex justify-content-between align-items-center p-2 mb-2">
-					<span class="result lose">Lose</span>
-					<span class="opponent">against JaneSmith</span>
-					<span class="score">1-3</span>
-				</div>
-			</div>
-		</div>
-		<div class="stats-content">
-			<div class="stats-row top-row">
-				<span class="stat-item losses">12 Losses</span>
-				<span class="stat-item wins">15 Wins</span>
-			</div>
-			<div class="stats-row middle-row">
-				<span class="stat-item games-played">27 Games Played</span>
-			</div>
-			<div class="stats-row bottom-row">
-				<span class="stat-item goals-scored">Goals Scored: 45</span>
-				<span class="stat-item goals-conceded">Goals Conceded: 38</span>
-			</div>
-		</div>
-	</div>
+  {{ user_id }}
+  <div class="tabs-container d-flex justify-content-center">
+    <div class="history-tab tab">history</div>
+    <div class="stats-tab tab">statistics</div>
+  </div>
+  <div class="content-container">
+    <div class="history-content overflow-auto">
+      <div class="game-list">
+        <div
+          class="game-entry d-flex justify-content-between align-items-center p-2 mb-2"
+        >
+          <span class="result win">Win</span>
+          <span class="opponent">against JohnDoe</span>
+          <span class="score">3-1</span>
+        </div>
+        <div
+          class="game-entry d-flex justify-content-between align-items-center p-2 mb-2"
+        >
+          <span class="result lose">Lose</span>
+          <span class="opponent">against JaneSmith</span>
+          <span class="score">1-3</span>
+        </div>
+      </div>
+    </div>
+    <div class="stats-content">
+      <div class="stats-row top-row">
+        <span class="stat-item losses">12 Losses</span>
+        <span class="stat-item wins">15 Wins</span>
+      </div>
+      <div class="stats-row middle-row">
+        <span class="stat-item games-played">27 Games Played</span>
+      </div>
+      <div class="stats-row bottom-row">
+        <span class="stat-item goals-scored">Goals Scored: 45</span>
+        <span class="stat-item goals-conceded">Goals Conceded: 38</span>
+      </div>
+    </div>
+  </div>
 </div>

@@ -8,7 +8,7 @@ import {
   toggle2FA,
 } from "./profile.js";
 
-import { handleToggleFriendship } from "./user-list.js";
+import { handleToggleFriendship, handleUserSelection } from "./user-list.js";
 
 import { initGameForm } from "./game_form.js";
 
@@ -44,7 +44,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "/login";
     return;
   }
-  
+
   contentLoader.setJwtToken(jwtToken);
   await contentLoader.loadAll();
 
@@ -54,6 +54,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 function initializeEventListeners() {
   handleToggleFriendship();
+  handleUserSelection();
   fileInputListener();
   editUsernameButtonListener();
   confirmUsernameButtonListener();
