@@ -1,9 +1,11 @@
 import { updateFriendship } from "../api.js";
+import { contentLoader } from "./index.js";
 
 function handleToggleFriendship() {
   const buttons = document.querySelectorAll(".toggle-friendship");
   buttons.forEach((button) => {
     button.onclick = async function () {
+      button.onclick = ()=> {};
       const user_id = button.getAttribute("data-user-id");
       const friend_status = button.getAttribute("data-friend-status");
 
@@ -16,4 +18,14 @@ function handleToggleFriendship() {
   });
 }
 
-export { handleToggleFriendship };
+function handleUserSelection() {
+  const buttons = document.querySelectorAll(".user-name");
+  buttons.forEach((button) => {
+    button.onclick = function () {
+      const user_id = button.getAttribute("data-user-id");
+      contentLoader.load("history", `user_id=${user_id}`);
+    };
+  });
+}
+
+export { handleToggleFriendship, handleUserSelection };

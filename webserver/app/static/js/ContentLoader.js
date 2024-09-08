@@ -11,17 +11,20 @@ export class ContentLoader {
    * @example :
    *  this.load('topbar');
    */
-  async load(endpoint) {
+  async load(endpoint, params = "") {
     const route = this.routes[endpoint];
     if (route) {
       console.debug(`Loading ${endpoint}`);
-      const response = await fetch(`${this.baseurl}/${route.endpoint}`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Authorization: `${this.jwt_token}`,
-        },
-      });
+      const response = await fetch(
+        `${this.baseurl}/${route.endpoint}?${params}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Authorization: `${this.jwt_token}`,
+          },
+        }
+      );
       if (response.status === 401) {
         alert("You are not authorized to access this page");
         window.location.href = "/login";

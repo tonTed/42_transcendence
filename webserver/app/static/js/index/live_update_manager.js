@@ -1,6 +1,6 @@
 function liveUpdateManager(contentLoader, initializeEventListeners) {
   const ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-  const ws_path = `${ws_scheme}://${window.location.hostname}/ws/live-update/`;
+  const ws_path = `${ws_scheme}://${window.location.hostname}/ws/live-update/?jwt=${contentLoader.jwt_token}`;
 
   const liveUpdateSocket = new WebSocket(ws_path);
   liveUpdateSocket.onopen = () => {

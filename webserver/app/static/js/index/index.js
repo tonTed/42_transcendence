@@ -8,7 +8,7 @@ import {
   toggle2FA,
 } from "./profile.js";
 
-import { handleToggleFriendship } from "./user-list.js";
+import { handleToggleFriendship, handleUserSelection } from "./user-list.js";
 
 import { initGameForm } from "./game_form.js";
 
@@ -16,7 +16,7 @@ import { ContentLoader } from "../ContentLoader.js";
 import { getCookie } from "../utils.js";
 import liveUpdateManager from "./live_update_manager.js";
 
-import { initializeHistoryTabs } from "./history.js";
+// import { initializeHistoryTabs } from "./history.js";
 
 const contentLoaderConfig = {
   baseurl: "frontend",
@@ -44,16 +44,27 @@ window.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "/login";
     return;
   }
-  
+
   contentLoader.setJwtToken(jwtToken);
   await contentLoader.loadAll();
 
   initializeEventListeners();
   liveUpdateManager(contentLoader, initializeEventListeners);
+  handleMyStats();
 });
+
+function handleMyStats() {
+  const myButton = document.querySelector("#my-stats");
+  console.log(myButton);
+  console.log("MY BUTTON");
+  myButton.onclick = async function () {
+    await contentLoader.load("history");
+  };
+}
 
 function initializeEventListeners() {
   handleToggleFriendship();
+  handleUserSelection();
   fileInputListener();
   editUsernameButtonListener();
   confirmUsernameButtonListener();
@@ -62,5 +73,5 @@ function initializeEventListeners() {
   toggle2FA();
   toggleProfile();
   initGameForm();
-  initializeHistoryTabs();
+  // initializeHistoryTabs();
 }

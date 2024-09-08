@@ -2,7 +2,7 @@
 #userContainer {
   display: flex;
   flex-direction: column;
-  height: 65%;
+  height: 55%;
   border-bottom: 3px solid #232b3f;
   margin-bottom: 5px;
   padding-bottom: 5px;
@@ -27,8 +27,12 @@
 }
 
 /* History */
-.historyContainer {
-  height: 50%;
+#historyContainer {
+  height: 45%;
+}
+
+#history-content-container::-webkit-scrollbar {
+  display: none;
 }
 
 .icon-btn:hover {

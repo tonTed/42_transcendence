@@ -12,7 +12,9 @@
   <!-- friends -->
   {% for friend in friends|sort_by_status %}
   <div class="d-flex justify-content-between align-items-center">
-    <div class="user-name rounded p-2">{{ friend.username }}</div>
+    <div class="user-name rounded p-2" data-user-id="{{ friend.id }}">
+      {{ friend.username }}
+    </div>
     <div class="d-flex justify-content-end">
       <i
         class="toggle-friendship icon-btn bi bi-dash px-2"
@@ -35,7 +37,9 @@
   <!-- User -->
   {% for user in users|dictsort:"status" %}
   <div class="d-flex justify-content-between align-items-center">
-    <div class="user-name rounded p-2">{{ user.username }}</div>
+    <div class="user-name rounded p-2" data-user-id="{{ user.id }}">
+      {{ user.username }}
+    </div>
     <div class="d-flex justify-content-end">
       <i
         class="toggle-friendship icon-btn bi bi-plus px-2"
