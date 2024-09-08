@@ -1,6 +1,28 @@
 #stats-content {
-  background-color: #232b3f;
+  /* background-color: #232b3f; */
   color: #c0c0c0;
+}
+
+.stat-item {
+  background-color: #232b3f;
+  border-radius: 8px;
+  color: #c0c0c0;
+  padding: 2px 2px;
+  display: flex;
+  flex-direction: column;
+  flex-basis: 0;
+  flex-grow: 1;
+  text-align: center;
+  text-justify: center;
+  align-items: center;
+  justify-items: center;
+}
+.stat-item > p {
+  margin: 0;
+}
+
+.stat-item:first-child {
+  margin-right: 5px;
 }
 
 #history-content::-webkit-scrollbar {
