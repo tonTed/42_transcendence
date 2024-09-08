@@ -208,7 +208,7 @@ def get_user_games_history(user_id, games):
             "opponent": (
                 game.player1_name if game.player1_id != user_id else game.player2_name
             ),
-            "result": "win" if game.winner_id == user_id else "loss",
+            "result": "win" if game.winner_id == user_id else "lose",
             "score": f"{game.player1_score}-{game.player2_score}",
             "type": "tournament" if game.tournament_id else "1v1",
         }
@@ -242,6 +242,7 @@ def get_user_game_data(request, user_id):
             "user_stats": {
                 "games_won": games_won.count(),
                 "games_lost": games_lost.count(),
+                "games_played": games_won.count() + games_lost.count(),
                 "goals_scored": goals_stats["scored"],
                 "goals_received": goals_stats["received"],
             },

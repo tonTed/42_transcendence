@@ -141,9 +141,13 @@ def history(request: HttpRequest) -> HttpResponse:
         f"http://api-game:3002/user_game_data/{user_id}",
         headers={"Authorization": authorization},
     )
-    print(response.json())
+    dict_response = response.json()
+    print(dict_response)
+
     context: dict = {
         "user_id": user_id,
+        "game_history": dict_response["games_history"],
+        "user_stats": dict_response["user_stats"],
     }
 
     return render(request, "history.html", context=context)
