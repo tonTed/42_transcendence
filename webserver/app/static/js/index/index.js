@@ -50,7 +50,17 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   initializeEventListeners();
   liveUpdateManager(contentLoader, initializeEventListeners);
+  handleMyStats();
 });
+
+function handleMyStats() {
+  const myButton = document.querySelector("#my-stats");
+  console.log(myButton);
+  console.log("MY BUTTON");
+  myButton.onclick = async function () {
+    await contentLoader.load("history");
+  };
+}
 
 function initializeEventListeners() {
   handleToggleFriendship();
