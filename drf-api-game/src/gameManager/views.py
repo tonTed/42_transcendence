@@ -236,6 +236,7 @@ def get_user_game_data(request, user_id):
     games_won = all_games.filter(winner_id=user_id)
     games_lost = all_games.filter(loser_id=user_id)
     goals_stats = get_user_goals_stats(user_id, all_games)
+    
     return Response(
         {
             "games_history": get_user_games_history(user_id, all_games),

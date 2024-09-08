@@ -1,33 +1,16 @@
-.stats-content {
+#stats-content {
   background-color: #232b3f;
   color: #c0c0c0;
 }
 
-.goals-scored,
-.goals-conceded {
-  background-color: #131722;
-  padding: 8px 12px;
-}
-
-.history-content {
-  overflow-y: auto;
-}
-
-.game-list {
-  width: 100%;
-  margin: 0 auto;
+#history-content::-webkit-scrollbar {
+  display: none;
 }
 
 .game-entry {
   background-color: #232b3f;
   border-radius: 8px;
   color: #c0c0c0;
-}
-
-.result {
-  font-weight: bold;
-  padding: 2px 8px;
-  border-radius: 4px;
 }
 
 .win {
@@ -38,13 +21,4 @@
 .lose {
   background-color: #dc3545;
   color: #ffffff;
-}
-
-.opponent {
-  flex-grow: 1;
-  text-align: center;
-}
-
-.score {
-  font-weight: bold;
 }
