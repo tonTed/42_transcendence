@@ -96,7 +96,8 @@ def create_password(request):
 
         if user_response.status_code == 201:
             user = user_response.json()
-            response, _ = generate_jwt_and_redirect(user["id"])
+            response, jwt_token = generate_jwt_and_redirect(user["id"])
+            set_status("online", jwt_token)
             return response
         else:
             return render(
@@ -114,7 +115,8 @@ def verify_2fa(request):
         auth_response = requests.post(f"{USER_URL}/users/verify_password/", json=data)
 
         if auth_response.status_code == 200:
-            response, _ = generate_jwt_and_redirect(user_id)
+            response, jwt_token = generate_jwt_and_redirect(user_id)
+            set_status("online", jwt_token)
             return response
         else:
             return render(request, "verify_2fa.html", {"error": "Failed to verify 2FA"})
