@@ -5,6 +5,7 @@ function handleToggleFriendship() {
   const buttons = document.querySelectorAll(".toggle-friendship");
   buttons.forEach((button) => {
     button.onclick = async function () {
+      button.onclick = ()=> {};
       const user_id = button.getAttribute("data-user-id");
       const friend_status = button.getAttribute("data-friend-status");
 
