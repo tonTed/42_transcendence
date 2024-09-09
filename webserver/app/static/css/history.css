@@ -32,6 +32,16 @@
   background-color: #232b3f;
   border-radius: 8px;
   color: #c0c0c0;
+  margin-bottom: 5px;
+}
+
+.game-entry .date,
+.game-entry .mode {
+  font-size: 0.8rem;
+}
+
+.game-entry .date {
+  margin-right: 10px;
 }
 
 .win {

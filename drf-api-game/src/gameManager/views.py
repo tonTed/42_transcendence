@@ -203,8 +203,11 @@ def update_tournament(tournament_id):
 def get_user_games_history(user_id, games):
     games_history = []
     for game in games:
+        local_date = timezone.localtime(game.date_time)
+        formatted_date = local_date.strftime("%m-%d %H:%M")
+        print(formatted_date)
         game_data = {
-            "date": game.date_time,
+            "date": formatted_date,
             "opponent": (
                 game.player1_name if game.player1_id != user_id else game.player2_name
             ),
@@ -213,6 +216,7 @@ def get_user_games_history(user_id, games):
             "type": "tournament" if game.tournament_id else "1v1",
         }
         games_history.append(game_data)
+    games_history.reverse()
     return games_history
 
 

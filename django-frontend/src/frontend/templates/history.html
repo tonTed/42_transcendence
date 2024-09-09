@@ -34,13 +34,19 @@
         <div class="d-flex flex-column">
           {% for game in game_history %}
           <div
-            class="game-entry d-flex justify-content-between align-items-center p-2 mb-2"
+            class="game-entry d-flex flex-column"
           >
-            <span class="result px-2 py-1 rounded {{ game.result }}">
-              {% if game.result == "win" %} Win {% else %} Lose {% endif %}
-            </span>
-            <span class="opponent">vs {{ game.opponent }}</span>
-            <span class="score">{{ game.score }}</span>
+            <div class="d-flex justify-content-between align-items-center p-2">
+              <span class="result px-2 py-1 rounded {{ game.result }}">
+                {% if game.result == "win" %} Win {% else %} Lose {% endif %}
+              </span>
+              <span class="opponent">vs {{ game.opponent }}</span>
+              <span class="score">{{ game.score }}</span>
+            </div>
+            <div class="d-flex align-items-start justify-content-center">
+              <span class="date">{{ game.date }}</span>
+              <span class="mode">{{ game.type }}</span>
+            </div>            
           </div>
           {% endfor %}
         </div>

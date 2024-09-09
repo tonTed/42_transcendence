@@ -29,12 +29,8 @@ function drawPlayersNames(canvas, context) {
     context.fillText(player2, PLAYERS.PLAYER2_X , PLAYERS.PLAYER2_Y);
 }
 
-function drawControls(canvas, context) {
-}
-
 export function drawMenu(canvas, context) {
     clearCanvas(context, canvas);
     drawPlayButton(canvas, context);
     drawPlayersNames(canvas, context);
-    drawControls(canvas, context);
 }
