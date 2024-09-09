@@ -31,7 +31,6 @@ function drawPlayersNames(canvas, context) {
 
 export function drawMenu(canvas, context) {
     clearCanvas(context, canvas);
-    drawPongText(context, canvas);
     drawPlayButton(canvas, context);
     drawPlayersNames(canvas, context);
     drawControls(canvas, context);
