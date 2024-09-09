@@ -1,4 +1,56 @@
-<div class="history text-center">
-	History Container
+<div
+  class="history m-10 mb-0 d-flex flex-column h-100"
+  id="history-content-container"
+>
+<div class="d-flex flex-row">
+  <span class="badge mb-3">{{ username }}</span>
 </div>
 
+      <h5 class="text-center">Game Statistics</h5>
+      <div class="w-100 rounded d-flex flex-column" id="stats-content">
+        <div class="d-flex flex-row flew">
+          <div class="stat-item text-danger pt-1">
+            <h5 class="mb-1">Losses</h5>
+            <h5 class="mb-1">{{ user_stats.games_lost }}</h5>
+          </div>
+          <div class="stat-item text-success pt-1">
+            <h5 class="mb-1">Wins</h5>
+            <h5 class="mb-1">{{ user_stats.games_won }}</h5>
+          </div>
+        </div>
+        <div class="d-flex flex-row flew mt-2">
+          <div class="stat-item text-danger pt-1">
+            <h5 class="mb-1">Allowed</h5>
+            <h5 class="mb-1">{{ user_stats.goals_received }}</h5>
+          </div>
+          <div class="stat-item text-success pt-1">
+            <h5 class="mb-1">Scored</h5>
+            <h5 class="mb-1">{{ user_stats.goals_scored }}</h5>
+          </div>
+        </div>
+      </div>
+      <h5 class="text-center mt-4">Game History</h5>
+      <div class="rounded overflow-scroll" id="history-content">
+        <div class="d-flex flex-column">
+          {% for game in game_history %}
+          <div
+            class="game-entry d-flex flex-column"
+          >
+            <div class="d-flex justify-content-between align-items-center p-2">
+              <span class="result px-2 py-1 rounded {{ game.result }}">
+                {% if game.result == "win" %} Win {% else %} Lose {% endif %}
+              </span>
+              <span class="opponent">vs {{ game.opponent }}</span>
+              <span class="score">{{ game.score }}</span>
+            </div>
+            <div class="d-flex align-items-start justify-content-center">
+              <span class="date">{{ game.date }}</span>
+              <span class="mode">{{ game.type }}</span>
+            </div>            
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

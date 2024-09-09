@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'user',
     'liveUpdate',
+    'drf_yasg',
+    'game',
 ]
 
 MIDDLEWARE = [
@@ -44,6 +46,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'app.middleware.JWTAuthenticationMiddleware',
 ]
 
 # CORS settings
@@ -61,6 +64,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 # CSRF settings
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8000',
+    'https://localhost',
 ]
 
 ROOT_URLCONF = 'app.urls'
@@ -143,4 +147,12 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+MEDIA_ROOT = os.path.join('/usr/share/nginx/html/static')
+MEDIA_URL = '/avatar/'
+
 DATA_UPLOAD_MAX_MEMORY_SIZE = 500 * 1024 * 1024
+
+ALLOWED_IMAGE_TYPES = [
+    'image/jpeg',
+    'image/png',
+]

@@ -4,6 +4,7 @@ from .models import User
 from .serializers import UserSerializer
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from rest_framework.views import APIView
 from django.contrib.auth.hashers import check_password
 
 
@@ -18,6 +19,23 @@ class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     parser_classes = (MultiPartParser, FormParser, JSONParser)
 
 
+class ManageFriendView(APIView):
+    def post(self, request, user_id, friend_id):
+        user = User.objects.get(id=user_id)
+        response = user.add_friend(friend_id)
+        if response:
+            return Response({'message': 'Friend added'}, status=200)
+        else:
+            return Response({'message': 'Friend already added'}, status=400)
+    
+    def delete(self, request, user_id, friend_id):
+        user = User.objects.get(id=user_id)
+        if user.remove_friend(friend_id):
+            return Response({'message': 'Friend removed'}, status=200)
+        else:
+            return Response({'message': 'Friend not found'}, status=400)
+
+
 @api_view(['GET'])
 def get_user_info_with_id_42(request, id_42):
     try:
@@ -30,7 +48,6 @@ def get_user_info_with_id_42(request, id_42):
 
 @api_view(['POST'])
 def verify_password(request):
-    print(request.data)
     try:
         user = User.objects.get(id=request.data['user_id'])
         if check_password(request.data['password'], user.password):

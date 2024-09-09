@@ -1,34 +1,56 @@
 import os
 from django.shortcuts import redirect, render
-from django.http import HttpRequest, HttpResponse, HttpResponsePermanentRedirect
+from django.http import HttpRequest, HttpResponse
 import requests
-from authentication.helpers import get_access_token, get_me, get_user_info, generate_jwt_and_redirect, generate_jwt_token
+from authentication.helpers import (
+    get_access_token,
+    get_me,
+    get_user_info,
+    generate_jwt_and_redirect,
+)
 
 
-API_URL = os.getenv('API_URL')
+API_URL = os.getenv("API_URL")
+AUTH_URL = os.getenv("AUTH_URL")
+USER_URL = os.getenv("USER_URL")
 
-CALLBACK_URL = (f'https://api.intra.42.fr/oauth/authorize'
-                f'?client_id={os.getenv("42_UID")}'
-                f'&redirect_uri={os.getenv("42_REDIRECT_URI")}'
-                f'&response_type=code'
-                f'&scope=public')
+CALLBACK_URL = (
+    f"https://api.intra.42.fr/oauth/authorize"
+    f'?client_id={os.getenv("42_UID")}'
+    f'&redirect_uri={os.getenv("42_REDIRECT_URI")}'
+    f"&response_type=code"
+    f"&scope=public"
+)
 
 
 def login(request: HttpRequest) -> HttpResponse:
-    return render(request, 'login.html', context={'url': CALLBACK_URL})
+    return render(request, "login.html", context={"url": CALLBACK_URL})
+
+
+def set_status(
+    status: str, jwt_token: str, in_game: bool | None = None
+) -> HttpResponse:
+    headers = {"Authorization": jwt_token}
+    data = {"status": status}
+    if in_game is not None:
+        data["in_game"] = in_game
+    response = requests.patch(
+        f"{API_URL}/users/set_status/", json=data, headers=headers
+    )
+    return response
 
 
 def callback(request: HttpRequest) -> HttpResponse:
     try:
-        code = request.GET.get('code')
+        code = request.GET.get("code")
         if not code:
             return render(
                 request,
-                'error.html',
+                "error.html",
                 {
-                    'error_code': 400,
-                    'error_message': 'Missing code parameter in request'
-                }
+                    "error_code": 400,
+                    "error_message": "Missing code parameter in request",
+                },
             )
 
         access_token = get_access_token(code)
@@ -36,58 +58,67 @@ def callback(request: HttpRequest) -> HttpResponse:
         user, status_code = get_user_info(me["id_42"])
 
         if status_code == 404:
-            request.session['me'] = me
-            return redirect('create_password')
+            request.session["me"] = me
+            return redirect("create_password")
 
-        if user.get('is_2fa_enabled'):
-            request.session['user_id'] = user['id']
-            return redirect('verify_2fa')
-        
-        response: HttpResponse = generate_jwt_and_redirect(user['id'])
+        if user.get("is_2fa_enabled"):
+            request.session["user_id"] = user["id"]
+            return redirect("verify_2fa")
+
+        response, jwt_token = generate_jwt_and_redirect(user["id"])
+        set_status("online", jwt_token)
         return response
 
     except ValueError as e:
-        return render(request, 'error.html', {'error_code': 400, 'error_message': str(e)})
+        return render(
+            request, "error.html", {"error_code": 400, "error_message": str(e)}
+        )
     except Exception as e:
-        return render(request, 'error.html', {'error_code': 500, 'error_message': str(e)})
+        return render(
+            request, "error.html", {"error_code": 500, "error_message": str(e)}
+        )
 
 
 def logout(request: HttpRequest) -> HttpResponse:
+    set_status("offline", request.COOKIES.get("jwt_token"), in_game=False)
     request.session.flush()
-    response: HttpResponse = redirect(f"/")
-    response.delete_cookie('jwt_token')
+    response: HttpResponse = redirect("/")
+    response.delete_cookie("jwt_token")
     return response
 
 
 def create_password(request):
-    if request.method == 'POST':
-        password = request.POST.get('password')
-        me = request.session.get('me')
-        me['password'] = password
-        user_response = requests.post(f'{API_URL}/users/create_user/', json=me)
-        
+    if request.method == "POST":
+        password = request.POST.get("password")
+        me = request.session.get("me")
+        me["password"] = password
+        user_response = requests.post(f"{USER_URL}/users/", json=me)
+
         if user_response.status_code == 201:
             user = user_response.json()
-            return generate_jwt_and_redirect(user['id'])
+            response, jwt_token = generate_jwt_and_redirect(user["id"])
+            set_status("online", jwt_token)
+            return response
         else:
-            return render(request, 'create_password.html', {'error': 'Failed to create user'})
-    
-    return render(request, 'create_password.html')
+            return render(
+                request, "create_password.html", {"error": "Failed to create user"}
+            )
+
+    return render(request, "create_password.html")
 
 
 def verify_2fa(request):
-    if request.method == 'POST':
-        password = request.POST.get('password')
-        user_id = request.session.get('user_id')
-        data = {
-            'user_id': user_id,
-            'password': password
-        }
-        auth_response = requests.post(f'{API_URL}/auth/verify_password/', json=data)
-        
+    if request.method == "POST":
+        password = request.POST.get("password")
+        user_id = request.session.get("user_id")
+        data = {"user_id": user_id, "password": password}
+        auth_response = requests.post(f"{USER_URL}/users/verify_password/", json=data)
+
         if auth_response.status_code == 200:
-            return generate_jwt_and_redirect(user_id)
+            response, jwt_token = generate_jwt_and_redirect(user_id)
+            set_status("online", jwt_token)
+            return response
         else:
-            return render(request, 'verify_2fa.html', {'error': 'Failed to verify 2FA'})
-    
-    return render(request, 'verify_2fa.html')
+            return render(request, "verify_2fa.html", {"error": "Failed to verify 2FA"})
+
+    return render(request, "verify_2fa.html")

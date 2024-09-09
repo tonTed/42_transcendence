@@ -18,6 +18,7 @@ WORKDIR /app
 
 COPY requirements.txt .
 COPY src .
+COPY entrypoint.sh .
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
