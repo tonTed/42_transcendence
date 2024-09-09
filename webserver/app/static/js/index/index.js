@@ -16,8 +16,6 @@ import { ContentLoader } from "../ContentLoader.js";
 import { getCookie } from "../utils.js";
 import liveUpdateManager from "./live_update_manager.js";
 
-// import { initializeHistoryTabs } from "./history.js";
-
 const contentLoaderConfig = {
   baseurl: "frontend",
   routes: {
@@ -55,8 +53,6 @@ window.addEventListener("DOMContentLoaded", async () => {
 
 function handleMyStats() {
   const myButton = document.querySelector("#my-stats");
-  console.log(myButton);
-  console.log("MY BUTTON");
   myButton.onclick = async function () {
     await contentLoader.load("history");
   };
@@ -73,5 +69,4 @@ function initializeEventListeners() {
   toggle2FA();
   toggleProfile();
   initGameForm();
-  // initializeHistoryTabs();
 }
