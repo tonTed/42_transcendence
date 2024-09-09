@@ -33,5 +33,4 @@ export function drawMenu(canvas, context) {
     clearCanvas(context, canvas);
     drawPlayButton(canvas, context);
     drawPlayersNames(canvas, context);
-    drawControls(canvas, context);
 }
