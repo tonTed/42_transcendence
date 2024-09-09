@@ -15,11 +15,11 @@ class Ball:
         self.x += self.dx
         self.y += self.dy
 
-    def update_speed(self, dx: int, dy: int) -> None:
+    def update_speed(self, dx: float, dy: float) -> None:
         self.dx = dx
         self.dy = dy
 
-    def reset(self, x: int, y: int, dx: int, dy: int) -> None:
+    def reset(self, x: float, y: float, dx: float, dy: float) -> None:
         self.x = x
         self.y = y
         self.dx = dx
